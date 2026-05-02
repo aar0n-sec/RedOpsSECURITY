@@ -95,7 +95,7 @@ const Home = () => {
             <p>The average attacker dwell time before detection is 197 days. By then, the damage is done - data exfiltrated, systems compromised, reputation destroyed.</p>
             <p>Traditional security tools generate noise. Compliance checkboxes don't reflect real attack surfaces. And your adversary doesn't follow a playbook.</p>
             <div style={{ marginTop: '36px' }}>
-              <Link to="/services" className="btn-primary"><span>Explore Our Methodology</span></Link>
+              <Link to="/services" className="btn-primary"><span>Explore Our Services</span></Link>
             </div>
           </Reveal>
           <div className="problem-right">

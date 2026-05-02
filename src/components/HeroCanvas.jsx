@@ -18,15 +18,15 @@ const HeroCanvas = () => {
     camera.position.set(0, 0, 4.5);
 
     // Ambient light
-    scene.add(new THREE.AmbientLight(0xffffff, 0.15));
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
     // Point light (red)
-    const redLight = new THREE.PointLight(0xC44536, 4, 12);
+    const redLight = new THREE.PointLight(0xC44536, 6, 12);
     redLight.position.set(3, 2, 3);
     scene.add(redLight);
 
     // Point light (blue)
-    const blueLight = new THREE.PointLight(0x1F4ED8, 2.5, 10);
+    const blueLight = new THREE.PointLight(0x1F4ED8, 4, 10);
     blueLight.position.set(-3, -2, 2);
     scene.add(blueLight);
 
@@ -61,7 +61,7 @@ const HeroCanvas = () => {
     const solidGlobe = new THREE.Mesh(solidGeo, solidMat);
     
     // Add some lighting specific for the earth to make it visible
-    const earthLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    const earthLight = new THREE.DirectionalLight(0xffffff, 2.5);
     earthLight.position.set(5, 3, 5);
     scene.add(earthLight);
     
@@ -164,7 +164,7 @@ const HeroCanvas = () => {
       camera.lookAt(0, 0, 0);
 
       // Pulsing red light
-      redLight.intensity = 3 + Math.sin(timeSec * 1.2) * 1.5;
+      redLight.intensity = 5 + Math.sin(timeSec * 1.2) * 1.5;
 
       renderer.render(scene, camera);
     };

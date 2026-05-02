@@ -9,7 +9,7 @@ const Resources = () => {
         <div className="page-hero-grid"></div>
         <div className="page-hero-inner">
           <div className="section-tag">Resources</div>
-          <h1 className="page-hero-title">Security Intelligence<br/>From the Field</h1>
+          <h1 className="page-hero-title">Security Intelligence<br />From the Field</h1>
           <p className="page-hero-sub">Practitioner-written guides, threat analysis, and attack breakdowns from our offensive security team.</p>
         </div>
       </div>
@@ -22,7 +22,7 @@ const Resources = () => {
               <div className="rc-image-pattern"></div>
               <span className="rc-category">Attack Technique</span>
               <div className="rc-image-icon">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
               </div>
             </div>
             <div className="rc-body">
@@ -41,7 +41,7 @@ const Resources = () => {
               <div className="rc-image-pattern"></div>
               <span className="rc-category">Red Team</span>
               <div className="rc-image-icon">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" /></svg>
               </div>
             </div>
             <div className="rc-body">
@@ -60,7 +60,7 @@ const Resources = () => {
               <div className="rc-image-pattern"></div>
               <span className="rc-category">Mobile Security</span>
               <div className="rc-image-icon">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
               </div>
             </div>
             <div className="rc-body">
@@ -79,7 +79,7 @@ const Resources = () => {
               <div className="rc-image-pattern"></div>
               <span className="rc-category">Cloud Security</span>
               <div className="rc-image-icon">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" /></svg>
               </div>
             </div>
             <div className="rc-body">
@@ -98,7 +98,7 @@ const Resources = () => {
               <div className="rc-image-pattern"></div>
               <span className="rc-category">Phishing</span>
               <div className="rc-image-icon">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
               </div>
             </div>
             <div className="rc-body">
@@ -117,7 +117,7 @@ const Resources = () => {
               <div className="rc-image-pattern"></div>
               <span className="rc-category">API Security</span>
               <div className="rc-image-icon">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
               </div>
             </div>
             <div className="rc-body">
