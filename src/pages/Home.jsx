@@ -19,12 +19,12 @@ const Home = () => {
           </div>
 
           <h1 className="hero-headline">
-            <span className="hero-word hw-1">Security</span>{' '}
-            <span className="hero-word hw-2">isn’t tested</span>&nbsp;
+            <span className="hero-word hw-1">Security&nbsp;</span>
+            <span className="hero-word hw-2">isn’t tested&nbsp;</span>
             <span className="hero-word hw-3">in theory.</span>
             <span className="hero-line-break"></span>
-            <span className="hero-word hw-4">It’s broken</span>&nbsp;
-            <span className="hero-word hw-5">in</span>{' '}
+            <span className="hero-word hw-4">It’s broken&nbsp;</span>
+            <span className="hero-word hw-5">in&nbsp;</span>
             <span className="hero-word hw-target">practice</span>
           </h1>
 
@@ -35,9 +35,9 @@ const Home = () => {
           <div className="hero-actions">
             <Link to="/contact" className="btn-primary btn-pulse">
               <span>Get Free Security Audit</span>
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </Link>
-            <Link to="/services" className="btn-outline" style={{ color: 'rgba(255,255,255,0.7)', borderColor: 'rgba(255,255,255,0.2)' }}>
+            <Link to="/services" className="btn-outline">
               <span>View Services</span>
             </Link>
           </div>
@@ -125,7 +125,7 @@ const Home = () => {
             <div>
               <div className="section-tag">What We Do</div>
               <Reveal>
-                <h2 className="section-title">Elite Offensive<br/>Security Services</h2>
+                <h2 className="section-title">Elite Offensive<br />Security Services</h2>
               </Reveal>
             </div>
             <Reveal>
@@ -139,9 +139,9 @@ const Home = () => {
               <div className="service-card-number">01</div>
               <div className="service-card-icon">
                 <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="6" y="8" width="36" height="26" rx="2"/>
-                  <path d="M16 34v6M32 34v6M12 40h24"/>
-                  <path d="M14 20l5 5 10-10"/>
+                  <rect x="6" y="8" width="36" height="26" rx="2" />
+                  <path d="M16 34v6M32 34v6M12 40h24" />
+                  <path d="M14 20l5 5 10-10" />
                 </svg>
               </div>
               <div className="service-card-title">Web Application Pentesting</div>
@@ -153,7 +153,7 @@ const Home = () => {
                 <span className="service-tag">Race Conditions</span>
               </div>
               <div className="service-card-arrow">
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </div>
             </Reveal>
 
@@ -162,9 +162,9 @@ const Home = () => {
               <div className="service-card-number">02</div>
               <div className="service-card-icon">
                 <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="14" y="4" width="20" height="34" rx="3"/>
-                  <path d="M18 8h12M21 34h6"/>
-                  <path d="M20 16l3 3 6-6"/>
+                  <rect x="14" y="4" width="20" height="34" rx="3" />
+                  <path d="M18 8h12M21 34h6" />
+                  <path d="M20 16l3 3 6-6" />
                 </svg>
               </div>
               <div className="service-card-title">Mobile Security Testing</div>
@@ -176,7 +176,7 @@ const Home = () => {
                 <span className="service-tag">SSL Pinning</span>
               </div>
               <div className="service-card-arrow">
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </div>
             </Reveal>
 
@@ -185,9 +185,9 @@ const Home = () => {
               <div className="service-card-number">03</div>
               <div className="service-card-icon">
                 <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
-                  <circle cx="24" cy="24" r="18"/>
-                  <circle cx="24" cy="24" r="6"/>
-                  <path d="M24 6v4M24 38v4M6 24h4M38 24h4M10.93 10.93l2.83 2.83M34.24 34.24l2.83 2.83M10.93 37.07l2.83-2.83M34.24 13.76l2.83-2.83"/>
+                  <circle cx="24" cy="24" r="18" />
+                  <circle cx="24" cy="24" r="6" />
+                  <path d="M24 6v4M24 38v4M6 24h4M38 24h4M10.93 10.93l2.83 2.83M34.24 34.24l2.83 2.83M10.93 37.07l2.83-2.83M34.24 13.76l2.83-2.83" />
                 </svg>
               </div>
               <div className="service-card-title">Infrastructure & Network Testing</div>
@@ -199,7 +199,7 @@ const Home = () => {
                 <span className="service-tag">Zero Trust</span>
               </div>
               <div className="service-card-arrow">
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </div>
             </Reveal>
 
@@ -208,9 +208,9 @@ const Home = () => {
               <div className="service-card-number">04</div>
               <div className="service-card-icon">
                 <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M8 16h32M8 24h20M8 32h24"/>
-                  <path d="M36 28l6 6-6 6"/>
-                  <rect x="6" y="8" width="36" height="32" rx="2"/>
+                  <path d="M8 16h32M8 24h20M8 32h24" />
+                  <path d="M36 28l6 6-6 6" />
+                  <rect x="6" y="8" width="36" height="32" rx="2" />
                 </svg>
               </div>
               <div className="service-card-title">Red Team Operations</div>
@@ -222,13 +222,13 @@ const Home = () => {
                 <span className="service-tag">Phishing</span>
               </div>
               <div className="service-card-arrow">
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </div>
             </Reveal>
           </div>
 
           <Reveal style={{ textAlign: 'center', marginTop: '60px' }}>
-            <Link to="/services" className="btn-outline" style={{ color: 'rgba(255,255,255,0.7)', borderColor: 'rgba(255,255,255,0.2)' }}>
+            <Link to="/services" className="btn-outline">
               <span>View All Services</span>
             </Link>
           </Reveal>
@@ -248,7 +248,7 @@ const Home = () => {
 
             <Reveal className="process-step ps-1">
               <div className="process-node">
-                <svg fill="none" viewBox="0 0 32 32" stroke="currentColor" strokeWidth="1.5"><circle cx="14" cy="14" r="8"/><path d="M20 20l6 6"/></svg>
+                <svg fill="none" viewBox="0 0 32 32" stroke="currentColor" strokeWidth="1.5"><circle cx="14" cy="14" r="8" /><path d="M20 20l6 6" /></svg>
               </div>
               <div className="process-step-num">01</div>
               <div className="process-step-label">Independent Reconnaissance</div>
@@ -257,7 +257,7 @@ const Home = () => {
 
             <Reveal className="process-step ps-2" delay={1}>
               <div className="process-node">
-                <svg fill="none" viewBox="0 0 32 32" stroke="currentColor" strokeWidth="1.5"><path d="M16 4l10 6v8l-10 6L6 18V10l10-6z"/><path d="M16 4v20M6 10l10 6 10-6"/></svg>
+                <svg fill="none" viewBox="0 0 32 32" stroke="currentColor" strokeWidth="1.5"><path d="M16 4l10 6v8l-10 6L6 18V10l10-6z" /><path d="M16 4v20M6 10l10 6 10-6" /></svg>
               </div>
               <div className="process-step-num">02</div>
               <div className="process-step-label">Deep Technical Validation</div>
@@ -266,7 +266,7 @@ const Home = () => {
 
             <Reveal className="process-step ps-3" delay={2}>
               <div className="process-node">
-                <svg fill="none" viewBox="0 0 32 32" stroke="currentColor" strokeWidth="1.5"><path d="M6 26l8-8M20 6l6 6-14 14-6-6 14-14zM24 8l2 2"/></svg>
+                <svg fill="none" viewBox="0 0 32 32" stroke="currentColor" strokeWidth="1.5"><path d="M6 26l8-8M20 6l6 6-14 14-6-6 14-14zM24 8l2 2" /></svg>
               </div>
               <div className="process-step-num">03</div>
               <div className="process-step-label">Real-World Exploitation</div>
@@ -275,7 +275,7 @@ const Home = () => {
 
             <Reveal className="process-step ps-4" delay={3}>
               <div className="process-node">
-                <svg fill="none" viewBox="0 0 32 32" stroke="currentColor" strokeWidth="1.5"><path d="M6 26V10l10-6 10 6v16"/><path d="M12 26v-8h8v8M16 10v4"/></svg>
+                <svg fill="none" viewBox="0 0 32 32" stroke="currentColor" strokeWidth="1.5"><path d="M6 26V10l10-6 10 6v16" /><path d="M12 26v-8h8v8M16 10v4" /></svg>
               </div>
               <div className="process-step-num">04</div>
               <div className="process-step-label">Executive + Technical Reporting</div>
@@ -284,7 +284,7 @@ const Home = () => {
 
             <Reveal className="process-step ps-5" delay={4}>
               <div className="process-node">
-                <svg fill="none" viewBox="0 0 32 32" stroke="currentColor" strokeWidth="1.5"><path d="M16 4l10 6v8c0 5.5-4.5 9.5-10 11-5.5-1.5-10-5.5-10-11V10l10-6z"/><path d="M11 15l3.5 3.5 7-7"/></svg>
+                <svg fill="none" viewBox="0 0 32 32" stroke="currentColor" strokeWidth="1.5"><path d="M16 4l10 6v8c0 5.5-4.5 9.5-10 11-5.5-1.5-10-5.5-10-11V10l10-6z" /><path d="M11 15l3.5 3.5 7-7" /></svg>
               </div>
               <div className="process-step-num">05</div>
               <div className="process-step-label">Verified Remediation</div>
@@ -323,11 +323,11 @@ const Home = () => {
       {/* HOME CTA */}
       <section className="home-cta">
         <Reveal className="home-cta-inner">
-          <h2 className="section-title">Don't Wait<br/>for a Breach</h2>
+          <h2 className="section-title">Don't Wait<br />for a Breach</h2>
           <p>Every day without a professional security assessment is a day your adversaries have the advantage. Let us find the gaps before they do.</p>
           <Link to="/contact" className="btn-primary btn-pulse" style={{ margin: '0 auto', fontSize: '13px', padding: '18px 48px' }}>
             <span>Schedule Your Free Security Audit</span>
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </Link>
         </Reveal>
       </section>

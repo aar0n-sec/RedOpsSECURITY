@@ -9,11 +9,11 @@ const About = () => {
       <section className="about-mission">
         <div className="about-mission-inner">
           <div>
-            <div className="section-tag" style={{ color: 'rgba(196,69,54,0.75)' }}>
-              <span style={{ display: 'block', width: '20px', height: '1.5px', background: 'rgba(196,69,54,0.75)' }}></span>
+            <div className="section-tag" style={{ color: 'var(--red)' }}>
+              <span style={{ display: 'block', width: '20px', height: '1.5px', background: 'var(--red)' }}></span>
               Our Mission
             </div>
-            <h1 className="section-title" style={{ color: 'white', fontSize: 'clamp(44px,5.5vw,76px)', marginBottom: '28px' }}>We Attack<br/>Systems.<br/>To Protect<br/>Them.</h1>
+            <h1 className="section-title" style={{ color: 'var(--dark)', fontSize: 'clamp(44px,5.5vw,76px)', marginBottom: '28px' }}>We Attack<br/>Systems.<br/>To Protect<br/>Them.</h1>
             <p>RedOps Security was founded by practitioners who grew frustrated watching organizations invest in compliance theater while real adversaries walked through the front door.</p>
             <p>Our mandate is simple: simulate every viable attack path before a real threat actor discovers it. We don't run automated scanners and call it a pentest. We think, adapt, and persist - exactly like the adversaries targeting your business.</p>
             <p>Every engagement is led by senior operators with real-world offensive experience. No junior consultants. No templated reports. No ambiguity.</p>

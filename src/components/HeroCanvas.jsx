@@ -8,13 +8,21 @@ const HeroCanvas = () => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
     
+    const updateSize = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return { width: window.innerWidth, height: window.innerHeight };
+      return { width: parent.clientWidth, height: parent.clientHeight };
+    };
+
+    const initialSize = updateSize();
+    
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(initialSize.width, initialSize.height);
     renderer.setClearColor(0x1a1a1a, 1);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(60, initialSize.width / initialSize.height, 0.1, 1000);
     camera.position.set(0, 0, 4.5);
 
     // Ambient light
@@ -172,9 +180,10 @@ const HeroCanvas = () => {
     animate();
 
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      const size = updateSize();
+      camera.aspect = size.width / size.height;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(size.width, size.height);
     };
 
     window.addEventListener('resize', handleResize);
