@@ -1,11 +1,41 @@
 import { useState } from 'react';
 
+// ✅ Replace with your Web3Forms access key from https://web3forms.com
+const WEB3FORMS_ACCESS_KEY = 'YOUR_ACCESS_KEY_HERE';
+
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+
+    const formData = new FormData(e.target);
+    formData.append('access_key', WEB3FORMS_ACCESS_KEY);
+    formData.append('subject', 'New Security Audit Request - RedOps');
+    formData.append('from_name', 'RedOps Contact Form');
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setSubmitted(true);
+        e.target.reset();
+      } else {
+        setError('Something went wrong. Please try again or email us directly.');
+      }
+    } catch {
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,28 +101,28 @@ const Contact = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">First Name</label>
-                  <input type="text" className="form-input" placeholder="John" required />
+                  <input type="text" name="first_name" className="form-input" placeholder="John" required />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Last Name</label>
-                  <input type="text" className="form-input" placeholder="Smith" required />
+                  <input type="text" name="last_name" className="form-input" placeholder="Smith" required />
                 </div>
               </div>
               <div className="form-group">
                 <label className="form-label">Work Email</label>
-                <input type="email" className="form-input" placeholder="john@company.com" required />
+                <input type="email" name="email" className="form-input" placeholder="john@company.com" required />
               </div>
               <div className="form-group">
                 <label className="form-label">Company</label>
-                <input type="text" className="form-input" placeholder="Acme Corporation" required />
+                <input type="text" name="company" className="form-input" placeholder="Acme Corporation" required />
               </div>
               <div className="form-group">
                 <label className="form-label">Company Website</label>
-                <input type="url" className="form-input" placeholder="https://acme.com" />
+                <input type="url" name="website" className="form-input" placeholder="https://acme.com" />
               </div>
               <div className="form-group">
                 <label className="form-label">What would you like tested?</label>
-                <select className="form-input" style={{ cursor: 'none', WebkitAppearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3E%3Cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3E%3C/svg%3E")', backgroundPosition: 'right 12px center', backgroundRepeat: 'no-repeat', backgroundSize: '16px' }}>
+                <select name="service" className="form-input" style={{ cursor: 'none', WebkitAppearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3E%3Cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3E%3C/svg%3E")', backgroundPosition: 'right 12px center', backgroundRepeat: 'no-repeat', backgroundSize: '16px' }}>
                   <option value="">Select service</option>
                   <option>Web Application Penetration Test</option>
                   <option>Mobile Application Security</option>
@@ -102,9 +132,20 @@ const Contact = () => {
                   <option>Not sure - need guidance</option>
                 </select>
               </div>
-              <button type="submit" className="btn-primary btn-pulse form-submit">
-                <span>Request Free Security Audit</span>
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              {error && (
+                <div style={{ color: '#e05a4a', fontSize: '0.85rem', marginBottom: '12px', padding: '10px 14px', background: 'rgba(196,69,54,0.08)', borderRadius: '6px', border: '1px solid rgba(196,69,54,0.25)' }}>
+                  {error}
+                </div>
+              )}
+              <button type="submit" className="btn-primary btn-pulse form-submit" disabled={loading} style={{ opacity: loading ? 0.7 : 1 }}>
+                {loading ? (
+                  <span>Sending&hellip;</span>
+                ) : (
+                  <>
+                    <span>Request Free Security Audit</span>
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </>
+                )}
               </button>
               <div className="form-trust">
                 <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
