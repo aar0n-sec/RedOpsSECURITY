@@ -1,0 +1,7 @@
+# robots.txt for RedOps Security
+# https://www.redopssecurity.com
+
+User-agent: *
+Allow: /
+
+Sitemap: https://www.redopssecurity.com/sitemap.xml
