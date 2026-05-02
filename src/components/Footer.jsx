@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import logoFull from '../assets/logo-full.png';
 
 const Footer = () => {
   return (
@@ -6,7 +7,7 @@ const Footer = () => {
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
-            <img src="/src/assets/logo-full.png" alt="RedOps Security" style={{ height: '64px', marginBottom: '16px' }} />
+            <img src={logoFull} alt="RedOps Security" style={{ height: '64px', marginBottom: '16px' }} />
             <p>Elite offensive security services. We think like adversaries so you can build like defenders.</p>
           </div>
           <div>

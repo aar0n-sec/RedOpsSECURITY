@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import logoFull from '../assets/logo-full.png';
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -31,7 +32,7 @@ const Navigation = () => {
   return (
     <nav id="nav" className={`${scrolled || mobileMenuOpen ? 'scrolled' : ''} ${mobileMenuOpen ? 'menu-active' : ''}`}>
       <Link to="/" className="nav-logo" onClick={closeMenu}>
-        <img className="nav-logo-img" src="/src/assets/logo-full.png" alt="RedOps Security" />
+        <img className="nav-logo-img" src={logoFull} alt="RedOps Security" />
       </Link>
 
       <ul className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
