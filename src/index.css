@@ -513,8 +513,8 @@ body:hover #cursor { opacity: 1; }
 }
 .trust-label {
   font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
+  font-size: 11px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--dark-soft);
   white-space: nowrap;
@@ -523,22 +523,22 @@ body:hover #cursor { opacity: 1; }
 .trust-logos {
   display: flex;
   align-items: center;
-  gap: 48px;
-  overflow: hidden;
-  flex: 1;
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
 }
 .trust-logo {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 0.06em;
-  color: rgba(26,26,26,0.2);
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dark);
   white-space: nowrap;
   flex-shrink: 0;
   transition: color 0.3s;
 }
-.trust-logo:hover { color: var(--dark-soft); }
+.trust-logo:hover { color: var(--red); }
 
 /* --- PROBLEM SECTION --- */
 .problem-section {

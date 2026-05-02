@@ -69,19 +69,18 @@ const Home = () => {
         </div>
       </div>
 
-      {/* TRUST */}
+      {/* FRAMEWORKS */}
       <section className="trust-section">
-        <div className="trust-inner">
-          <span className="trust-label">Trusted by</span>
+        <div className="trust-inner" style={{ flexDirection: 'column', gap: '16px', textAlign: 'center' }}>
+          <span className="trust-label">Aligned with real-world attack frameworks</span>
           <div className="trust-logos">
-            <div className="trust-logo">FinSecure Corp</div>
-            <div className="trust-logo">Aether Systems</div>
-            <div className="trust-logo">Meridian Health</div>
-            <div className="trust-logo">Orbis Capital</div>
-            <div className="trust-logo">TechVault Inc</div>
-            <div className="trust-logo">DataNexus</div>
-            <div className="trust-logo">CoreShield</div>
-            <div className="trust-logo">PrimeLogix</div>
+            <span className="trust-logo">MITRE ATT&amp;CK</span>
+            <span style={{ color: 'var(--red)', margin: '0 20px' }}>•</span>
+            <span className="trust-logo">OWASP Top 10</span>
+            <span style={{ color: 'var(--red)', margin: '0 20px' }}>•</span>
+            <span className="trust-logo">NIST</span>
+            <span style={{ color: 'var(--red)', margin: '0 20px' }}>•</span>
+            <span className="trust-logo">PTES</span>
           </div>
         </div>
       </section>
