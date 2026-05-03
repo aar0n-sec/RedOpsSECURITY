@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 // ✅ Replace with your Web3Forms access key from https://web3forms.com
-const WEB3FORMS_ACCESS_KEY = 'e121a5d7-8253-4fa9-bc93-704f648891f3';
+const WEB3FORMS_ACCESS_KEY = '9ac2f23f-bd62-46d0-8b1c-7178668cbc89';
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
