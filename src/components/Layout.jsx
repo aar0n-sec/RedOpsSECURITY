@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navigation from './Navigation';
 import Footer from './Footer';
+import SeoHead from './SeoHead';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -16,6 +17,7 @@ const ScrollToTop = () => {
 const Layout = () => {
   return (
     <>
+      <SeoHead />
       <ScrollToTop />
       <Navigation />
       <Outlet />
@@ -25,3 +27,4 @@ const Layout = () => {
 };
 
 export default Layout;
+

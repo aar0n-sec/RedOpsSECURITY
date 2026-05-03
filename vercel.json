@@ -1,5 +1,6 @@
 {
+  "buildCommand": "npm run build:ssg",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/__spa-fallback.html" }
   ]
 }

@@ -1,10 +1,14 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
+const isServer = typeof window === 'undefined';
+
 const HeroCanvas = () => {
   const canvasRef = useRef(null);
 
+  // SSR: render empty canvas placeholder, hydrate on client
   useEffect(() => {
+    if (isServer) return;
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
     
