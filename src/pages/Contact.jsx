@@ -132,6 +132,13 @@ const Contact = () => {
                   <option>Not sure - need guidance</option>
                 </select>
               </div>
+              {/* hCaptcha - rendered automatically by Web3Forms script */}
+              <div
+                className="h-captcha"
+                data-captcha="true"
+                data-theme="dark"
+                style={{ marginBottom: '16px' }}
+              ></div>
               {error && (
                 <div style={{ color: '#e05a4a', fontSize: '0.85rem', marginBottom: '12px', padding: '10px 14px', background: 'rgba(196,69,54,0.08)', borderRadius: '6px', border: '1px solid rgba(196,69,54,0.25)' }}>
                   {error}
