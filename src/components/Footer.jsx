@@ -41,8 +41,6 @@ const Footer = () => {
             <div className="footer-col-title">Contact</div>
             <ul className="footer-links">
               <li>Email: contact@redop.com</li>
-              <li>Phone: +91 7025501344</li>
-              <li>Phone: +91 884 880 3631</li>
             </ul>
             <Link to="/contact" className="btn-primary" style={{ marginTop: '20px', fontSize: '10px', padding: '12px 20px' }}>
               <span>Get a Quote</span>
