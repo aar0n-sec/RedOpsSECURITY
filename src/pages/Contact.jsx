@@ -14,14 +14,17 @@ const Contact = () => {
     setError('');
 
     const formData = new FormData(e.target);
-    formData.append('access_key', WEB3FORMS_ACCESS_KEY);
-    formData.append('subject', 'New Security Audit Request - RedOps');
-    formData.append('from_name', 'RedOps Contact Form');
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
 
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: json,
       });
       const data = await res.json();
 
@@ -29,7 +32,7 @@ const Contact = () => {
         setSubmitted(true);
         e.target.reset();
       } else {
-        setError('Something went wrong. Please try again or email us directly.');
+        setError(data.message || 'Something went wrong. Please try again.');
       }
     } catch {
       setError('Network error. Please check your connection and try again.');
@@ -98,6 +101,11 @@ const Contact = () => {
             <div className="contact-form-sub">Fill in your details and we'll be in touch within one business day.</div>
 
             <form id="contact-form" autoComplete="off" onSubmit={handleSubmit}>
+              {/* Hidden fields required by Web3Forms */}
+              <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+              <input type="hidden" name="subject" value="New Security Audit Request - RedOps" />
+              <input type="hidden" name="from_name" value="RedOps Contact Form" />
+              <input type="checkbox" name="botcheck" style={{ display: 'none' }} />
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">First Name</label>
