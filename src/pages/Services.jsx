@@ -2,237 +2,360 @@ import { Link } from 'react-router-dom';
 import Reveal from '../components/Reveal';
 
 const Services = () => {
+  const offensiveServices = [
+    {
+      slug: 'vapt',
+      filename: 'nmap-scan.sh',
+      code: [
+        { type: 'comment', text: '// Running internal network scan' },
+        { type: 'cmd', text: 'nmap -sS -p- 10.0.0.1/24' },
+        { type: 'info', text: '[*] Open port 445' },
+        { type: 'success', text: '[+] Exploiting MS17-010' },
+      ],
+      title: 'Network VAPT',
+      description: 'We execute military-grade black-box, gray-box, and white-box penetration tests across your entire external perimeter and internal networks. Discover hidden misconfigurations, unpatched zero-days, and internal pivot points before the adversaries do.',
+      features: [
+        'Active Directory Exploitation',
+        'Lateral Movement Simulation',
+        'Cloud Infrastructure Audits',
+        'Zero-Trust Architecture Review',
+        'Advanced Persistent Threat (APT) Emulation',
+        'Wireless & Rogue Device Assessments',
+      ],
+    },
+    {
+      slug: 'mobile-pentest',
+      filename: 'frida-hook.js',
+      code: [
+        { type: 'keyword', text: 'Java.perform(' },
+        { type: 'comment', text: '// Bypass SSL Pinning' },
+        { type: 'success', text: "  console.log('[*] Bypassed');" },
+        { type: 'normal', text: '});' },
+      ],
+      title: 'Mobile Application Security',
+      description: 'Comprehensive dynamic and static analysis (DAST/SAST) of iOS and Android applications. We reverse-engineer APKs and IPAs to find hardcoded secrets, insecure APIs, and bypass jailbreak detections.',
+      features: [
+        'Binary Reversing & Decompilation',
+        'API Traffic Interception & Tampering',
+        'Insecure Data Storage Analysis',
+        'IPC Mechanism Vulnerabilities',
+        'Runtime Manipulation & Hooking',
+        'Biometric Authentication Bypasses',
+      ],
+    },
+    {
+      slug: 'web-pentest',
+      filename: 'burp-suite.txt',
+      code: [
+        { type: 'cmd', text: 'POST /api/v1/profile HTTP/1.1' },
+        { type: 'normal', text: '' },
+        { type: 'warning', text: "{'role': 'admin'}" },
+        { type: 'success', text: '[+] Privilege escalated to ADMIN' },
+      ],
+      title: 'Web Application Penetration',
+      description: 'Deep manual testing of complex web applications. We go beyond automated scanners to chain vulnerabilities like SSRF, XSS, and IDOR, demonstrating critical business impact and data exfiltration scenarios.',
+      features: [
+        'Complex Business Logic Abuse',
+        'Authentication & Authorization Bypasses',
+        'Zero-Day Scenario Testing',
+        'Advanced Injection Attacks (SQLi, NoSQLi)',
+        'Client-Side Exploitation (DOM XSS)',
+        'Deep API & GraphQL Security Audits',
+      ],
+    },
+    {
+      slug: 'cloud-security',
+      filename: 'aws-enum.sh',
+      code: [
+        { type: 'cmd', text: 'aws s3 ls --profile pentest' },
+        { type: 'warning', text: '[!] Public Bucket Found' },
+        { type: 'info', text: '[*] Dumping sensitive IAM keys...' },
+      ],
+      title: 'Cloud Security Assessments',
+      description: 'In-depth architectural reviews and penetration testing across AWS, Azure, and GCP environments. We identify IAM misconfigurations, exposed storage, and container escape vectors to secure your cloud-native infrastructure.',
+      features: [
+        'IAM Privilege Escalation Checks',
+        'Kubernetes & Docker Security',
+        'Serverless Function Auditing',
+        'Cloud Posture Management (CSPM)',
+        'VPC Network Segmentation Reviews',
+        'CI/CD Pipeline Security',
+      ],
+    },
+    {
+      slug: 'red-teaming',
+      filename: 'c2-beacon.py',
+      code: [
+        { type: 'keyword', text: 'import cobaltstrike' },
+        { type: 'success', text: '[+] Beacon active (PID: 1337)' },
+        { type: 'info', text: '[*] Establishing persistent C2 tunnel' },
+      ],
+      title: 'Red Teaming Operations',
+      description: "Full-spectrum, objective-based adversarial simulations. We test your Blue Team's detection and response capabilities by deploying advanced social engineering, physical intrusion tactics, and stealthy malware.",
+      features: [
+        'Phishing & Spear-Phishing Campaigns',
+        'Physical Security Bypasses',
+        'Custom Malware & C2 Development',
+        'Insider Threat Emulation',
+        'Blue Team Evasion Tactics',
+        'Open-Source Intelligence (OSINT)',
+      ],
+    },
+    {
+      slug: 'grc',
+      filename: 'audit.ts',
+      code: [
+        { type: 'keyword', text: "await checkControls('SOC2');" },
+        { type: 'success', text: '[+] 144/145 Controls passed.' },
+        { type: 'warning', text: '[!] S3 bucket misconfigured.' },
+      ],
+      title: 'GRC & Compliance',
+      description: 'Governance, Risk, and Compliance alignment tailored for fast-moving tech companies. We translate complex technical risks into boardroom-ready metrics, bridging the gap between security engineering and executive strategy.',
+      features: [
+        'Comprehensive Risk Assessments',
+        'Security Architecture Review',
+        '3rd-Party Vendor Risk Management',
+        'GDPR & CCPA Data Privacy Mapping',
+        'Threat Intelligence Integration',
+        'Executive Cybersecurity Strategy',
+      ],
+    },
+    {
+      slug: 'iso',
+      filename: 'isms.js',
+      code: [
+        { type: 'cmd', text: "runAudit('ISO_27001');" },
+        { type: 'success', text: '[+] Policies Validated' },
+        { type: 'info', text: '[*] Ready for Stage 2 Audit.' },
+      ],
+      title: 'ISO 27001 Implementation',
+      description: 'From zero to full certification. We guide you through building a robust ISMS, defining exact scopes, conducting rigorous internal audits, and preparing your organization to flawlessly defend against the final Stage 2 certification.',
+      features: [
+        'Comprehensive Gap Analysis',
+        'Bespoke ISMS Policy Creation',
+        'External Audit Defense Strategy',
+        'Asset Management & Risk Treatment',
+        'Continuous Compliance Monitoring',
+        'Employee Security Awareness Training',
+      ],
+    },
+  ];
+
+  const devService = {
+    slug: 'webdev',
+    filename: 'next.config.js',
+    code: [
+      { type: 'normal', text: 'headers: [' },
+      { type: 'normal', text: "  { key: 'X-XSS-Protection', value: '1; mode=block' }" },
+      { type: 'normal', text: ']' },
+    ],
+    title: 'Secure Development Lifecycle (SDLC)',
+    description: 'We build Next.js, React, and Node.js applications tailored to your exact business needs. Every line of code is reviewed by our offensive security team, ensuring your application is immune to common web vectors before it even hits production.',
+    features: [
+      'DevSecOps Pipeline Integration',
+      'Secure Architecture Design',
+      'High-Performance Web Platforms',
+      'Automated SAST/DAST Tooling',
+      'Threat Modeling at Design Phase',
+      'Secure Coding Guidelines & Training',
+    ],
+  };
+
+  const processSteps = [
+    {
+      title: 'Reconnaissance',
+      desc: 'OSINT, DNS enumeration, and digital footprint mapping to identify all exposed assets.',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+        </svg>
+      ),
+    },
+    {
+      title: 'Threat Modeling',
+      desc: 'Analyzing application logic to map out high-value targets and potential attack vectors.',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+      ),
+    },
+    {
+      title: 'Vulnerability Discovery',
+      desc: 'Automated scanning combined with intense manual probing to identify exploitable flaws.',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+      ),
+    },
+    {
+      title: 'Exploitation',
+      desc: 'Safely executing exploits to chain vulnerabilities and demonstrate real-world impact.',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+      ),
+    },
+    {
+      title: 'Reporting & Debrief',
+      desc: 'Delivering actionable intelligence with developer-friendly remediation steps and PoC videos.',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14,2 14,8 20,8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
+        </svg>
+      ),
+    },
+  ];
+
+  const renderCodeLine = (line, i) => {
+    switch (line.type) {
+      case 'comment':
+        return <div key={i} className="sc-code-line"><span className="code-comment">{line.text}</span></div>;
+      case 'keyword':
+        return <div key={i} className="sc-code-line"><span className="code-blue">{line.text}</span></div>;
+      case 'cmd':
+        return <div key={i} className="sc-code-line"><span className="code-green">{line.text}</span></div>;
+      case 'info':
+        return <div key={i} className="sc-code-line"><span className="code-blue">{line.text}</span></div>;
+      case 'success':
+        return <div key={i} className="sc-code-line"><span className="code-green">{line.text}</span></div>;
+      case 'warning':
+        return <div key={i} className="sc-code-line"><span className="code-yellow">{line.text}</span></div>;
+      case 'error':
+        return <div key={i} className="sc-code-line"><span className="code-red">{line.text}</span></div>;
+      default:
+        return <div key={i} className="sc-code-line">{line.text}</div>;
+    }
+  };
+
   return (
     <div className="page active" id="page-services">
       <div style={{ height: 'var(--nav-h)' }}></div>
 
+      {/* Hero Section */}
       <div className="page-hero">
         <div className="page-hero-grid"></div>
         <div className="page-hero-inner">
           <div className="section-tag">Our Services</div>
           <h1 className="page-hero-title">Offensive Security<br/>at Every Layer</h1>
-          <p className="page-hero-sub">From web applications to full red team operations, every engagement is bespoke, manual, and aligned to real threat actor TTPs.</p>
+          <p className="page-hero-sub">Our elite methodologies dissect and secure your digital infrastructure. We combine advanced adversarial tactics, continuous research, and battle-tested frameworks to identify critical vulnerabilities before they can be exploited. From bespoke penetration testing to comprehensive GRC alignment, our tailored security solutions ensure your digital assets remain unbreachable in an ever-evolving threat landscape.</p>
         </div>
       </div>
 
-      <div className="services-detail-section">
-        {/* Web App */}
-        <div className="service-detail-block">
-          <div>
-            <div className="sdb-label">01 - Web Application Security</div>
-            <Reveal><h2 className="sdb-title">Web App<br/>Penetration Testing</h2></Reveal>
-            <p className="sdb-desc">Manual, depth-first testing that goes well beyond OWASP Top 10. We trace data flows, analyze business logic, and chain vulnerabilities to demonstrate real-world impact.</p>
-            <Reveal>
-              <ul className="sdb-list">
-                <li>Authentication and session management flaws</li>
-                <li>Server-side injection (SQL, SSTI, XXE, SSRF)</li>
-                <li>Broken access control and IDOR</li>
-                <li>Business logic bypass and race conditions</li>
-                <li>GraphQL and REST API endpoint abuse</li>
-                <li>Client-side attacks (XSS, CSRF, DOM manipulation)</li>
-              </ul>
-            </Reveal>
-            <Reveal>
-              <div className="sdb-outcomes">
-                <div className="sdb-outcomes-title">Deliverables</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Executive-level risk summary</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Technical vulnerability report with PoC</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Remediation guidance per finding</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Free retest upon remediation</div>
-              </div>
-            </Reveal>
-          </div>
-          <Reveal className="sdb-visual">
-            <div className="sdb-visual-card">
-              <div className="sdb-vc-header">
-                <div className="sdb-vc-dot" style={{ background: '#ff5f57' }}></div>
-                <div className="sdb-vc-dot" style={{ background: '#ffbd2e' }}></div>
-                <div className="sdb-vc-dot" style={{ background: '#28c840' }}></div>
-                <div className="sdb-vc-title-text">redops-scan.py - LIVE</div>
-              </div>
-              <div className="code-comment"># Target: api.target-corp.com</div><br/>
-              <span className="code-blue">[*]</span> Initiating recon phase...<br/>
-              <span className="code-green">[+]</span> Endpoints discovered: 147<br/>
-              <span className="code-green">[+]</span> Auth endpoints identified: 12<br/>
-              <span className="code-yellow">[!]</span> JWT alg:none bypass - CONFIRMED<br/>
-              <span className="code-red">[CRITICAL]</span> IDOR at /api/v2/users/{`{id}`}<br/>
-              <span className="code-red">[CRITICAL]</span> SQLi at /api/search?q=<br/>
-              <span className="code-green">[+]</span> SSRF in webhook handler<br/>
-              <span className="code-blue">[*]</span> Building exploit chain...<br/>
-              <span className="code-yellow">[!]</span> Full data exfil possible<br/><br/>
-              <span className="code-comment"># Impact: CRITICAL - RCE achieved</span>
-            </div>
-            <div style={{ marginTop: '20px', padding: '20px 24px', background: 'var(--bg-warm)', border: '1px solid var(--border)' }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--dark-soft)', marginBottom: '12px' }}>Risk Breakdown</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{ fontSize: '12px', width: '60px', fontFamily: 'var(--mono)', color: '#dc2626' }}>Critical</div>
-                  <div style={{ flex: 1, height: '4px', background: 'var(--border)', borderRadius: '2px' }}><div style={{ width: '35%', height: '100%', background: '#dc2626', borderRadius: '2px' }}></div></div>
-                  <div style={{ fontSize: '12px', fontFamily: 'var(--mono)', color: 'var(--dark-soft)' }}>4</div>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{ fontSize: '12px', width: '60px', fontFamily: 'var(--mono)', color: '#ea580c' }}>High</div>
-                  <div style={{ flex: 1, height: '4px', background: 'var(--border)', borderRadius: '2px' }}><div style={{ width: '55%', height: '100%', background: '#ea580c', borderRadius: '2px' }}></div></div>
-                  <div style={{ fontSize: '12px', fontFamily: 'var(--mono)', color: 'var(--dark-soft)' }}>7</div>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{ fontSize: '12px', width: '60px', fontFamily: 'var(--mono)', color: '#b45309' }}>Medium</div>
-                  <div style={{ flex: 1, height: '4px', background: 'var(--border)', borderRadius: '2px' }}><div style={{ width: '75%', height: '100%', background: '#b45309', borderRadius: '2px' }}></div></div>
-                  <div style={{ fontSize: '12px', fontFamily: 'var(--mono)', color: 'var(--dark-soft)' }}>11</div>
-                </div>
-              </div>
+      {/* Offensive Services Grid */}
+      <section className="svcs-grid-section">
+        <div className="svcs-grid-inner">
+          <Reveal>
+            <div className="svcs-grid-header">
+              <div className="section-tag">Core Services</div>
+              <p className="svcs-grid-subtitle">Our core offensive and defensive cybersecurity services. We simulate the world's most sophisticated threat actors to uncover systemic vulnerabilities across your entire digital infrastructure. From deep-dive web application penetration testing to full-scale ISO 27001 compliance implementations, we provide end-to-end security solutions for modern enterprises.</p>
             </div>
           </Reveal>
-        </div>
 
-        {/* Mobile */}
-        <div className="service-detail-block reverse">
-          <div>
-            <div className="sdb-label">02 - Mobile Security</div>
-            <Reveal><h2 className="sdb-title">Mobile App<br/>Security Testing</h2></Reveal>
-            <p className="sdb-desc">Comprehensive iOS and Android security assessments using both static (SAST) and dynamic (DAST) techniques with real device testing and instrumentation frameworks.</p>
-            <Reveal>
-              <ul className="sdb-list">
-                <li>Insecure data storage (Keychain, SharedPrefs)</li>
-                <li>SSL pinning bypass and certificate validation</li>
-                <li>Dynamic instrumentation with Frida</li>
-                <li>Reverse engineering and binary analysis</li>
-                <li>API communication interception</li>
-                <li>Deep link and intent abuse</li>
-              </ul>
-            </Reveal>
-            <Reveal>
-              <div className="sdb-outcomes">
-                <div className="sdb-outcomes-title">Testing Scope</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Static binary analysis (MobSF + manual)</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Dynamic runtime testing on real devices</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>API backend testing included</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>OWASP MASVS compliance mapping</div>
-              </div>
-            </Reveal>
+          <div className="svcs-cards-grid">
+            {offensiveServices.map((svc, idx) => (
+              <Reveal key={svc.slug}>
+                <Link to={`/services/${svc.slug}`} className="svcs-card">
+                  <div className="svcs-card-terminal">
+                    <div className="svcs-card-terminal-header">
+                      <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
+                      <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
+                      <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
+                      <span className="svcs-term-filename">{svc.filename}</span>
+                    </div>
+                    <div className="svcs-card-terminal-body">
+                      {svc.code.map((line, i) => renderCodeLine(line, i))}
+                    </div>
+                  </div>
+                  <div className="svcs-card-content">
+                    <h3 className="svcs-card-title">{svc.title}</h3>
+                    <p className="svcs-card-desc">{svc.description}</p>
+                    <ul className="svcs-card-features">
+                      {svc.features.map((f, i) => (
+                        <li key={i}><span className="svcs-check">&#10003;</span> {f}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="svcs-card-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
           </div>
-          <Reveal className="sdb-visual">
-            <div className="sdb-visual-card">
-              <div className="sdb-vc-header">
-                <div className="sdb-vc-dot" style={{ background: '#ff5f57' }}></div>
-                <div className="sdb-vc-dot" style={{ background: '#ffbd2e' }}></div>
-                <div className="sdb-vc-dot" style={{ background: '#28c840' }}></div>
-                <div className="sdb-vc-title-text">frida-hook.js - ANDROID</div>
-              </div>
-              <span className="code-comment">// Hooking SSL validation</span><br/>
-              Java.perform(<span className="code-blue">function</span>() {`{`}<br/>
-              &nbsp;&nbsp;<span className="code-yellow">var</span> TrustMgr = Java.use(<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;<span className="code-green">'com.target.ssl.TrustMgr'</span><br/>
-              &nbsp;&nbsp;);<br/>
-              &nbsp;&nbsp;TrustMgr.checkServerTrusted<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;.implementation = <span className="code-blue">function</span>() {`{`}<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(<span className="code-green">"[*] SSL bypassed"</span>);<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;{`}`}<br/>
-              {`}`});<br/><br/>
-              <span className="code-red">[*]</span> Pinning bypassed<br/>
-              <span className="code-green">[+]</span> Traffic intercepted: ✓<br/>
-              <span className="code-yellow">[!]</span> API keys in memory: FOUND
-            </div>
-          </Reveal>
         </div>
+      </section>
 
-        {/* Network */}
-        <div className="service-detail-block">
-          <div>
-            <div className="sdb-label">03 - Infrastructure</div>
-            <Reveal><h2 className="sdb-title">Network &<br/>Infrastructure Testing</h2></Reveal>
-            <p className="sdb-desc">External and internal penetration testing of your network perimeter, cloud environments, and Active Directory infrastructure. We map the full attack path to domain compromise.</p>
-            <Reveal>
-              <ul className="sdb-list">
-                <li>External perimeter assessment</li>
-                <li>Active Directory attack paths (Kerberoasting, AS-REP)</li>
-                <li>Cloud configuration review (AWS, Azure, GCP)</li>
-                <li>Firewall and segmentation validation</li>
-                <li>VPN and remote access testing</li>
-                <li>Privilege escalation to Domain Admin</li>
-              </ul>
-            </Reveal>
-            <Reveal>
-              <div className="sdb-outcomes">
-                <div className="sdb-outcomes-title">Attack Vectors Tested</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Kerberoasting and Pass-the-Hash</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>BloodHound AD graph analysis</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Cloud IAM misconfiguration</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Lateral movement simulation</div>
-              </div>
-            </Reveal>
-          </div>
-          <Reveal className="sdb-visual">
-            <div className="sdb-visual-card">
-              <div className="sdb-vc-header">
-                <div className="sdb-vc-dot" style={{ background: '#ff5f57' }}></div>
-                <div className="sdb-vc-dot" style={{ background: '#ffbd2e' }}></div>
-                <div className="sdb-vc-dot" style={{ background: '#28c840' }}></div>
-                <div className="sdb-vc-title-text">bloodhound-query.py</div>
-              </div>
-              <span className="code-blue">[*]</span> BloodHound analysis...<br/>
-              <span className="code-green">[+]</span> Domain Users: 1,847<br/>
-              <span className="code-green">[+]</span> Admin accounts: 23<br/>
-              <span className="code-yellow">[!]</span> Kerberoastable SPNs: 14<br/><br/>
-              <span className="code-comment"># Shortest path to DA:</span><br/>
-              ServiceAcct <span className="code-red">→</span> IT_Admins<br/>
-              IT_Admins <span className="code-red">→</span> DOMAIN ADMIN<br/><br/>
-              <span className="code-red">[CRITICAL]</span> Unconstrained delegation<br/>
-              <span className="code-red">[CRITICAL]</span> Pass-the-Hash viable<br/>
-              <span className="code-green">[+]</span> Domain compromise: <span className="code-red">ACHIEVED</span>
+      {/* Secure Development Section */}
+      <section className="svcs-dev-section">
+        <div className="svcs-dev-inner">
+          <Reveal>
+            <div className="svcs-dev-header">
+              <div className="section-tag">Secure Engineering</div>
+              <p className="svcs-dev-subtitle">Stop bolting security on at the end of the SDLC. Our elite engineering team builds high-performance, scalable web applications and bespoke software solutions with security integrated natively from day one. We bridge the gap between rapid development and uncompromised security.</p>
             </div>
           </Reveal>
-        </div>
 
-        {/* Red Team */}
-        <div className="service-detail-block reverse">
-          <div>
-            <div className="sdb-label">04 - Red Team Operations</div>
-            <Reveal><h2 className="sdb-title">Full-Scope<br/>Red Team Ops</h2></Reveal>
-            <p className="sdb-desc">Realistic adversary simulation using custom tooling, OPSEC-aware TTPs, and multi-vector attack scenarios. We test your people, process, and technology simultaneously.</p>
-            <Reveal>
-              <ul className="sdb-list">
-                <li>Spear phishing and vishing campaigns</li>
-                <li>Custom C2 infrastructure and implants</li>
-                <li>Physical access and badge cloning</li>
-                <li>Living-off-the-land techniques (LOLBAS)</li>
-                <li>MITRE ATT&CK framework mapping</li>
-                <li>Purple team collaboration and debrief</li>
-              </ul>
-            </Reveal>
-            <Reveal>
-              <div className="sdb-outcomes">
-                <div className="sdb-outcomes-title">Engagement Phases</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Initial access (phishing, exploitation)</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Persistence and C2 establishment</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Lateral movement to crown jewels</div>
-                <div className="sdb-outcome-item"><div className="sdb-outcome-dot"></div>Action on objectives / Exfiltration</div>
+          <Reveal>
+            <Link to={`/services/${devService.slug}`} className="svcs-dev-card">
+              <div className="svcs-card-terminal svcs-dev-terminal">
+                <div className="svcs-card-terminal-header">
+                  <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
+                  <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
+                  <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
+                  <span className="svcs-term-filename">{devService.filename}</span>
+                </div>
+                <div className="svcs-card-terminal-body">
+                  {devService.code.map((line, i) => renderCodeLine(line, i))}
+                </div>
               </div>
-            </Reveal>
-          </div>
-          <Reveal className="sdb-visual">
-            <div className="sdb-visual-card">
-              <div className="sdb-vc-header">
-                <div className="sdb-vc-dot" style={{ background: '#ff5f57' }}></div>
-                <div className="sdb-vc-dot" style={{ background: '#ffbd2e' }}></div>
-                <div className="sdb-vc-dot" style={{ background: '#28c840' }}></div>
-                <div className="sdb-vc-title-text">c2-beacon.log</div>
+              <div className="svcs-dev-card-content">
+                <h3 className="svcs-card-title">{devService.title}</h3>
+                <p className="svcs-card-desc">{devService.description}</p>
+                <ul className="svcs-card-features svcs-dev-features">
+                  {devService.features.map((f, i) => (
+                    <li key={i}><span className="svcs-check">&#10003;</span> {f}</li>
+                  ))}
+                </ul>
               </div>
-              <span className="code-blue">[*]</span> Listener started on port 443<br/>
-              <span className="code-green">[+]</span> Initial check-in: WIN-DK93M2<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;User: CORP\j.smith<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;Privs: Medium<br/>
-              <span className="code-blue">[*]</span> Executing seatbelt.exe...<br/>
-              <span className="code-yellow">[!]</span> Found vulnerable driver (CVE-2022-XXXX)<br/>
-              <span className="code-blue">[*]</span> Exploiting LPE...<br/>
-              <span className="code-green">[+]</span> SYSTEM privileges acquired<br/>
-              <span className="code-blue">[*]</span> Dumping LSASS memory...<br/>
-              <span className="code-red">[CRITICAL]</span> Extracted Domain Admin NTLM<br/>
-              <span className="code-green">[+]</span> OpSec: AMSI bypassed successfully
-            </div>
+            </Link>
           </Reveal>
         </div>
-      </div>
+      </section>
+
+      {/* Pentesting Process */}
+      <section className="svcs-process-section">
+        <div className="svcs-process-inner">
+          <Reveal>
+            <div className="svcs-process-header">
+              <div className="section-tag">Methodology</div>
+              <h2 className="section-title">The Redops<br/>Pentesting Process</h2>
+              <p>A rigorous, battle-tested methodology designed to uncover the deepest vulnerabilities before malicious actors do.</p>
+            </div>
+          </Reveal>
+
+          <div className="svcs-process-steps">
+            {processSteps.map((step, idx) => (
+              <Reveal key={idx}>
+                <div className="svcs-process-step">
+                  <div className="svcs-process-node">
+                    <div className="svcs-process-num">{String(idx + 1).padStart(2, '0')}</div>
+                    <div className="svcs-process-icon">{step.icon}</div>
+                  </div>
+                  <h4 className="svcs-process-title">{step.title}</h4>
+                  <p className="svcs-process-desc">{step.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
       <section className="home-cta">
         <Reveal className="home-cta-inner">
           <h2 className="section-title">Ready to Test<br/>Your Defenses?</h2>
