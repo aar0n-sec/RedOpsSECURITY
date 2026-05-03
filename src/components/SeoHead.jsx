@@ -35,9 +35,11 @@ const SeoHead = () => {
     setMeta('property', 'og:url', url);
     setMeta('property', 'og:type', 'website');
     setMeta('property', 'og:site_name', 'RedOps Security');
+    setMeta('property', 'og:image', seo.image || 'https://redops.in/og-image.png');
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', seo.title);
     setMeta('name', 'twitter:description', seo.description);
+    setMeta('name', 'twitter:image', seo.image || 'https://redops.in/og-image.png');
 
     // Update canonical link
     let canonical = document.querySelector('link[rel="canonical"]');

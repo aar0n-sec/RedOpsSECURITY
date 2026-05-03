@@ -113,6 +113,7 @@ const SEO_DATA = {
 function generateMetaTags(routePath) {
   const seo = SEO_DATA[routePath] || SEO_DATA['/'];
   const url = `https://redops.in${routePath === '/' ? '' : routePath}`;
+  const image = seo.image || 'https://redops.in/og-image.png';
   
   return [
     `<title>${seo.title}</title>`,
@@ -123,9 +124,11 @@ function generateMetaTags(routePath) {
     `<meta property="og:url" content="${url}">`,
     `<meta property="og:type" content="website">`,
     `<meta property="og:site_name" content="RedOps Security">`,
+    `<meta property="og:image" content="${image}">`,
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta name="twitter:title" content="${seo.title}">`,
     `<meta name="twitter:description" content="${seo.description}">`,
+    `<meta name="twitter:image" content="${image}">`,
     `<link rel="canonical" href="${url}">`,
   ].join('\n    ');
 }

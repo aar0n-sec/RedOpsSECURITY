@@ -79,6 +79,7 @@ const DEFAULT_SEO = {
   title: 'RedOps Security - Offensive Security & Penetration Testing',
   description: 'RedOps Security delivers elite penetration testing, vulnerability assessments, and offensive security services that expose real-world attack surfaces before adversaries do.',
   keywords: 'penetration testing, offensive security, cybersecurity',
+  image: 'https://redops.in/og-image.png', // Fallback OG image
 };
 
 export function getSeoForRoute(path) {
@@ -88,6 +89,7 @@ export function getSeoForRoute(path) {
 export function generateMetaTags(path) {
   const seo = getSeoForRoute(path);
   const url = `https://redops.in${path === '/' ? '' : path}`;
+  const image = seo.image || DEFAULT_SEO.image;
   
   return `
     <title>${seo.title}</title>
@@ -98,9 +100,11 @@ export function generateMetaTags(path) {
     <meta property="og:url" content="${url}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="RedOps Security">
+    <meta property="og:image" content="${image}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${seo.title}">
     <meta name="twitter:description" content="${seo.description}">
+    <meta name="twitter:image" content="${image}">
     <link rel="canonical" href="${url}">
   `;
 }
