@@ -28,15 +28,7 @@ const Footer = () => {
               <li><Link to="/contact">Contact</Link></li>
             </ul>
           </div>
-          <div>
-            <div className="footer-col-title">Certifications</div>
-            <ul className="footer-links">
-              <li><a href="#">OSCP</a></li>
-              <li><a href="#">CEH</a></li>
-              <li><a href="#">CISSP</a></li>
-              <li><a href="#">CREST</a></li>
-            </ul>
-          </div>
+
         </div>
         <div className="footer-bottom">
           <div className="footer-copy">© 2025 RedOps Security. All rights reserved.</div>
