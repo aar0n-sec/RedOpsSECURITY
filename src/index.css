@@ -20,6 +20,22 @@
   --body: 'Barlow', sans-serif;
   --display: 'Barlow Condensed', sans-serif;
   --nav-h: 72px;
+  --nav-bg: rgba(245, 241, 235, 0.92);
+  --nav-bg-mobile: rgba(245, 241, 235, 0.98);
+  --dark-rgb: 26, 26, 26;
+}
+
+[data-theme='dark'] {
+  --bg: #0A0A0A;
+  --bg-warm: #141414;
+  --bg-card: #1A1A1A;
+  --dark: #F5F1EB;
+  --dark-mid: #EDE9E1;
+  --dark-soft: #A0A0A0;
+  --border: rgba(255, 255, 255, 0.1);
+  --nav-bg: rgba(10, 10, 10, 0.92);
+  --nav-bg-mobile: rgba(10, 10, 10, 0.98);
+  --dark-rgb: 245, 241, 235;
 }
 
 *,
@@ -75,6 +91,10 @@ img {
   mix-blend-mode: multiply;
 }
 
+[data-theme='dark'] #cursor {
+  mix-blend-mode: screen;
+}
+
 #cursor-ring {
   position: fixed;
   width: 36px;
@@ -110,7 +130,7 @@ body:hover #cursor {
 }
 
 #nav.scrolled {
-  background: rgba(245, 241, 235, 0.92);
+  background: var(--nav-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
@@ -194,6 +214,29 @@ body:hover #cursor {
 
 .nav-links a.active {
   color: var(--red);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 8px;
+  color: var(--dark-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--red);
+  transform: translateY(-1px);
 }
 
 .nav-cta {
@@ -931,7 +974,7 @@ body:hover #cursor {
 .service-card-number {
   font-family: var(--mono);
   font-size: 10px;
-  color: rgba(26, 26, 26, 0.25);
+  color: rgba(var(--dark-rgb), 0.25);
   letter-spacing: 0.2em;
   margin-bottom: 32px;
 }
@@ -1210,7 +1253,7 @@ body:hover #cursor {
 
 .stat-desc {
   font-size: 13px;
-  color: rgba(26, 26, 26, 0.4);
+  color: rgba(var(--dark-rgb), 0.4);
   line-height: 1.5;
 }
 
@@ -2780,7 +2823,7 @@ body:hover #cursor {
 }
 
 .form-input::placeholder {
-  color: rgba(26, 26, 26, 0.25);
+  color: rgba(var(--dark-rgb), 0.25);
 }
 
 .form-row {
@@ -2957,7 +3000,7 @@ footer {
 
   #nav {
     padding: 0 20px;
-    background: rgba(245, 241, 235, 0.94);
+    background: var(--nav-bg);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border);
@@ -2984,7 +3027,7 @@ footer {
     align-items: stretch;
     gap: 0;
     padding: 18px 20px calc(22px + env(safe-area-inset-bottom));
-    background: rgba(245, 241, 235, 0.98);
+    background: var(--nav-bg-mobile);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 18px 38px rgba(0, 0, 0, 0.12);
   }

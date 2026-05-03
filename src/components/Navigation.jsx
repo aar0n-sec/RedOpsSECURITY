@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 import logoFull from '../assets/logo-full.png';
+import logoDark from '../assets/logo-dark.png';
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
 
   useEffect(() => {
@@ -32,7 +36,7 @@ const Navigation = () => {
   return (
     <nav id="nav" className={`${scrolled || mobileMenuOpen ? 'scrolled' : ''} ${mobileMenuOpen ? 'menu-active' : ''}`}>
       <Link to="/" className="nav-logo" onClick={closeMenu}>
-        <img className="nav-logo-img" src={logoFull} alt="RedOps Security" />
+        <img className="nav-logo-img" src={theme === 'light' ? logoFull : logoDark} alt="RedOps Security" />
       </Link>
 
       <ul className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
@@ -44,9 +48,20 @@ const Navigation = () => {
         <li className="mobile-nav-cta"><Link to="/contact" className={isActive('/contact')} onClick={closeMenu}>Get Free Audit</Link></li>
       </ul>
 
-      <Link to="/contact" className="nav-cta btn-primary" onClick={closeMenu}>
-        <span>Get Free Audit</span>
-      </Link>
+      <div className="nav-actions">
+        <button 
+          onClick={toggleTheme} 
+          className="theme-toggle" 
+          aria-label="Toggle theme"
+          title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+        >
+          {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+        </button>
+
+        <Link to="/contact" className="nav-cta btn-primary" onClick={closeMenu}>
+          <span>Get Free Audit</span>
+        </Link>
+      </div>
 
       <button
         className={`hamburger ${mobileMenuOpen ? 'active' : ''}`}

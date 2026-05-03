@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { useTheme } from '../context/ThemeContext';
 
 const isServer = typeof window === 'undefined';
 
 const HeroCanvas = () => {
   const canvasRef = useRef(null);
+  const { theme } = useTheme();
 
   // SSR: render empty canvas placeholder, hydrate on client
   useEffect(() => {
@@ -12,6 +14,12 @@ const HeroCanvas = () => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
     
+    const isDark = theme === 'dark';
+    const bgColor = isDark ? 0x141414 : 0xEDE9E1;
+    const textColor = isDark ? 0xF5F1EB : 0x1A1A1A;
+    const redColor = 0xC44536;
+    const blueColor = 0x1F4ED8;
+
     const updateSize = () => {
       const parent = canvas.parentElement;
       if (!parent) return { width: window.innerWidth, height: window.innerHeight };
@@ -23,29 +31,29 @@ const HeroCanvas = () => {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(initialSize.width, initialSize.height);
-    renderer.setClearColor(0xEDE9E1, 1);
+    renderer.setClearColor(bgColor, 1);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, initialSize.width / initialSize.height, 0.1, 1000);
     camera.position.set(0, 0, 4.5);
 
     // Ambient light
-    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+    scene.add(new THREE.AmbientLight(0xffffff, isDark ? 0.2 : 0.4));
 
     // Point light (red)
-    const redLight = new THREE.PointLight(0xC44536, 6, 12);
+    const redLight = new THREE.PointLight(redColor, 6, 12);
     redLight.position.set(3, 2, 3);
     scene.add(redLight);
 
     // Point light (blue)
-    const blueLight = new THREE.PointLight(0x1F4ED8, 4, 10);
+    const blueLight = new THREE.PointLight(blueColor, 4, 10);
     blueLight.position.set(-3, -2, 2);
     scene.add(blueLight);
 
     // Globe wireframe
     const globeGeo = new THREE.SphereGeometry(1.6, 24, 18);
     const globeMat = new THREE.MeshBasicMaterial({
-      color: 0xC44536,
+      color: redColor,
       wireframe: true,
       transparent: true,
       opacity: 0.07
@@ -67,13 +75,13 @@ const HeroCanvas = () => {
       map: earthMap,
       specularMap: earthSpecular,
       normalMap: earthNormal,
-      specular: new THREE.Color(0x333333),
+      specular: new THREE.Color(isDark ? 0x222222 : 0x333333),
       shininess: 15
     });
     const solidGlobe = new THREE.Mesh(solidGeo, solidMat);
     
     // Add some lighting specific for the earth to make it visible
-    const earthLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    const earthLight = new THREE.DirectionalLight(0xffffff, isDark ? 1.5 : 2.5);
     earthLight.position.set(5, 3, 5);
     scene.add(earthLight);
     
@@ -81,7 +89,7 @@ const HeroCanvas = () => {
 
     // Equator ring
     const ringGeo = new THREE.TorusGeometry(1.62, 0.006, 8, 120);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0xC44536, transparent: true, opacity: 0.35 });
+    const ringMat = new THREE.MeshBasicMaterial({ color: redColor, transparent: true, opacity: 0.35 });
     const ring = new THREE.Mesh(ringGeo, ringMat);
     scene.add(ring);
 
@@ -106,7 +114,7 @@ const HeroCanvas = () => {
       nodePositions.push(new THREE.Vector3(x, y, z));
 
       const nodeMat = new THREE.MeshBasicMaterial({
-        color: Math.random() > 0.7 ? 0xC44536 : 0x1A1A1A,
+        color: Math.random() > 0.7 ? redColor : textColor,
         transparent: true,
         opacity: Math.random() * 0.5 + 0.3
       });
@@ -117,7 +125,7 @@ const HeroCanvas = () => {
     }
 
     // Connections between nearby nodes
-    const lineMat = new THREE.LineBasicMaterial({ color: 0xC44536, transparent: true, opacity: 0.12 });
+    const lineMat = new THREE.LineBasicMaterial({ color: redColor, transparent: true, opacity: 0.12 });
     for (let i = 0; i < nodeCount; i++) {
       for (let j = i + 1; j < nodeCount; j++) {
         if (nodePositions[i].distanceTo(nodePositions[j]) < 1.2) {
@@ -142,7 +150,7 @@ const HeroCanvas = () => {
     }
     const particleGeo = new THREE.BufferGeometry();
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-    const particleMat = new THREE.PointsMaterial({ color: 0x1A1A1A, size: 0.025, transparent: true, opacity: 0.15 });
+    const particleMat = new THREE.PointsMaterial({ color: textColor, size: 0.025, transparent: true, opacity: 0.15 });
     scene.add(new THREE.Points(particleGeo, particleMat));
 
     // Mouse parallax
@@ -212,7 +220,7 @@ const HeroCanvas = () => {
       lineMat.dispose();
       renderer.dispose();
     };
-  }, []);
+  }, [theme]);
 
   return <canvas id="hero-canvas" ref={canvasRef}></canvas>;
 };

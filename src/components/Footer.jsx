@@ -1,13 +1,17 @@
 import { Link } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 import logoFull from '../assets/logo-full.png';
+import logoDark from '../assets/logo-dark.png';
 
 const Footer = () => {
+  const { theme } = useTheme();
+
   return (
     <footer>
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
-            <img src={logoFull} alt="RedOps Security" style={{ height: '64px', marginBottom: '16px' }} />
+            <img src={theme === 'light' ? logoFull : logoDark} alt="RedOps Security" style={{ height: '64px', marginBottom: '16px' }} />
             <p>Securing your digital frontiers with elite intelligence.</p>
           </div>
           <div>
