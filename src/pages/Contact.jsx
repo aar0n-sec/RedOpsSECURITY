@@ -126,7 +126,7 @@ const Contact = () => {
               </div>
               <div className="form-group">
                 <label className="form-label">Company Website</label>
-                <input type="url" name="website" className="form-input" placeholder="https://acme.com" />
+                <input type="text" name="website" className="form-input" placeholder="https://acme.com" />
               </div>
               <div className="form-group">
                 <label className="form-label">What would you like tested?</label>
