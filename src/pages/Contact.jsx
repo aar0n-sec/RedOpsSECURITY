@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // ✅ Replace with your Web3Forms access key from https://web3forms.com
 const WEB3FORMS_ACCESS_KEY = '9ac2f23f-bd62-46d0-8b1c-7178668cbc89';
@@ -7,6 +7,23 @@ const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Load Web3Forms hCaptcha script AFTER this component mounts
+  // (static script in index.html fires before React renders the .h-captcha div)
+  useEffect(() => {
+    const scriptId = 'web3forms-script';
+    if (document.getElementById(scriptId)) {
+      // Script already exists — re-trigger hCaptcha render if available
+      if (window.hcaptcha) window.hcaptcha.render();
+      return;
+    }
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.src = 'https://web3forms.com/client/script.js';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
