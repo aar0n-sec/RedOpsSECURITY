@@ -419,7 +419,7 @@ body:hover #cursor {
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: var(--dark);
+  background: var(--bg-warm);
 }
 
 #hero-canvas {
@@ -465,8 +465,8 @@ body:hover #cursor {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(196, 69, 54, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(196, 69, 54, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(196, 69, 54, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196, 69, 54, 0.06) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
 }
@@ -489,8 +489,8 @@ body:hover #cursor {
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--dark-soft);
+  border: 1px solid var(--border);
   padding: 6px 14px;
   margin-bottom: 36px;
   opacity: 0;
@@ -523,7 +523,7 @@ body:hover #cursor {
   font-size: clamp(64px, 9vw, 128px);
   line-height: 0.88;
   letter-spacing: -0.02em;
-  color: var(--white);
+  color: var(--dark);
   margin-bottom: 36px;
 }
 
@@ -596,7 +596,7 @@ body:hover #cursor {
   font-size: 17px;
   font-weight: 400;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--dark-soft);
   max-width: 520px;
   margin-bottom: 48px;
   opacity: 0;
@@ -630,13 +630,13 @@ body:hover #cursor {
   font-size: 9px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--dark-soft);
 }
 
 .scroll-line {
   width: 1px;
   height: 40px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(to bottom, var(--dark-soft), transparent);
   animation: scrollDrop 1.5s ease-in-out infinite;
 }
 
@@ -847,10 +847,12 @@ body:hover #cursor {
 
 /* --- SERVICES SECTION --- */
 .services-section {
-  background: var(--dark);
+  background: var(--bg);
   padding: 140px 48px;
   position: relative;
   overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .services-section .section-tag {
@@ -862,7 +864,7 @@ body:hover #cursor {
 }
 
 .services-section .section-title {
-  color: var(--white);
+  color: var(--dark);
 }
 
 .services-bg-text {
@@ -872,7 +874,7 @@ body:hover #cursor {
   font-family: var(--display);
   font-weight: 900;
   font-size: 220px;
-  color: rgba(255, 255, 255, 0.02);
+  color: rgba(26, 26, 26, 0.03);
   pointer-events: none;
   letter-spacing: -0.05em;
   line-height: 1;
@@ -898,7 +900,7 @@ body:hover #cursor {
 .services-header p {
   max-width: 320px;
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--dark-soft);
   line-height: 1.65;
 }
 
@@ -909,8 +911,8 @@ body:hover #cursor {
 }
 
 .service-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   padding: 48px 40px;
   position: relative;
   overflow: hidden;
@@ -921,15 +923,15 @@ body:hover #cursor {
 
 .service-card:hover {
   transform: translateY(-8px) scale(1.01);
-  border-color: rgba(196, 69, 54, 0.35);
-  background: rgba(255, 255, 255, 0.055);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), 0 0 30px var(--red-glow);
+  border-color: var(--border-red);
+  background: var(--white);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08), 0 0 30px var(--red-glow);
 }
 
 .service-card-number {
   font-family: var(--mono);
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(26, 26, 26, 0.25);
   letter-spacing: 0.2em;
   margin-bottom: 32px;
 }
@@ -950,7 +952,7 @@ body:hover #cursor {
   font-family: var(--display);
   font-weight: 700;
   font-size: 28px;
-  color: var(--white);
+  color: var(--dark);
   margin-bottom: 14px;
   letter-spacing: -0.01em;
 }
@@ -958,7 +960,7 @@ body:hover #cursor {
 .service-card p {
   font-size: 14.5px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--dark-soft);
   margin-bottom: 28px;
 }
 
@@ -973,8 +975,8 @@ body:hover #cursor {
   font-size: 9.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--dark-soft);
+  border: 1px solid var(--border);
   padding: 5px 12px;
   transition: color 0.2s, border-color 0.2s;
 }
@@ -990,12 +992,12 @@ body:hover #cursor {
   right: 40px;
   width: 36px;
   height: 36px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--dark-soft);
   transition: all 0.3s ease;
 }
 
@@ -1276,18 +1278,19 @@ body:hover #cursor {
    ===== PAGE: SERVICES =====
    ========================================== */
 .page-hero {
-  background: var(--dark);
+  background: var(--bg-warm);
   padding: 160px 48px 100px;
   position: relative;
   overflow: hidden;
+  border-bottom: 1px solid var(--border);
 }
 
 .page-hero-grid {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(196, 69, 54, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(196, 69, 54, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(196, 69, 54, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196, 69, 54, 0.06) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -1299,11 +1302,11 @@ body:hover #cursor {
 }
 
 .page-hero .section-tag {
-  color: rgba(196, 69, 54, 0.75);
+  color: var(--red);
 }
 
 .page-hero .section-tag::before {
-  background: rgba(196, 69, 54, 0.75);
+  background: var(--red);
 }
 
 .page-hero-title {
@@ -1311,7 +1314,7 @@ body:hover #cursor {
   font-weight: 900;
   font-size: clamp(56px, 7vw, 100px);
   line-height: 0.9;
-  color: var(--white);
+  color: var(--dark);
   letter-spacing: -0.02em;
   margin-bottom: 24px;
 }
@@ -1319,7 +1322,7 @@ body:hover #cursor {
 .page-hero-sub {
   max-width: 700px;
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--dark-soft);
   line-height: 1.7;
 }
 
@@ -1670,10 +1673,11 @@ body:hover #cursor {
    ===== PAGE: SERVICE DETAIL =====
    ========================================== */
 .sd-hero {
-  background: var(--dark);
+  background: var(--bg-warm);
   padding: 140px 48px 80px;
   position: relative;
   overflow: hidden;
+  border-bottom: 1px solid var(--border);
 }
 
 .sd-hero-inner {
@@ -1691,7 +1695,7 @@ body:hover #cursor {
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--dark-soft);
   margin-bottom: 32px;
   transition: color 0.2s;
 }
@@ -1705,14 +1709,14 @@ body:hover #cursor {
   font-weight: 900;
   font-size: clamp(48px, 7vw, 88px);
   line-height: 0.92;
-  color: var(--white);
+  color: var(--dark);
   letter-spacing: -0.02em;
   margin-bottom: 20px;
 }
 
 .sd-hero-subtitle {
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--dark-soft);
   line-height: 1.6;
   max-width: 560px;
 }
@@ -2056,10 +2060,11 @@ body:hover #cursor {
    ===== PAGE: ABOUT =====
    ========================================== */
 .about-mission {
-  background: var(--dark);
+  background: var(--bg-warm);
   padding: 140px 48px;
   position: relative;
   overflow: hidden;
+  border-bottom: 1px solid var(--border);
 }
 
 .about-mission-inner {
@@ -2072,14 +2077,14 @@ body:hover #cursor {
 }
 
 .about-mission .section-title {
-  color: var(--white);
+  color: var(--dark);
   font-size: clamp(44px, 5vw, 72px);
   margin-bottom: 28px;
 }
 
 .about-mission p {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--dark-soft);
   line-height: 1.75;
   margin-bottom: 20px;
 }
@@ -2313,11 +2318,12 @@ body:hover #cursor {
 }
 
 .csi-header {
-  background: var(--dark);
+  background: var(--bg-warm);
   padding: 36px 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid var(--border);
 }
 
 .csi-badge {
@@ -2334,13 +2340,13 @@ body:hover #cursor {
   font-family: var(--display);
   font-weight: 800;
   font-size: 32px;
-  color: var(--white);
+  color: var(--dark);
   margin-bottom: 8px;
 }
 
 .csi-sub {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--dark-soft);
   font-family: var(--mono);
 }
 
@@ -2465,12 +2471,13 @@ body:hover #cursor {
 
 .rc-image {
   height: 180px;
-  background: var(--dark);
+  background: var(--bg-warm);
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid var(--border);
 }
 
 .rc-image-pattern {
@@ -2485,7 +2492,7 @@ body:hover #cursor {
 .rc-image-icon {
   position: relative;
   z-index: 1;
-  color: rgba(255, 255, 255, 0.15);
+  color: rgba(26, 26, 26, 0.12);
 }
 
 .rc-image-icon svg {
@@ -2561,25 +2568,26 @@ body:hover #cursor {
 }
 
 .resources-newsletter {
-  background: var(--dark);
+  background: var(--bg-warm);
   padding: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 60px;
+  border: 1px solid var(--border);
 }
 
 .rn-title {
   font-family: var(--display);
   font-weight: 800;
   font-size: 36px;
-  color: var(--white);
+  color: var(--dark);
   margin-bottom: 8px;
 }
 
 .rn-sub {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--dark-soft);
 }
 
 .rn-form {
@@ -2591,10 +2599,10 @@ body:hover #cursor {
 .rn-input {
   font-family: var(--mono);
   font-size: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--white);
+  border: 1px solid var(--border);
   border-right: none;
-  color: white;
+  color: var(--dark);
   padding: 14px 20px;
   width: 280px;
   outline: none;
@@ -2602,11 +2610,11 @@ body:hover #cursor {
 }
 
 .rn-input::placeholder {
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(26, 26, 26, 0.3);
 }
 
 .rn-input:focus {
-  border-color: rgba(196, 69, 54, 0.5);
+  border-color: var(--red);
 }
 
 .rn-btn {
@@ -2637,13 +2645,14 @@ body:hover #cursor {
 }
 
 .contact-left {
-  background: var(--dark);
+  background: var(--bg-warm);
   padding: 100px 72px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  border-right: 1px solid var(--border);
 }
 
 .contact-left-grid {
@@ -2665,7 +2674,7 @@ body:hover #cursor {
   font-weight: 900;
   font-size: clamp(44px, 5vw, 72px);
   line-height: 0.9;
-  color: var(--white);
+  color: var(--dark);
   margin-bottom: 28px;
   letter-spacing: -0.02em;
 }
@@ -2678,7 +2687,7 @@ body:hover #cursor {
 
 .contact-sub {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--dark-soft);
   line-height: 1.7;
   margin-bottom: 56px;
   max-width: 420px;
@@ -2695,15 +2704,15 @@ body:hover #cursor {
   align-items: center;
   gap: 14px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--dark-soft);
 }
 
 .cp-check {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(196, 69, 54, 0.2);
-  border: 1px solid rgba(196, 69, 54, 0.3);
+  background: rgba(196, 69, 54, 0.1);
+  border: 1px solid rgba(196, 69, 54, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2803,9 +2812,10 @@ body:hover #cursor {
    FOOTER
    ========================================== */
 footer {
-  background: #111111;
+  background: var(--bg-warm);
   padding: 80px 48px 40px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--dark-soft);
+  border-top: 1px solid var(--border);
 }
 
 .footer-inner {
@@ -2818,12 +2828,12 @@ footer {
   grid-template-columns: 1.5fr 1fr 1fr 1fr;
   gap: 60px;
   padding-bottom: 60px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--border);
   margin-bottom: 40px;
 }
 
 .footer-brand .nav-logo-text {
-  color: white;
+  color: var(--dark);
   font-size: 20px;
 }
 
@@ -2831,7 +2841,7 @@ footer {
   font-size: 13.5px;
   line-height: 1.65;
   margin-top: 16px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--dark-soft);
 }
 
 .footer-col-title {
@@ -2839,7 +2849,7 @@ footer {
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--dark);
   margin-bottom: 20px;
 }
 
@@ -2852,12 +2862,12 @@ footer {
 
 .footer-links a {
   font-size: 13.5px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--dark-soft);
   transition: color 0.2s;
 }
 
 .footer-links a:hover {
-  color: white;
+  color: var(--red);
 }
 
 .footer-bottom {
@@ -2870,7 +2880,7 @@ footer {
   font-family: var(--mono);
   font-size: 10.5px;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(26, 26, 26, 0.35);
 }
 
 .footer-legal {
@@ -2882,12 +2892,12 @@ footer {
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(26, 26, 26, 0.35);
   transition: color 0.2s;
 }
 
 .footer-legal a:hover {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--red);
 }
 
 /* ==========================================
@@ -3249,7 +3259,7 @@ footer {
 
   .rn-input {
     width: 100%;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid var(--border);
     border-bottom: none;
   }
 

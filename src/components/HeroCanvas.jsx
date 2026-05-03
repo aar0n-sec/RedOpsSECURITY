@@ -23,7 +23,7 @@ const HeroCanvas = () => {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(initialSize.width, initialSize.height);
-    renderer.setClearColor(0x1a1a1a, 1);
+    renderer.setClearColor(0xEDE9E1, 1);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, initialSize.width / initialSize.height, 0.1, 1000);
@@ -106,7 +106,7 @@ const HeroCanvas = () => {
       nodePositions.push(new THREE.Vector3(x, y, z));
 
       const nodeMat = new THREE.MeshBasicMaterial({
-        color: Math.random() > 0.7 ? 0xC44536 : 0xffffff,
+        color: Math.random() > 0.7 ? 0xC44536 : 0x1A1A1A,
         transparent: true,
         opacity: Math.random() * 0.5 + 0.3
       });
@@ -142,7 +142,7 @@ const HeroCanvas = () => {
     }
     const particleGeo = new THREE.BufferGeometry();
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-    const particleMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.025, transparent: true, opacity: 0.3 });
+    const particleMat = new THREE.PointsMaterial({ color: 0x1A1A1A, size: 0.025, transparent: true, opacity: 0.15 });
     scene.add(new THREE.Points(particleGeo, particleMat));
 
     // Mouse parallax
