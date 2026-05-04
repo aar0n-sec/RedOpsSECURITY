@@ -1,7 +1,0 @@
-# robots.txt for RedOps Security
-# https://redops.in
-
-User-agent: *
-Allow: /
-
-Sitemap: https://redops.in/sitemap.xml
