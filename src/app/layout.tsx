@@ -1,13 +1,14 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import Script from 'next/script';
 import '../index.css';
 import { ThemeProvider } from '@/context/ThemeContext';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { OG_IMAGE_URL, SITE_NAME, SITE_URL } from '@/seo';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://redops.in'),
+  metadataBase: new URL(SITE_URL),
   title: 'RedOps Security - Offensive Security & Penetration Testing',
   description:
     'RedOps Security delivers elite penetration testing, vulnerability assessments, and offensive security services that expose real-world attack surfaces before adversaries do.',
@@ -17,13 +18,18 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'RedOps Security',
-  url: 'https://redops.in',
-  logo: 'https://redops.in/logo-shield.png',
-  image: 'https://redops.in/og-image.png',
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: `${SITE_URL}/favicon.png`,
+  image: OG_IMAGE_URL,
   description:
     'RedOps Security delivers penetration testing, vulnerability assessments, red team operations, cloud security assessments, and cybersecurity compliance services.',
   areaServed: 'Global',

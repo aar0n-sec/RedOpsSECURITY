@@ -12,6 +12,7 @@ type SeoEntry = {
 
 export const SITE_URL = 'https://redops.in';
 export const SITE_NAME = 'RedOps Security';
+export const OG_IMAGE_URL = `${SITE_URL}/og-image.png`;
 
 const SEO_DATA: Record<string, SeoEntry> = {
   '/': {
@@ -91,7 +92,7 @@ const DEFAULT_SEO: SeoEntry = {
   title: 'RedOps Security - Offensive Security & Penetration Testing',
   description: 'RedOps Security delivers elite penetration testing, vulnerability assessments, and offensive security services that expose real-world attack surfaces before adversaries do.',
   keywords: 'penetration testing, offensive security, cybersecurity',
-  image: 'https://redops.in/og-image.png', // Fallback OG image
+  image: OG_IMAGE_URL,
 };
 
 export function getSeoForRoute(path: string): SeoEntry {
@@ -101,7 +102,7 @@ export function getSeoForRoute(path: string): SeoEntry {
 export function createPageMetadata(path: string): Metadata {
   const seo = getSeoForRoute(path);
   const url = path === '/' ? '/' : path;
-  const image = seo.image || DEFAULT_SEO.image;
+  const image = seo.image || DEFAULT_SEO.image || OG_IMAGE_URL;
 
   return {
     title: seo.title,
@@ -132,13 +133,22 @@ export function createPageMetadata(path: string): Metadata {
       url,
       type: 'website',
       siteName: 'RedOps Security',
-      images: image ? [image] : undefined,
+      locale: 'en_US',
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: `${SITE_NAME} - Offensive Security & Penetration Testing`,
+          type: 'image/png',
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: seo.title,
       description: seo.description,
-      images: image ? [image] : undefined,
+      images: [image],
     },
   };
 }
