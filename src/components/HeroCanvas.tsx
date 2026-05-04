@@ -66,6 +66,7 @@ const HeroCanvas = () => {
     // Texture Loader
     const textureLoader = new THREE.TextureLoader();
     const earthMap = textureLoader.load('/earth_texture.jpg');
+    earthMap.flipY = false;
     const earthSpecular = textureLoader.load('/earth_specular.jpg');
     const earthNormal = textureLoader.load('/earth_normal.jpg');
     

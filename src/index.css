@@ -145,7 +145,8 @@ body:hover #cursor {
 
 .nav-logo-img {
   height: 48px;
-  width: auto;
+  width: 176px;
+  object-fit: contain;
 }
 
 .nav-logo-icon {
@@ -2887,6 +2888,13 @@ footer {
   color: var(--dark-soft);
 }
 
+.footer-logo-img {
+  width: 235px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
 .footer-col-title {
   font-family: var(--mono);
   font-size: 10px;
@@ -3008,6 +3016,7 @@ footer {
 
   .nav-logo-img {
     height: 42px;
+    width: 154px;
   }
 
   .nav-links,
@@ -3523,6 +3532,7 @@ footer {
 
   .nav-logo-img {
     height: 38px;
+    width: 139px;
   }
 
   .btn-primary,

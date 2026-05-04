@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import logoFull from '../assets/logo-full.png';
-import logoDark from '../assets/logo-dark.png';
+import logoDark from '../assets/logo-dark-theme.png';
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);

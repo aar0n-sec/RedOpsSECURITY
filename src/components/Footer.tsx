@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from '../context/ThemeContext';
 import logoFull from '../assets/logo-full.png';
-import logoDark from '../assets/logo-dark.png';
+import logoDark from '../assets/logo-dark-theme.png';
 
 const Footer = () => {
   const { theme } = useTheme();
@@ -14,7 +14,7 @@ const Footer = () => {
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
-            <Image src={theme === 'light' ? logoFull : logoDark} alt="RedOps Security" style={{ height: '64px', width: 'auto', marginBottom: '16px' }} />
+            <Image className="footer-logo-img" src={theme === 'light' ? logoFull : logoDark} alt="RedOps Security" />
             <p>Securing your digital frontiers with elite intelligence.</p>
           </div>
           <div>
