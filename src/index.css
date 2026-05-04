@@ -424,6 +424,7 @@ body:hover #cursor {
   opacity: 0;
   transform: translateY(32px);
   transition: opacity 0.7s ease, transform 0.7s ease;
+  height: 100%;
 }
 
 .reveal.visible {
@@ -955,6 +956,9 @@ body:hover #cursor {
 }
 
 .service-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 48px 40px;
@@ -1402,6 +1406,7 @@ body:hover #cursor {
 .svcs-card {
   display: flex;
   flex-direction: column;
+  height: 100%;
   background: var(--bg-card);
   border: 1px solid var(--border);
   position: relative;
@@ -1417,14 +1422,26 @@ body:hover #cursor {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.1), 0 0 30px rgba(196, 69, 54, 0.08);
 }
 
-.svcs-card-terminal {
-  background: var(--dark);
-  padding: 20px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  position: relative;
+/* Window controls */
+.svcs-term-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.svcs-card-terminal::before {
+.svcs-card-icon-wrap {
+  background: #1A1A1A; /* Fixed dark background */
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--red);
+  position: relative;
+  overflow: hidden;
+}
+
+.svcs-card-icon-wrap::before {
   content: '';
   position: absolute;
   top: 0;
@@ -1434,58 +1451,34 @@ body:hover #cursor {
   background: var(--red);
 }
 
-.svcs-card-terminal-header {
+.svcs-card-icon-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.svcs-term-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+.svcs-card-icon-wrap svg {
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: drop-shadow(0 0 10px rgba(196, 69, 54, 0.3));
+  margin-top: 20px; /* Offset for the header */
 }
 
-.svcs-term-filename {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.12em;
-  margin-left: 4px;
-}
-
-.svcs-card-terminal-body {
-  font-family: var(--mono);
-  font-size: 11.5px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.65);
-}
-
-.sc-code-line {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.svcs-card:hover .svcs-card-icon-wrap svg {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(196, 69, 54, 0.6));
 }
 
 .svcs-card-content {
   padding: 28px 28px 48px;
   flex: 1;
-}
-
-.svcs-card-title {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 26px;
-  margin-bottom: 12px;
-  color: var(--dark);
-  transition: color 0.2s;
-}
-
-.svcs-card:hover .svcs-card-title {
-  color: var(--red);
+  display: flex;
+  flex-direction: column;
 }
 
 .svcs-card-desc {
@@ -1493,6 +1486,7 @@ body:hover #cursor {
   color: var(--dark-soft);
   line-height: 1.65;
   margin-bottom: 20px;
+  flex: 1; /* Push features to bottom */
 }
 
 .svcs-card-features {
@@ -1500,6 +1494,7 @@ body:hover #cursor {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  margin-top: auto;
 }
 
 .svcs-card-features li {
@@ -1589,8 +1584,34 @@ body:hover #cursor {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
 }
 
-.svcs-dev-terminal {
-  border-bottom: none;
+.svcs-dev-card-icon {
+  background: #1A1A1A; /* Fixed dark background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--red);
+  position: relative;
+  min-height: 240px;
+}
+
+.svcs-dev-card-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--red);
+}
+
+.svcs-dev-card-icon svg {
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: drop-shadow(0 0 10px rgba(196, 69, 54, 0.3));
+}
+
+.svcs-dev-card:hover .svcs-dev-card-icon svg {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(196, 69, 54, 0.6));
 }
 
 .svcs-dev-card-content {
@@ -1598,6 +1619,7 @@ body:hover #cursor {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex: 1;
 }
 
 .svcs-dev-card-content .svcs-card-title {
@@ -1663,6 +1685,7 @@ body:hover #cursor {
   background: var(--bg-card);
   border: 1px solid var(--border);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  height: 100%;
 }
 
 .svcs-process-step:hover {
@@ -1711,6 +1734,7 @@ body:hover #cursor {
   font-size: 13px;
   color: var(--dark-soft);
   line-height: 1.55;
+  flex: 1;
 }
 
 /* ==========================================
@@ -1778,7 +1802,7 @@ body:hover #cursor {
 }
 
 .sd-terminal-card {
-  background: var(--dark);
+  background: #1A1A1A; /* Fixed dark background */
   border-radius: 2px;
   overflow: hidden;
   position: relative;
@@ -1813,6 +1837,12 @@ body:hover #cursor {
 .sd-code-line {
   white-space: pre-wrap;
 }
+
+.code-comment { color: #6A9955; }
+.code-blue { color: #569CD6; }
+.code-green { color: #B5CEA8; }
+.code-yellow { color: #DCDCAA; }
+.code-red { color: #F44747; }
 
 /* Content section */
 .sd-content-section {
@@ -3702,8 +3732,8 @@ footer {
     padding: 24px 20px 40px;
   }
 
-  .svcs-card-terminal-body {
-    font-size: 10px;
+  .svcs-card-icon-wrap {
+    padding: 32px 20px;
   }
 
   .svcs-card-title {

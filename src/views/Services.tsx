@@ -1,15 +1,19 @@
 import Link from 'next/link';
 import Reveal from '../components/Reveal';
-
-type CodeLine = {
-  type: 'comment' | 'keyword' | 'cmd' | 'normal' | 'info' | 'success' | 'warning' | 'error';
-  text: string;
-};
+import { 
+  Network, 
+  Smartphone, 
+  Globe, 
+  Cloud, 
+  ShieldAlert, 
+  ClipboardCheck, 
+  ShieldCheck, 
+  Code2 
+} from 'lucide-react';
 
 type ServiceCard = {
   slug: string;
-  filename: string;
-  code: CodeLine[];
+  icon: React.ReactNode;
   title: string;
   description: string;
   features: string[];
@@ -19,13 +23,7 @@ const Services = () => {
   const offensiveServices: ServiceCard[] = [
     {
       slug: 'vapt',
-      filename: 'nmap-scan.sh',
-      code: [
-        { type: 'comment', text: '// Running internal network scan' },
-        { type: 'cmd', text: 'nmap -sS -p- 10.0.0.1/24' },
-        { type: 'info', text: '[*] Open port 445' },
-        { type: 'success', text: '[+] Exploiting MS17-010' },
-      ],
+      icon: <Network size={32} strokeWidth={1.5} />,
       title: 'Network VAPT',
       description: 'We execute military-grade black-box, gray-box, and white-box penetration tests across your entire external perimeter and internal networks. Discover hidden misconfigurations, unpatched zero-days, and internal pivot points before the adversaries do.',
       features: [
@@ -39,13 +37,7 @@ const Services = () => {
     },
     {
       slug: 'mobile-pentest',
-      filename: 'frida-hook.js',
-      code: [
-        { type: 'keyword', text: 'Java.perform(' },
-        { type: 'comment', text: '// Bypass SSL Pinning' },
-        { type: 'success', text: "  console.log('[*] Bypassed');" },
-        { type: 'normal', text: '});' },
-      ],
+      icon: <Smartphone size={32} strokeWidth={1.5} />,
       title: 'Mobile Application Security',
       description: 'Comprehensive dynamic and static analysis (DAST/SAST) of iOS and Android applications. We reverse-engineer APKs and IPAs to find hardcoded secrets, insecure APIs, and bypass jailbreak detections.',
       features: [
@@ -59,13 +51,7 @@ const Services = () => {
     },
     {
       slug: 'web-pentest',
-      filename: 'burp-suite.txt',
-      code: [
-        { type: 'cmd', text: 'POST /api/v1/profile HTTP/1.1' },
-        { type: 'normal', text: '' },
-        { type: 'warning', text: "{'role': 'admin'}" },
-        { type: 'success', text: '[+] Privilege escalated to ADMIN' },
-      ],
+      icon: <Globe size={32} strokeWidth={1.5} />,
       title: 'Web Application Penetration',
       description: 'Deep manual testing of complex web applications. We go beyond automated scanners to chain vulnerabilities like SSRF, XSS, and IDOR, demonstrating critical business impact and data exfiltration scenarios.',
       features: [
@@ -79,12 +65,7 @@ const Services = () => {
     },
     {
       slug: 'cloud-security',
-      filename: 'aws-enum.sh',
-      code: [
-        { type: 'cmd', text: 'aws s3 ls --profile pentest' },
-        { type: 'warning', text: '[!] Public Bucket Found' },
-        { type: 'info', text: '[*] Dumping sensitive IAM keys...' },
-      ],
+      icon: <Cloud size={32} strokeWidth={1.5} />,
       title: 'Cloud Security Assessments',
       description: 'In-depth architectural reviews and penetration testing across AWS, Azure, and GCP environments. We identify IAM misconfigurations, exposed storage, and container escape vectors to secure your cloud-native infrastructure.',
       features: [
@@ -98,12 +79,7 @@ const Services = () => {
     },
     {
       slug: 'red-teaming',
-      filename: 'c2-beacon.py',
-      code: [
-        { type: 'keyword', text: 'import cobaltstrike' },
-        { type: 'success', text: '[+] Beacon active (PID: 1337)' },
-        { type: 'info', text: '[*] Establishing persistent C2 tunnel' },
-      ],
+      icon: <ShieldAlert size={32} strokeWidth={1.5} />,
       title: 'Red Teaming Operations',
       description: "Full-spectrum, objective-based adversarial simulations. We test your Blue Team's detection and response capabilities by deploying advanced social engineering, physical intrusion tactics, and stealthy malware.",
       features: [
@@ -117,12 +93,7 @@ const Services = () => {
     },
     {
       slug: 'grc',
-      filename: 'audit.ts',
-      code: [
-        { type: 'keyword', text: "await checkControls('SOC2');" },
-        { type: 'success', text: '[+] 144/145 Controls passed.' },
-        { type: 'warning', text: '[!] S3 bucket misconfigured.' },
-      ],
+      icon: <ClipboardCheck size={32} strokeWidth={1.5} />,
       title: 'GRC & Compliance',
       description: 'Governance, Risk, and Compliance alignment tailored for fast-moving tech companies. We translate complex technical risks into boardroom-ready metrics, bridging the gap between security engineering and executive strategy.',
       features: [
@@ -136,12 +107,7 @@ const Services = () => {
     },
     {
       slug: 'iso',
-      filename: 'isms.js',
-      code: [
-        { type: 'cmd', text: "runAudit('ISO_27001');" },
-        { type: 'success', text: '[+] Policies Validated' },
-        { type: 'info', text: '[*] Ready for Stage 2 Audit.' },
-      ],
+      icon: <ShieldCheck size={32} strokeWidth={1.5} />,
       title: 'ISO 27001 Implementation',
       description: 'From zero to full certification. We guide you through building a robust ISMS, defining exact scopes, conducting rigorous internal audits, and preparing your organization to flawlessly defend against the final Stage 2 certification.',
       features: [
@@ -157,12 +123,7 @@ const Services = () => {
 
   const devService: ServiceCard = {
     slug: 'webdev',
-    filename: 'next.config.js',
-    code: [
-      { type: 'normal', text: 'headers: [' },
-      { type: 'normal', text: "  { key: 'X-XSS-Protection', value: '1; mode=block' }" },
-      { type: 'normal', text: ']' },
-    ],
+    icon: <Code2 size={40} strokeWidth={1.5} />,
     title: 'Secure Development Lifecycle (SDLC)',
     description: 'We build Next.js, React, and Node.js applications tailored to your exact business needs. Every line of code is reviewed by our offensive security team, ensuring your application is immune to common web vectors before it even hits production.',
     features: [
@@ -223,27 +184,6 @@ const Services = () => {
     },
   ];
 
-  const renderCodeLine = (line: CodeLine, i: number) => {
-    switch (line.type) {
-      case 'comment':
-        return <div key={i} className="sc-code-line"><span className="code-comment">{line.text}</span></div>;
-      case 'keyword':
-        return <div key={i} className="sc-code-line"><span className="code-blue">{line.text}</span></div>;
-      case 'cmd':
-        return <div key={i} className="sc-code-line"><span className="code-green">{line.text}</span></div>;
-      case 'info':
-        return <div key={i} className="sc-code-line"><span className="code-blue">{line.text}</span></div>;
-      case 'success':
-        return <div key={i} className="sc-code-line"><span className="code-green">{line.text}</span></div>;
-      case 'warning':
-        return <div key={i} className="sc-code-line"><span className="code-yellow">{line.text}</span></div>;
-      case 'error':
-        return <div key={i} className="sc-code-line"><span className="code-red">{line.text}</span></div>;
-      default:
-        return <div key={i} className="sc-code-line">{line.text}</div>;
-    }
-  };
-
   return (
     <div className="page active" id="page-services">
       <div style={{ height: 'var(--nav-h)' }}></div>
@@ -272,16 +212,13 @@ const Services = () => {
             {offensiveServices.map((svc) => (
               <Reveal key={svc.slug}>
                 <Link href={`/services/${svc.slug}`} className="svcs-card">
-                  <div className="svcs-card-terminal">
-                    <div className="svcs-card-terminal-header">
+                  <div className="svcs-card-icon-wrap">
+                    <div className="svcs-card-icon-header">
                       <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
                       <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
                       <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
-                      <span className="svcs-term-filename">{svc.filename}</span>
                     </div>
-                    <div className="svcs-card-terminal-body">
-                      {svc.code.map((line, i) => renderCodeLine(line, i))}
-                    </div>
+                    {svc.icon}
                   </div>
                   <div className="svcs-card-content">
                     <h3 className="svcs-card-title">{svc.title}</h3>
@@ -316,16 +253,13 @@ const Services = () => {
 
           <Reveal>
             <Link href={`/services/${devService.slug}`} className="svcs-dev-card">
-              <div className="svcs-card-terminal svcs-dev-terminal">
-                <div className="svcs-card-terminal-header">
+              <div className="svcs-dev-card-icon">
+                <div className="svcs-card-icon-header">
                   <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
                   <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
                   <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
-                  <span className="svcs-term-filename">{devService.filename}</span>
                 </div>
-                <div className="svcs-card-terminal-body">
-                  {devService.code.map((line, i) => renderCodeLine(line, i))}
-                </div>
+                {devService.icon}
               </div>
               <div className="svcs-dev-card-content">
                 <h3 className="svcs-card-title">{devService.title}</h3>

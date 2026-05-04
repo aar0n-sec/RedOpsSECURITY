@@ -135,95 +135,123 @@ const Home = () => {
 
           <div className="service-cards">
             {/* Card 1 */}
-            <Reveal className="service-card">
-              <div className="service-card-number">01</div>
-              <div className="service-card-icon">
-                <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="6" y="8" width="36" height="26" rx="2" />
-                  <path d="M16 34v6M32 34v6M12 40h24" />
-                  <path d="M14 20l5 5 10-10" />
-                </svg>
-              </div>
-              <div className="service-card-title">Web Application Pentesting</div>
-              <p>Deep-dive manual testing following OWASP methodology and beyond. We identify injection flaws, auth bypasses, business logic vulnerabilities, and race conditions.</p>
-              <div className="service-card-tags">
-                <span className="service-tag">OWASP Top 10</span>
-                <span className="service-tag">Auth Bypass</span>
-                <span className="service-tag">API Security</span>
-                <span className="service-tag">Race Conditions</span>
-              </div>
-              <div className="service-card-arrow">
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-              </div>
+            <Reveal>
+              <Link href="/services/web-pentest" className="service-card">
+                <div className="svcs-card-icon-header" style={{ position: 'relative', padding: '0 0 20px 0', borderBottom: 'none' }}>
+                  <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
+                  <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
+                  <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
+                </div>
+                <div className="service-card-number">01</div>
+                <div className="service-card-icon">
+                  <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="6" y="8" width="36" height="26" rx="2" />
+                    <path d="M16 34v6M32 34v6M12 40h24" />
+                    <path d="M14 20l5 5 10-10" />
+                  </svg>
+                </div>
+                <div className="service-card-title">Web Application Pentesting</div>
+                <p style={{ flex: 1 }}>Deep-dive manual testing following OWASP methodology and beyond. We identify injection flaws, auth bypasses, business logic vulnerabilities, and race conditions.</p>
+                <div className="service-card-tags" style={{ marginTop: '20px' }}>
+                  <span className="service-tag">OWASP Top 10</span>
+                  <span className="service-tag">Auth Bypass</span>
+                  <span className="service-tag">API Security</span>
+                  <span className="service-tag">Race Conditions</span>
+                </div>
+                <div className="service-card-arrow">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </div>
+              </Link>
             </Reveal>
 
             {/* Card 2 */}
-            <Reveal className="service-card" delay={1}>
-              <div className="service-card-number">02</div>
-              <div className="service-card-icon">
-                <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="14" y="4" width="20" height="34" rx="3" />
-                  <path d="M18 8h12M21 34h6" />
-                  <path d="M20 16l3 3 6-6" />
-                </svg>
-              </div>
-              <div className="service-card-title">Mobile Security Testing</div>
-              <p>iOS and Android application security assessments covering static analysis, dynamic instrumentation, traffic interception, and insecure data storage patterns.</p>
-              <div className="service-card-tags">
-                <span className="service-tag">iOS / Android</span>
-                <span className="service-tag">OWASP MASVS</span>
-                <span className="service-tag">Frida</span>
-                <span className="service-tag">SSL Pinning</span>
-              </div>
-              <div className="service-card-arrow">
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-              </div>
+            <Reveal delay={1}>
+              <Link href="/services/mobile-pentest" className="service-card">
+                <div className="svcs-card-icon-header" style={{ position: 'relative', padding: '0 0 20px 0', borderBottom: 'none' }}>
+                  <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
+                  <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
+                  <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
+                </div>
+                <div className="service-card-number">02</div>
+                <div className="service-card-icon">
+                  <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="14" y="4" width="20" height="34" rx="3" />
+                    <path d="M18 8h12M21 34h6" />
+                    <path d="M20 16l3 3 6-6" />
+                  </svg>
+                </div>
+                <div className="service-card-title">Mobile Security Testing</div>
+                <p style={{ flex: 1 }}>iOS and Android application security assessments covering static analysis, dynamic instrumentation, traffic interception, and insecure data storage patterns.</p>
+                <div className="service-card-tags" style={{ marginTop: '20px' }}>
+                  <span className="service-tag">iOS / Android</span>
+                  <span className="service-tag">OWASP MASVS</span>
+                  <span className="service-tag">Frida</span>
+                  <span className="service-tag">SSL Pinning</span>
+                </div>
+                <div className="service-card-arrow">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </div>
+              </Link>
             </Reveal>
 
             {/* Card 3 */}
-            <Reveal className="service-card" delay={2}>
-              <div className="service-card-number">03</div>
-              <div className="service-card-icon">
-                <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
-                  <circle cx="24" cy="24" r="18" />
-                  <circle cx="24" cy="24" r="6" />
-                  <path d="M24 6v4M24 38v4M6 24h4M38 24h4M10.93 10.93l2.83 2.83M34.24 34.24l2.83 2.83M10.93 37.07l2.83-2.83M34.24 13.76l2.83-2.83" />
-                </svg>
-              </div>
-              <div className="service-card-title">Infrastructure & Network Testing</div>
-              <p>External and internal network penetration testing. We identify lateral movement paths, privilege escalation routes, and critical asset exposures.</p>
-              <div className="service-card-tags">
-                <span className="service-tag">Active Directory</span>
-                <span className="service-tag">Cloud (AWS/Azure)</span>
-                <span className="service-tag">Lateral Movement</span>
-                <span className="service-tag">Zero Trust</span>
-              </div>
-              <div className="service-card-arrow">
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-              </div>
+            <Reveal delay={2}>
+              <Link href="/services/vapt" className="service-card">
+                <div className="svcs-card-icon-header" style={{ position: 'relative', padding: '0 0 20px 0', borderBottom: 'none' }}>
+                  <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
+                  <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
+                  <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
+                </div>
+                <div className="service-card-number">03</div>
+                <div className="service-card-icon">
+                  <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="24" cy="24" r="18" />
+                    <circle cx="24" cy="24" r="6" />
+                    <path d="M24 6v4M24 38v4M6 24h4M38 24h4M10.93 10.93l2.83 2.83M34.24 34.24l2.83 2.83M10.93 37.07l2.83-2.83M34.24 13.76l2.83-2.83" />
+                  </svg>
+                </div>
+                <div className="service-card-title">Infrastructure & Network Testing</div>
+                <p style={{ flex: 1 }}>External and internal network penetration testing. We identify lateral movement paths, privilege escalation routes, and critical asset exposures.</p>
+                <div className="service-card-tags" style={{ marginTop: '20px' }}>
+                  <span className="service-tag">Active Directory</span>
+                  <span className="service-tag">Cloud (AWS/Azure)</span>
+                  <span className="service-tag">Lateral Movement</span>
+                  <span className="service-tag">Zero Trust</span>
+                </div>
+                <div className="service-card-arrow">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </div>
+              </Link>
             </Reveal>
 
             {/* Card 4 */}
-            <Reveal className="service-card" delay={3}>
-              <div className="service-card-number">04</div>
-              <div className="service-card-icon">
-                <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M8 16h32M8 24h20M8 32h24" />
-                  <path d="M36 28l6 6-6 6" />
-                  <rect x="6" y="8" width="36" height="32" rx="2" />
-                </svg>
-              </div>
-              <div className="service-card-title">Red Team Operations</div>
-              <p>Full-scope adversary simulation. We emulate real threat actors using custom TTPs, physical access attempts, and social engineering campaigns.</p>
-              <div className="service-card-tags">
-                <span className="service-tag">APT Simulation</span>
-                <span className="service-tag">MITRE ATT&CK</span>
-                <span className="service-tag">C2 Frameworks</span>
-                <span className="service-tag">Phishing</span>
-              </div>
-              <div className="service-card-arrow">
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-              </div>
+            <Reveal delay={3}>
+              <Link href="/services/red-teaming" className="service-card">
+                <div className="svcs-card-icon-header" style={{ position: 'relative', padding: '0 0 20px 0', borderBottom: 'none' }}>
+                  <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
+                  <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
+                  <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
+                </div>
+                <div className="service-card-number">04</div>
+                <div className="service-card-icon">
+                  <svg fill="none" viewBox="0 0 48 48" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M8 16h32M8 24h20M8 32h24" />
+                    <path d="M36 28l6 6-6 6" />
+                    <rect x="6" y="8" width="36" height="32" rx="2" />
+                  </svg>
+                </div>
+                <div className="service-card-title">Red Team Operations</div>
+                <p style={{ flex: 1 }}>Full-scope adversary simulation. We emulate real threat actors using custom TTPs, physical access attempts, and social engineering campaigns.</p>
+                <div className="service-card-tags" style={{ marginTop: '20px' }}>
+                  <span className="service-tag">APT Simulation</span>
+                  <span className="service-tag">MITRE ATT&CK</span>
+                  <span className="service-tag">C2 Frameworks</span>
+                  <span className="service-tag">Phishing</span>
+                </div>
+                <div className="service-card-arrow">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </div>
+              </Link>
             </Reveal>
           </div>
 
