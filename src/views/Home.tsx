@@ -71,7 +71,7 @@ const Home = () => {
 
       {/* FRAMEWORKS */}
       <section className="trust-section">
-        <div className="trust-inner" style={{ flexDirection: 'column', gap: '16px', textAlign: 'center' }}>
+        <div className="trust-inner">
           <span className="trust-label">Aligned with real-world attack frameworks</span>
           <div className="trust-logos">
             <span className="trust-logo">MITRE ATT&amp;CK</span>

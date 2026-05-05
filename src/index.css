@@ -767,8 +767,10 @@ body:hover #cursor {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 56px;
+  text-align: center;
+  gap: 24px;
 }
 
 .trust-label {
@@ -777,7 +779,6 @@ body:hover #cursor {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--dark-soft);
-  white-space: nowrap;
   flex-shrink: 0;
 }
 
@@ -3220,8 +3221,16 @@ footer {
 
   .trust-inner {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
+  }
+
+  .trust-label {
+    white-space: normal;
+    line-height: 1.6;
+    max-width: 280px;
+    margin: 0 auto;
   }
 
   .trust-section {
@@ -3231,14 +3240,15 @@ footer {
   }
 
   .trust-logos {
-    width: 100%;
-    max-width: 100vw;
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    margin-right: -20px;
+    padding: 0 20px;
     display: flex;
     flex-wrap: nowrap;
     justify-content: flex-start;
-    gap: 28px;
+    gap: 0;
     overflow-x: auto;
-    mask-image: none;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
