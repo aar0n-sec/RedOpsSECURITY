@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { resourceData } from './data/resources';
 
 // Per-page SEO metadata for Next.js metadata generation
 // Each route gets its own title, description, and OpenGraph tags
@@ -96,6 +97,19 @@ const DEFAULT_SEO: SeoEntry = {
 };
 
 export function getSeoForRoute(path: string): SeoEntry {
+  // Check for dynamic resource routes
+  if (path.startsWith('/resources/')) {
+    const slug = path.split('/').pop();
+    const resource = slug ? resourceData[slug] : null;
+    if (resource) {
+      return {
+        title: `${resource.title} | RedOps Security`,
+        description: resource.excerpt,
+        keywords: `${resource.category.toLowerCase()}, ${resource.title.toLowerCase().replace(/:/g, '')}, security research, red team, pentest`,
+      };
+    }
+  }
+
   return SEO_DATA[path] || DEFAULT_SEO;
 }
 
@@ -131,7 +145,7 @@ export function createPageMetadata(path: string): Metadata {
       title: seo.title,
       description: seo.description,
       url,
-      type: 'website',
+      type: 'article',
       siteName: 'RedOps Security',
       locale: 'en_US',
       images: [
@@ -165,7 +179,7 @@ export function generateMetaTags(path: string) {
     <meta property="og:title" content="${seo.title}">
     <meta property="og:description" content="${seo.description}">
     <meta property="og:url" content="${url}">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="article">
     <meta property="og:site_name" content="RedOps Security">
     <meta property="og:image" content="${image}">
     <meta name="twitter:card" content="summary_large_image">
@@ -176,8 +190,42 @@ export function generateMetaTags(path: string) {
   `;
 }
 
-// All routes to pre-render
-export const ALL_ROUTES = [
+export function generateArticleSchema(path: string) {
+  if (!path.startsWith('/resources/')) return null;
+  
+  const slug = path.split('/').pop();
+  const resource = slug ? resourceData[slug] : null;
+  if (!resource) return null;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    'headline': resource.title,
+    'description': resource.excerpt,
+    'datePublished': resource.date, // Note: ISO format would be better but keeping consistency
+    'author': {
+      '@type': 'Organization',
+      'name': SITE_NAME,
+      'url': SITE_URL
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': SITE_NAME,
+      'logo': {
+        '@type': 'ImageObject',
+        'url': `${SITE_URL}/favicon.png`
+      }
+    },
+    'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}${path}`
+    },
+    'image': OG_IMAGE_URL
+  };
+}
+
+// All static routes
+const STATIC_ROUTES = [
   '/',
   '/services',
   '/services/vapt',
@@ -192,6 +240,12 @@ export const ALL_ROUTES = [
   '/case-studies',
   '/resources',
   '/contact',
+];
+
+// All routes to pre-render (including dynamic ones)
+export const ALL_ROUTES = [
+  ...STATIC_ROUTES,
+  ...Object.keys(resourceData).map(slug => `/resources/${slug}`)
 ];
 
 export default SEO_DATA;
