@@ -165,8 +165,25 @@ const ServiceDetail = ({ slug }: { slug: string }) => {
         </div>
       </div>
 
+      {/* Trust Banner */}
+      <section className="sd-trust-banner" style={{ padding: '20px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-lighter)', textAlign: 'center' }}>
+        <Reveal>
+          <p style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.6, marginBottom: '10px' }}>Securing infrastructure across modern stacks</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap', opacity: 0.5, filter: 'grayscale(100%)', fontFamily: 'var(--font-jetbrains-mono)' }}>
+            <span>AWS</span>
+            <span>Azure</span>
+            <span>GCP</span>
+            <span>Kubernetes</span>
+            <span>React</span>
+            <span>Node.js</span>
+            <span>SOC 2</span>
+            <span>ISO 27001</span>
+          </div>
+        </Reveal>
+      </section>
+
       {/* Overview & Approach */}
-      <section className="sd-content-section" style={{ borderTop: '1px solid var(--border)' }}>
+      <section className="sd-content-section">
         <div className="sd-content-inner">
           <div className="sd-content-grid">
             <div className="sd-content-left">
@@ -200,8 +217,8 @@ const ServiceDetail = ({ slug }: { slug: string }) => {
               </Reveal>
 
               <Reveal>
-                <Link href="/contact" className="btn-primary sd-quote-btn">
-                  <span>Get a Quote for {service.title}</span>
+                <Link href="/contact" className="btn-primary sd-quote-btn" style={{ textAlign: 'center', display: 'block' }}>
+                  <span>Scope Your Assessment</span>
                 </Link>
               </Reveal>
             </div>
@@ -212,10 +229,10 @@ const ServiceDetail = ({ slug }: { slug: string }) => {
       {/* CTA */}
       <section className="home-cta">
         <Reveal className="home-cta-inner">
-          <h2 className="section-title">Ready to<br/>Get Started?</h2>
-          <p>Discuss your security requirements with our team. We'll scope a custom engagement tailored to your needs.</p>
+          <h2 className="section-title">Ready to Test<br/>Your Defenses?</h2>
+          <p>Schedule a scoping call with our senior operators. Free initial attack surface review, tailored scope within 48 hours.</p>
           <Link href="/contact" className="btn-primary btn-pulse" style={{ margin: '0 auto', fontSize: '13px', padding: '18px 48px' }}>
-            <span>Request a Consultation</span>
+            <span>Scope Your Assessment</span>
           </Link>
         </Reveal>
       </section>

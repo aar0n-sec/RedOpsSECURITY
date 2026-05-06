@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@next/font": "^14.2.15",
     "lucide-react": "^1.14.0",
     "next": "^16.0.7",
     "react": "^19.2.5",

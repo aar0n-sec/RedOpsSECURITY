@@ -1,11 +1,33 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import Script from 'next/script';
+import { Barlow_Condensed, Barlow, JetBrains_Mono } from 'next/font/google';
 import '../index.css';
 import { ThemeProvider } from '@/context/ThemeContext';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { OG_IMAGE_URL, SITE_NAME, SITE_URL } from '@/seo';
+
+const barlowCondensed = Barlow_Condensed({
+  weight: ['300', '400', '600', '700', '800', '900'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-barlow-condensed',
+});
+
+const barlow = Barlow({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-barlow',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -46,15 +68,7 @@ const organizationJsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" suppressHydrationWarning className={`${barlowCondensed.variable} ${barlow.variable} ${jetbrainsMono.variable}`}>
       <body>
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-4ZJ1PYVMN4" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">

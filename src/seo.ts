@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { resourceData } from './data/resources';
+import { caseStudiesData } from './data/case-studies';
+import { authorsData } from './data/authors';
 
 // Per-page SEO metadata for Next.js metadata generation
 // Each route gets its own title, description, and OpenGraph tags
@@ -7,7 +9,6 @@ import { resourceData } from './data/resources';
 type SeoEntry = {
   title: string;
   description: string;
-  keywords: string;
   image?: string;
 };
 
@@ -17,82 +18,79 @@ export const OG_IMAGE_URL = `${SITE_URL}/og-image.png`;
 
 const SEO_DATA: Record<string, SeoEntry> = {
   '/': {
-    title: 'RedOps Security - Elite Offensive Security & Penetration Testing',
-    description: 'RedOps Security delivers elite penetration testing, vulnerability assessments, and offensive security services that expose real-world attack surfaces before adversaries do.',
-    keywords: 'penetration testing, offensive security, red team, vulnerability assessment, cybersecurity, VAPT, pentest',
+    title: 'Elite Penetration Testing & Offensive Security Firm | RedOps',
+    description: 'Stop automated breaches. Our senior OSCP-certified operators deliver elite penetration testing, vulnerability assessments, and offensive security services for SaaS and enterprise.',
   },
   '/services': {
-    title: 'Offensive Security Services - RedOps Security',
-    description: 'Comprehensive offensive security services including web application pentesting, mobile security, network VAPT, red teaming, cloud security, GRC compliance, and ISO 27001 implementation.',
-    keywords: 'penetration testing services, web application security, mobile pentest, network VAPT, red team operations, cloud security, GRC compliance',
+    title: 'Offensive Security Services | Web, Mobile & Cloud Pentesting | RedOps',
+    description: 'Comprehensive offensive security services including manual web application pentesting, mobile security, network VAPT, red teaming, cloud security, and ISO 27001 implementation.',
   },
   '/services/vapt': {
-    title: 'Network VAPT - Vulnerability Assessment & Penetration Testing | RedOps Security',
-    description: 'Military-grade black-box, gray-box, and white-box penetration tests across your entire network. Active Directory exploitation, lateral movement simulation, and cloud infrastructure audits.',
-    keywords: 'network VAPT, vulnerability assessment, penetration testing, Active Directory, lateral movement, cloud audit',
+    title: 'Network VAPT Services | Manual Infrastructure Penetration Testing | RedOps',
+    description: 'Military-grade black-box, gray-box, and white-box penetration tests across your network. Active Directory exploitation, lateral movement simulation, and cloud audits by senior operators.',
   },
   '/services/mobile-pentest': {
-    title: 'Mobile Application Security Testing | RedOps Security',
+    title: 'Mobile Application Penetration Testing Services | iOS & Android | RedOps',
     description: 'Comprehensive iOS and Android security assessments. Binary reversing, API traffic interception, runtime manipulation with Frida, and biometric authentication bypass testing.',
-    keywords: 'mobile security testing, iOS pentest, Android security, Frida, SSL pinning bypass, mobile VAPT',
   },
   '/services/web-pentest': {
-    title: 'Web Application Penetration Testing | RedOps Security',
-    description: 'Deep manual testing of complex web applications. OWASP methodology, business logic abuse, authentication bypasses, injection attacks, and API security audits.',
-    keywords: 'web application pentest, OWASP, SQL injection, XSS, API security, business logic testing',
+    title: 'Web Application Penetration Testing Services | Manual & Elite | RedOps',
+    description: 'Stop automated breaches. Our senior OSCP-certified operators conduct deep manual web application penetration testing for SaaS and enterprise. Schedule an audit.',
   },
   '/services/cloud-security': {
-    title: 'Cloud Security Assessments - AWS, Azure, GCP | RedOps Security',
+    title: 'Cloud Security Assessments | AWS, Azure & GCP Audits | RedOps',
     description: 'In-depth cloud security reviews and penetration testing across AWS, Azure, and GCP. IAM privilege escalation, Kubernetes security, and serverless function auditing.',
-    keywords: 'cloud security, AWS pentest, Azure security, GCP assessment, IAM privilege escalation, Kubernetes security',
   },
   '/services/red-teaming': {
-    title: 'Red Team Operations - Adversarial Simulation | RedOps Security',
+    title: 'Red Team Operations & Adversarial Simulation Services | RedOps',
     description: 'Full-spectrum adversarial simulations testing your Blue Team detection and response. Social engineering, physical intrusion, custom malware, and C2 operations.',
-    keywords: 'red team, adversarial simulation, social engineering, phishing, C2 framework, APT simulation',
   },
   '/services/grc': {
-    title: 'GRC & Compliance Services | RedOps Security',
-    description: 'Governance, Risk, and Compliance alignment for tech companies. Risk assessments, security architecture reviews, vendor risk management, and GDPR/CCPA compliance.',
-    keywords: 'GRC, governance risk compliance, SOC2, GDPR, CCPA, risk assessment, vendor risk management',
+    title: 'GRC & Security Compliance Services | SOC 2, GDPR, CCPA | RedOps',
+    description: 'Governance, Risk, and Compliance alignment for tech companies. Risk assessments, security architecture reviews, vendor risk management, and compliance readiness.',
   },
   '/services/iso': {
-    title: 'ISO 27001 Implementation & Certification | RedOps Security',
-    description: 'End-to-end ISO 27001 certification guidance. Gap analysis, ISMS policy creation, internal audits, and Stage 2 audit preparation.',
-    keywords: 'ISO 27001, ISMS, certification, gap analysis, internal audit, information security management',
+    title: 'ISO 27001 Implementation & Certification Consulting | RedOps',
+    description: 'End-to-end ISO 27001 certification guidance. Gap analysis, ISMS policy creation, internal audits, and Stage 2 audit preparation led by security experts.',
   },
   '/services/webdev': {
-    title: 'Secure Development Lifecycle (SDLC) | RedOps Security',
+    title: 'Secure Development Lifecycle (SDLC) & DevSecOps | RedOps',
     description: 'Security-first web application development. DevSecOps pipeline integration, secure architecture design, automated SAST/DAST, and threat modeling.',
-    keywords: 'secure SDLC, DevSecOps, secure coding, SAST, DAST, threat modeling, secure web development',
   },
   '/about': {
-    title: 'About RedOps Security - Our Mission & Team',
+    title: 'About RedOps Security | Elite Offensive Security Team',
     description: 'Founded by offensive security practitioners. Senior-only operators with OSCP/OSCE certifications and 7+ years of experience. Manual testing, no automation, actionable reports.',
-    keywords: 'about RedOps, offensive security team, OSCP, OSCE, penetration testing experts',
   },
   '/case-studies': {
-    title: 'Case Studies - Real Findings, Real Impact | RedOps Security',
+    title: 'Penetration Testing Case Studies | Real Exploits & Findings | RedOps',
     description: 'Anonymized case studies from real penetration testing engagements. Authentication bypasses, domain compromise, and supply chain vulnerabilities discovered before adversaries.',
-    keywords: 'penetration testing case studies, security findings, vulnerability discovery, real-world exploits',
   },
   '/resources': {
-    title: 'Security Intelligence & Resources | RedOps Security',
+    title: 'Security Intelligence, Threat Research & Guides | RedOps',
     description: 'Practitioner-written guides, threat analysis, and attack breakdowns. JWT exploitation, Active Directory attacks, mobile security, cloud IAM, and API security research.',
-    keywords: 'security resources, threat intelligence, attack techniques, security research, penetration testing guides',
   },
   '/contact': {
-    title: 'Get a Free Security Audit - Contact RedOps Security',
-    description: 'Schedule a no-obligation security consultation. Free initial assessment, tailored scope within 48 hours, NDA before information sharing. Start protecting your business today.',
-    keywords: 'contact RedOps, free security audit, penetration testing consultation, security assessment',
+    title: 'Scope Your Security Assessment | Contact RedOps Security',
+    description: 'Schedule a scoping call with our senior operators. Free initial attack surface review, tailored scope within 48 hours, NDA before information sharing.',
+  },
+  '/methodology': {
+    title: 'Our Offensive Security Methodology | RedOps Security',
+    description: 'Battle-tested adversarial framework designed to uncover deep vulnerabilities. Our methodology combines OSINT, threat modeling, and manual analysis.',
+  },
+  '/industries/saas': {
+    title: 'Penetration Testing for SaaS Companies | RedOps Security',
+    description: 'Secure your multi-tenant architecture and protect customer data with elite offensive security. Deep manual testing for SaaS platforms, APIs, and cloud infrastructure.',
+  },
+  '/industries/fintech': {
+    title: 'Cybersecurity for Fintech & Digital Banking | RedOps Security',
+    description: 'Expose critical financial vulnerabilities before they become regulatory nightmares. Specialized pentesting for payment flows, wallets, and banking APIs.',
   },
 };
 
 // Default fallback
 const DEFAULT_SEO: SeoEntry = {
-  title: 'RedOps Security - Offensive Security & Penetration Testing',
+  title: 'Elite Penetration Testing & Offensive Security Firm | RedOps',
   description: 'RedOps Security delivers elite penetration testing, vulnerability assessments, and offensive security services that expose real-world attack surfaces before adversaries do.',
-  keywords: 'penetration testing, offensive security, cybersecurity',
   image: OG_IMAGE_URL,
 };
 
@@ -103,9 +101,32 @@ export function getSeoForRoute(path: string): SeoEntry {
     const resource = slug ? resourceData[slug] : null;
     if (resource) {
       return {
-        title: `${resource.title} | RedOps Security`,
+        title: `${resource.title} | RedOps Security Research`,
         description: resource.excerpt,
-        keywords: `${resource.category.toLowerCase()}, ${resource.title.toLowerCase().replace(/:/g, '')}, security research, red team, pentest`,
+      };
+    }
+  }
+
+  // Check for dynamic case study routes
+  if (path.startsWith('/case-studies/')) {
+    const slug = path.split('/').pop();
+    const cs = slug ? caseStudiesData[slug] : null;
+    if (cs) {
+      return {
+        title: `${cs.title} | Case Study | RedOps`,
+        description: cs.scenario,
+      };
+    }
+  }
+
+  // Check for dynamic author routes
+  if (path.startsWith('/authors/')) {
+    const slug = path.split('/').pop();
+    const author = slug ? authorsData[slug] : null;
+    if (author) {
+      return {
+        title: `${author.name} | ${author.role} | RedOps`,
+        description: author.bio,
       };
     }
   }
@@ -121,7 +142,6 @@ export function createPageMetadata(path: string): Metadata {
   return {
     title: seo.title,
     description: seo.description,
-    keywords: seo.keywords,
     applicationName: SITE_NAME,
     authors: [{ name: SITE_NAME, url: SITE_URL }],
     creator: SITE_NAME,
@@ -175,7 +195,6 @@ export function generateMetaTags(path: string) {
   return `
     <title>${seo.title}</title>
     <meta name="description" content="${seo.description}">
-    <meta name="keywords" content="${seo.keywords}">
     <meta property="og:title" content="${seo.title}">
     <meta property="og:description" content="${seo.description}">
     <meta property="og:url" content="${url}">
@@ -204,6 +223,12 @@ export function generateArticleSchema(path: string) {
     'description': resource.excerpt,
     'datePublished': resource.date, // Note: ISO format would be better but keeping consistency
     'author': {
+      '@type': 'Person',
+      'name': 'RedOps Senior Operator',
+      'jobTitle': 'Senior Penetration Tester (OSCP)',
+      'url': `${SITE_URL}/about`
+    },
+    'reviewedBy': {
       '@type': 'Organization',
       'name': SITE_NAME,
       'url': SITE_URL
@@ -224,6 +249,85 @@ export function generateArticleSchema(path: string) {
   };
 }
 
+export function generateCaseStudySchema(path: string) {
+  if (!path.startsWith('/case-studies/')) return null;
+  
+  const slug = path.split('/').pop();
+  const cs = slug ? caseStudiesData[slug] : null;
+  if (!cs) return null;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    'headline': cs.title,
+    'description': cs.scenario,
+    'author': {
+      '@type': 'Organization',
+      'name': SITE_NAME,
+      'url': SITE_URL
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': SITE_NAME,
+      'logo': {
+        '@type': 'ImageObject',
+        'url': `${SITE_URL}/favicon.png`
+      }
+    },
+    'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}${path}`
+    },
+    'image': OG_IMAGE_URL
+  };
+}
+
+export function generateServiceSchema(path: string, serviceType: string, description: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    'name': serviceType,
+    'provider': {
+      '@type': 'Organization',
+      'name': SITE_NAME,
+      'url': SITE_URL
+    },
+    'description': description,
+    'areaServed': 'Global',
+    'url': `${SITE_URL}${path}`
+  };
+}
+
+export function generateFAQSchema(questions: { question: string, answer: string }[]) {
+  if (!questions || questions.length === 0) return null;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': questions.map(q => ({
+      '@type': 'Question',
+      'name': q.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': q.answer
+      }
+    }))
+  };
+}
+
+export function generateBreadcrumbSchema(items: { name: string, item: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': items.map((crumb, index) => ({
+      '@type': 'ListItem',
+      'position': index + 1,
+      'name': crumb.name,
+      'item': `${SITE_URL}${crumb.item}`
+    }))
+  };
+}
+
 // All static routes
 const STATIC_ROUTES = [
   '/',
@@ -240,12 +344,16 @@ const STATIC_ROUTES = [
   '/case-studies',
   '/resources',
   '/contact',
+  '/industries/saas',
+  '/industries/fintech',
 ];
 
 // All routes to pre-render (including dynamic ones)
 export const ALL_ROUTES = [
   ...STATIC_ROUTES,
-  ...Object.keys(resourceData).map(slug => `/resources/${slug}`)
+  ...Object.keys(resourceData).map(slug => `/resources/${slug}`),
+  ...Object.keys(caseStudiesData).map(slug => `/case-studies/${slug}`),
+  ...Object.keys(authorsData).map(slug => `/authors/${slug}`)
 ];
 
 export default SEO_DATA;

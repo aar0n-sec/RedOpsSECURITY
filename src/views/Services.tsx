@@ -309,7 +309,7 @@ const Services = () => {
           <h2 className="section-title">Ready to Test<br/>Your Defenses?</h2>
           <p>Start with a scoped conversation. No commitment, no hard sell - just an honest assessment of your security posture.</p>
           <Link href="/contact" className="btn-primary btn-pulse" style={{ margin: '0 auto', fontSize: '13px', padding: '18px 48px' }}>
-            <span>Request a Consultation</span>
+            <span>Scope Your Assessment</span>
           </Link>
         </Reveal>
       </section>

@@ -1,6 +1,7 @@
 import ServiceDetail, { serviceData } from '@/views/ServiceDetail';
-import { createPageMetadata } from '@/seo';
+import { createPageMetadata, generateServiceSchema } from '@/seo';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 
 type ServicePageProps = {
   params: Promise<{ slug: string }>;
@@ -22,5 +23,17 @@ export default async function Page({ params }: ServicePageProps) {
     notFound();
   }
 
-  return <ServiceDetail slug={slug} />;
+  const service = serviceData[slug];
+  const schema = generateServiceSchema(`/services/${slug}`, service.title, service.overview);
+
+  return (
+    <>
+      <Script
+        id={`schema-service-${slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <ServiceDetail slug={slug} />
+    </>
+  );
 }
