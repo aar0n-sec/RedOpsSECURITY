@@ -19,7 +19,7 @@ export const OG_IMAGE_URL = `${SITE_URL}/og-image.png`;
 const SEO_DATA: Record<string, SeoEntry> = {
   '/': {
     title: 'Elite Penetration Testing & Offensive Security Firm | RedOps',
-    description: 'Stop automated breaches. Our senior OSCP-certified operators deliver elite penetration testing, vulnerability assessments, and offensive security services for SaaS and enterprise.',
+    description: 'Stop automated breaches. Our OSCP-certified operators deliver elite penetration testing, vulnerability assessments, and offensive security for SaaS and enterprise.',
   },
   '/services': {
     title: 'Offensive Security Services | Web, Mobile & Cloud Pentesting | RedOps',

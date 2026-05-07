@@ -748,6 +748,19 @@ body:hover #cursor {
   margin-bottom: 4px;
 }
 
+.hero-stat-num .stat-unit {
+  font-size: 22px;
+  opacity: 0.7;
+}
+
+.hero-stat-num.stat-attck {
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+}
+
 .hero-stat-label {
   font-family: var(--mono);
   font-size: 9.5px;
@@ -806,11 +819,20 @@ body:hover #cursor {
   color: var(--red);
 }
 
+.trust-dot {
+  color: var(--red);
+  margin: 0 20px;
+}
+
 /* --- PROBLEM SECTION --- */
 .problem-section {
   padding: 140px 48px;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.problem-cta {
+  margin-top: 36px;
 }
 
 .problem-grid {
@@ -889,6 +911,45 @@ body:hover #cursor {
   font-size: 14px;
   color: var(--dark-soft);
   line-height: 1.6;
+}
+
+/* --- MANUAL VS AUTOMATED --- */
+.manual-vs-automated {
+  padding: 140px 48px;
+  background: var(--bg-warm);
+  border-bottom: 1px solid var(--border);
+}
+
+.manual-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.manual-inner .section-title {
+  font-size: clamp(44px, 5vw, 72px);
+  margin-bottom: 16px;
+}
+
+.manual-inner h3 {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--dark-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 48px;
+}
+
+.manual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.manual-text p {
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--dark-soft);
+  margin-bottom: 24px;
 }
 
 /* --- SERVICES SECTION --- */
@@ -977,6 +1038,15 @@ body:hover #cursor {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08), 0 0 30px var(--red-glow);
 }
 
+.svcs-card-icon-header {
+  position: relative;
+  padding: 0 0 20px 0;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .service-card-number {
   font-family: var(--mono);
   font-size: 10px;
@@ -1006,7 +1076,8 @@ body:hover #cursor {
   letter-spacing: -0.01em;
 }
 
-.service-card p {
+.service-card-desc {
+  flex: 1;
   font-size: 14.5px;
   line-height: 1.65;
   color: var(--dark-soft);
@@ -1017,6 +1088,7 @@ body:hover #cursor {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 20px;
 }
 
 .service-tag {

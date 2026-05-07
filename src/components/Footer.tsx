@@ -41,17 +41,25 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <div className="footer-col-title">Contact</div>
-            <ul className="footer-links">
-              <li>Email: contact@redops.in</li>
+            <div className="footer-col-title">Connect</div>
+            <ul className="footer-links" style={{ marginBottom: '20px' }}>
+              <li>
+                <a href="https://linkedin.com/company/redops-security" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              </li>
+              <li>
+                <a href="https://twitter.com/redopssec" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+              </li>
+              <li>
+                <a href="https://github.com/redops-security" target="_blank" rel="noopener noreferrer">GitHub</a>
+              </li>
             </ul>
-            <Link href="/contact" className="btn-primary" style={{ marginTop: '20px', fontSize: '10px', padding: '12px 20px' }}>
+            <Link href="/contact" className="btn-primary" style={{ fontSize: '10px', padding: '12px 20px' }}>
               <span>Get a Quote</span>
             </Link>
           </div>
         </div>
         <div className="footer-bottom">
-          <div className="footer-copy">&copy; 2026 Redops. All rights reserved.</div>
+          <div className="footer-copy">&copy; 2026 RedOps Security. All rights reserved.</div>
           <div className="footer-legal">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>

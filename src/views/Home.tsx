@@ -52,7 +52,7 @@ const Home = () => {
       {/* STATS BAR */}
       <div className="hero-stats-bar">
         <div className="hero-stat">
-          <div className="hero-stat-num">100<span style={{ fontSize: '22px', opacity: 0.7 }}>%</span></div>
+          <div className="hero-stat-num">100<span className="stat-unit">%</span></div>
           <div className="hero-stat-label">Manual Testing</div>
         </div>
         <div className="hero-stat">
@@ -60,11 +60,11 @@ const Home = () => {
           <div className="hero-stat-label">False Positives</div>
         </div>
         <div className="hero-stat">
-          <div className="hero-stat-num" style={{ fontSize: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '38px' }}>ATT&CK</div>
+          <div className="hero-stat-num stat-attck">ATT&CK</div>
           <div className="hero-stat-label">Framework Aligned</div>
         </div>
         <div className="hero-stat">
-          <div className="hero-stat-num">72<span style={{ fontSize: '22px', opacity: 0.7 }}>h</span></div>
+          <div className="hero-stat-num">72<span className="stat-unit">h</span></div>
           <div className="hero-stat-label">Report Delivery</div>
         </div>
       </div>
@@ -75,11 +75,11 @@ const Home = () => {
           <span className="trust-label">Aligned with real-world attack frameworks</span>
           <div className="trust-logos">
             <span className="trust-logo">MITRE ATT&amp;CK</span>
-            <span style={{ color: 'var(--red)', margin: '0 20px' }}>•</span>
+            <span className="trust-dot">•</span>
             <span className="trust-logo">OWASP Top 10</span>
-            <span style={{ color: 'var(--red)', margin: '0 20px' }}>•</span>
+            <span className="trust-dot">•</span>
             <span className="trust-logo">NIST</span>
-            <span style={{ color: 'var(--red)', margin: '0 20px' }}>•</span>
+            <span className="trust-dot">•</span>
             <span className="trust-logo">PTES</span>
           </div>
         </div>
@@ -91,9 +91,10 @@ const Home = () => {
           <Reveal className="problem-left">
             <div className="section-tag">The Problem</div>
             <h2 className="section-title">Most breaches are preventable.</h2>
+            <h3>The Vulnerability Gap in Modern Enterprise</h3>
             <p>The average attacker dwell time before detection is 197 days. By then, the damage is done - data exfiltrated, systems compromised, reputation destroyed.</p>
             <p>Traditional security tools generate noise. Compliance checkboxes don't reflect real attack surfaces. And your adversary doesn't follow a playbook.</p>
-            <div style={{ marginTop: '36px' }}>
+            <div className="problem-cta">
               <Link href="/services" className="btn-primary"><span>Explore Our Services</span></Link>
             </div>
           </Reveal>
@@ -117,6 +118,45 @@ const Home = () => {
         </div>
       </section>
 
+      {/* MANUAL VS AUTOMATED - NEW SECTION */}
+      <section className="manual-vs-automated">
+        <div className="manual-inner">
+          <Reveal>
+            <div className="section-tag">Depth over Breadth</div>
+            <h2 className="section-title">Why Manual Penetration Testing Beats Automated Scans</h2>
+            <h3>Adversarial Thinking vs. Signature Matching</h3>
+          </Reveal>
+          
+          <div className="manual-grid">
+            <Reveal className="manual-text">
+              <p>
+                Automated scanners miss business logic flaws, chained attack paths, and context-specific vulnerabilities. 
+                Our operators think like adversaries — mapping your environment the way a real attacker would, 
+                using MITRE ATT&CK-aligned methodology and OWASP Top 10 as a baseline, not a ceiling.
+              </p>
+              <p>
+                While tools are excellent for identifying known vulnerabilities in outdated software, they cannot 
+                reason about your application's logic. They can't understand that a specific sequence of API calls 
+                might allow a user to access another's data, or that a misconfigured cloud permission could lead 
+                to a full tenant takeover.
+              </p>
+            </Reveal>
+            <Reveal className="manual-text" delay={1}>
+              <p>
+                Our manual audits go deeper. We perform manual exploitation to confirm impact, removing false 
+                positives and providing you with a report that is 100% actionable. We don't just hand you a list of 
+                vulnerabilities; we provide a roadmap for remediation that prioritizes real-world risk over CVSS scores.
+              </p>
+              <p>
+                By simulating a persistent human adversary, we uncover the complex vulnerabilities that automated 
+                tools are fundamentally incapable of finding. This is the RedOps difference: elite intelligence 
+                applied to your unique security challenges.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* SERVICES */}
       <section className="services-section">
         <div className="services-bg-text">PENTEST</div>
@@ -126,6 +166,7 @@ const Home = () => {
               <div className="section-tag">What We Do</div>
               <Reveal>
                 <h2 className="section-title">Elite Offensive<br />Security Services</h2>
+                <h3>Comprehensive Protection for Your Digital Assets</h3>
               </Reveal>
             </div>
             <Reveal>
@@ -137,7 +178,7 @@ const Home = () => {
             {/* Card 1 */}
             <Reveal>
               <Link href="/services/web-pentest" className="service-card">
-                <div className="svcs-card-icon-header" style={{ position: 'relative', padding: '0 0 20px 0', borderBottom: 'none' }}>
+                <div className="svcs-card-icon-header">
                   <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
                   <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
                   <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
@@ -151,8 +192,8 @@ const Home = () => {
                   </svg>
                 </div>
                 <div className="service-card-title">Web Application Pentesting</div>
-                <p style={{ flex: 1 }}>Deep-dive manual testing following OWASP methodology and beyond. We identify injection flaws, auth bypasses, business logic vulnerabilities, and race conditions.</p>
-                <div className="service-card-tags" style={{ marginTop: '20px' }}>
+                <p className="service-card-desc">Deep-dive manual testing following OWASP methodology and beyond. We identify injection flaws, auth bypasses, business logic vulnerabilities, and race conditions.</p>
+                <div className="service-card-tags">
                   <span className="service-tag">OWASP Top 10</span>
                   <span className="service-tag">Auth Bypass</span>
                   <span className="service-tag">API Security</span>
@@ -167,7 +208,7 @@ const Home = () => {
             {/* Card 2 */}
             <Reveal delay={1}>
               <Link href="/services/mobile-pentest" className="service-card">
-                <div className="svcs-card-icon-header" style={{ position: 'relative', padding: '0 0 20px 0', borderBottom: 'none' }}>
+                <div className="svcs-card-icon-header">
                   <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
                   <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
                   <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
@@ -181,8 +222,8 @@ const Home = () => {
                   </svg>
                 </div>
                 <div className="service-card-title">Mobile Security Testing</div>
-                <p style={{ flex: 1 }}>iOS and Android application security assessments covering static analysis, dynamic instrumentation, traffic interception, and insecure data storage patterns.</p>
-                <div className="service-card-tags" style={{ marginTop: '20px' }}>
+                <p className="service-card-desc">iOS and Android application security assessments covering static analysis, dynamic instrumentation, traffic interception, and insecure data storage patterns.</p>
+                <div className="service-card-tags">
                   <span className="service-tag">iOS / Android</span>
                   <span className="service-tag">OWASP MASVS</span>
                   <span className="service-tag">Frida</span>
@@ -197,7 +238,7 @@ const Home = () => {
             {/* Card 3 */}
             <Reveal delay={2}>
               <Link href="/services/vapt" className="service-card">
-                <div className="svcs-card-icon-header" style={{ position: 'relative', padding: '0 0 20px 0', borderBottom: 'none' }}>
+                <div className="svcs-card-icon-header">
                   <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
                   <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
                   <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
@@ -211,8 +252,8 @@ const Home = () => {
                   </svg>
                 </div>
                 <div className="service-card-title">Infrastructure & Network Testing</div>
-                <p style={{ flex: 1 }}>External and internal network penetration testing. We identify lateral movement paths, privilege escalation routes, and critical asset exposures.</p>
-                <div className="service-card-tags" style={{ marginTop: '20px' }}>
+                <p className="service-card-desc">External and internal network penetration testing. We identify lateral movement paths, privilege escalation routes, and critical asset exposures.</p>
+                <div className="service-card-tags">
                   <span className="service-tag">Active Directory</span>
                   <span className="service-tag">Cloud (AWS/Azure)</span>
                   <span className="service-tag">Lateral Movement</span>
@@ -227,7 +268,7 @@ const Home = () => {
             {/* Card 4 */}
             <Reveal delay={3}>
               <Link href="/services/red-teaming" className="service-card">
-                <div className="svcs-card-icon-header" style={{ position: 'relative', padding: '0 0 20px 0', borderBottom: 'none' }}>
+                <div className="svcs-card-icon-header">
                   <div className="svcs-term-dot" style={{ background: '#ff5f57' }}></div>
                   <div className="svcs-term-dot" style={{ background: '#ffbd2e' }}></div>
                   <div className="svcs-term-dot" style={{ background: '#28c840' }}></div>
@@ -241,8 +282,8 @@ const Home = () => {
                   </svg>
                 </div>
                 <div className="service-card-title">Red Team Operations</div>
-                <p style={{ flex: 1 }}>Full-scope adversary simulation. We emulate real threat actors using custom TTPs, physical access attempts, and social engineering campaigns.</p>
-                <div className="service-card-tags" style={{ marginTop: '20px' }}>
+                <p className="service-card-desc">Full-scope adversary simulation. We emulate real threat actors using custom TTPs, physical access attempts, and social engineering campaigns.</p>
+                <div className="service-card-tags">
                   <span className="service-tag">APT Simulation</span>
                   <span className="service-tag">MITRE ATT&CK</span>
                   <span className="service-tag">C2 Frameworks</span>
@@ -269,6 +310,7 @@ const Home = () => {
           <div className="process-header">
             <div className="section-tag">Methodology</div>
             <h2 className="section-title">A Process Built for Zero Assumptions</h2>
+            <h3>Battle-Tested Offensive Framework</h3>
             <p>A disciplined, repeatable process that delivers actionable results every engagement.</p>
           </div>
           <div className="process-steps" id="process-steps">

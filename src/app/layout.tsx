@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'RedOps Security - Offensive Security & Penetration Testing',
   description:
-    'RedOps Security delivers elite penetration testing, vulnerability assessments, and offensive security services that expose real-world attack surfaces before adversaries do.',
+    'Stop automated breaches. RedOps Security delivers elite penetration testing, vulnerability assessments, and offensive security services for SaaS and enterprise.',
   manifest: undefined,
   icons: {
     icon: '/favicon.png',
@@ -53,8 +53,29 @@ const organizationJsonLd = {
   logo: `${SITE_URL}/favicon.png`,
   image: OG_IMAGE_URL,
   description:
-    'RedOps Security delivers penetration testing, vulnerability assessments, red team operations, cloud security assessments, and cybersecurity compliance services.',
+    'RedOps Security is an elite penetration testing and offensive security firm delivering senior-led manual audits for SaaS and enterprise.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Bangalore, India',
+    addressLocality: 'Bangalore',
+    addressRegion: 'KA',
+    postalCode: '560001',
+    addressCountry: 'IN',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer support',
+    email: 'contact@redops.in',
+    url: `${SITE_URL}/contact`,
+  },
+  sameAs: [
+    'https://linkedin.com/company/redops-security',
+    'https://twitter.com/redopssec',
+    'https://github.com/redops-security',
+  ],
   areaServed: 'Global',
+  priceRange: '$$',
+  openingHours: 'Mo-Fr 09:00-18:00',
   serviceType: [
     'Penetration Testing',
     'Vulnerability Assessment',

@@ -204,6 +204,8 @@ const Services = () => {
           <Reveal>
             <div className="svcs-grid-header">
               <div className="section-tag">Core Services</div>
+              <h2 className="section-title" style={{ marginBottom: '16px' }}>Enterprise Security Solutions</h2>
+              <h3>Manual Penetration Testing & Offensive Audits</h3>
               <p className="svcs-grid-subtitle">Our core offensive and defensive cybersecurity services. We simulate the world's most sophisticated threat actors to uncover systemic vulnerabilities across your entire digital infrastructure. From deep-dive web application penetration testing to full-scale ISO 27001 compliance implementations, we provide end-to-end security solutions for modern enterprises.</p>
             </div>
           </Reveal>

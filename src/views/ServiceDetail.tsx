@@ -190,12 +190,14 @@ const ServiceDetail = ({ slug }: { slug: string }) => {
               <Reveal>
                 <div className="sd-section-block">
                   <h2 className="sd-section-title">Overview</h2>
+                  <h3>Comprehensive Security Audit Objective</h3>
                   <p className="sd-section-text">{service.overview}</p>
                 </div>
               </Reveal>
               <Reveal>
                 <div className="sd-section-block">
                   <h2 className="sd-section-title">The Approach</h2>
+                  <h3>Adversarial Methodology & Exploitation</h3>
                   <p className="sd-section-text">{service.approach}</p>
                 </div>
               </Reveal>

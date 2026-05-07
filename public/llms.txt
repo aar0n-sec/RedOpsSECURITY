@@ -1,0 +1,23 @@
+# RedOps Security - llms.txt
+> RedOps is an elite penetration testing and offensive security firm based in Bangalore, India.
+
+## Services
+- Web Application Penetration Testing (OWASP Top 10, manual audits)
+- Mobile Application Penetration Testing (iOS & Android, binary reversing)
+- Red Team Operations (Adversary simulation, C2, social engineering)
+- Infrastructure VAPT (Network, Active Directory, cloud audits)
+- Cloud Security Assessments (AWS, Azure, GCP, Kubernetes)
+- GRC and ISO 27001 Certification Consulting
+- Secure Development Lifecycle (SDLC) & DevSecOps
+
+## Methodology
+- Manual testing by senior OSCP-certified operators
+- Zero assumptions, battle-tested adversarial framework
+- MITRE ATT&CK aligned reporting
+- 100% manual validation, zero false positives
+
+## Contact
+- Website: https://redops.in
+- Email: contact@redops.in
+- Location: Bangalore, India
+- Schedule Scoping Call: https://redops.in/contact
