@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, Linkedin } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import logoFull from '../assets/logo-full.png';
 import logoDark from '../assets/logo-dark-theme.png';
@@ -53,6 +53,16 @@ const Navigation = () => {
       </ul>
 
       <div className="nav-actions">
+        <a 
+          href="https://www.linkedin.com/company/redops-security" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="nav-social-link"
+          aria-label="LinkedIn"
+          title="Follow us on LinkedIn"
+        >
+          <Linkedin size={20} />
+        </a>
         <button 
           onClick={toggleTheme} 
           className="theme-toggle" 

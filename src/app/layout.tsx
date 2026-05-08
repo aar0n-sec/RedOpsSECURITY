@@ -69,7 +69,7 @@ const organizationJsonLd = {
     url: `${SITE_URL}/contact`,
   },
   sameAs: [
-    'https://linkedin.com/company/redops-security',
+    'https://www.linkedin.com/company/redops-security',
     'https://twitter.com/redopssec',
     'https://github.com/redops-security',
   ],

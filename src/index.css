@@ -235,7 +235,18 @@ body:hover #cursor {
   cursor: pointer;
 }
 
-.theme-toggle:hover {
+.nav-social-link {
+  color: var(--dark-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, transform 0.2s;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.theme-toggle:hover,
+.nav-social-link:hover {
   color: var(--red);
   transform: translateY(-1px);
 }

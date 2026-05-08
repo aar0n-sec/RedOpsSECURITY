@@ -17,7 +17,7 @@ export const authorsData: Record<string, Author> = {
     role: 'Senior Offensive Security Practitioner',
     bio: 'Lead operator at RedOps Security with over 8 years of experience in manual penetration testing, red teaming, and exploit development. Specialist in Active Directory exploitation and cloud infrastructure security.',
     credentials: ['OSCP', 'OSCE', 'CRT', 'CISP'],
-    linkedin: 'https://linkedin.com/company/redops-security',
+    linkedin: 'https://www.linkedin.com/company/redops-security',
     github: 'https://github.com/redops-security',
   }
 };
