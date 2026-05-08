@@ -61,9 +61,9 @@ const Footer = () => {
         <div className="footer-bottom">
           <div className="footer-copy">&copy; 2026 RedOps Security. All rights reserved.</div>
           <div className="footer-legal">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Responsible Disclosure</a>
+            <Link href="/privacy-policy">Privacy Policy</Link>
+            <Link href="/terms-of-service">Terms of Service</Link>
+            <Link href="/responsible-disclosure">Responsible Disclosure</Link>
           </div>
         </div>
       </div>
