@@ -521,11 +521,8 @@ body:hover #cursor {
 .hero-grid {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(196, 69, 54, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(196, 69, 54, 0.06) 1px, transparent 1px);
-  background-size: 60px 60px;
   pointer-events: none;
+  display: none;
 }
 
 .hero-content {
@@ -1421,10 +1418,7 @@ body:hover #cursor {
 .page-hero-grid {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(196, 69, 54, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(196, 69, 54, 0.06) 1px, transparent 1px);
-  background-size: 60px 60px;
+  display: none;
 }
 
 .page-hero-inner {
