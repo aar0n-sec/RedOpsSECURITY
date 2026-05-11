@@ -4,6 +4,14 @@ import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { schemaTypes } from './schemaTypes';
 import { sanityEnv } from './lib/env';
+import { redopsTheme } from './theme';
+import {
+  DocumentTextIcon,
+  UsersIcon,
+  TagIcon,
+  HashIcon,
+  ClipboardIcon,
+} from '@sanity/icons';
 
 export default defineConfig({
   name: 'redops-security',
@@ -11,6 +19,7 @@ export default defineConfig({
   projectId: sanityEnv.projectId,
   dataset: sanityEnv.dataset,
   basePath: '/admin/studio',
+  theme: redopsTheme,
   schema: {
     types: schemaTypes,
   },
@@ -20,13 +29,13 @@ export default defineConfig({
         S.list()
           .title('RedOps CMS')
           .items([
-            S.documentTypeListItem('post').title('Posts'),
+            S.documentTypeListItem('post').title('Posts').icon(DocumentTextIcon),
             S.divider(),
-            S.documentTypeListItem('author').title('Authors'),
-            S.documentTypeListItem('category').title('Categories'),
-            S.documentTypeListItem('tag').title('Tags'),
+            S.documentTypeListItem('author').title('Authors').icon(UsersIcon),
+            S.documentTypeListItem('category').title('Categories').icon(HashIcon),
+            S.documentTypeListItem('tag').title('Tags').icon(TagIcon),
             S.divider(),
-            S.documentTypeListItem('adminAuditLog').title('Audit log'),
+            S.documentTypeListItem('adminAuditLog').title('Audit log').icon(ClipboardIcon),
           ]),
     }),
     codeInput(),
