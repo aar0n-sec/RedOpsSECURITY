@@ -4819,4 +4819,19 @@ footer {
   }
 }
 
+/* Hide Clerk branding and development badges */
+.cl-watermark,
+.cl-internal-b3al4t,
+.cl-internal-1dauvpw,
+.cl-internal-180wb59 {
+  display: none !important;
+}
+
+div[class*="cl-internal-"] > a[href*="clerk.com"],
+div[class*="cl-internal-"] > a[href*="clerk.dev"],
+aside, 
+div[style*="z-index: 9999"] > div[style*="bottom: 12px"] {
+  display: none !important;
+}
+
 @tailwind utilities;

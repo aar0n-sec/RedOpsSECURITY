@@ -17,6 +17,7 @@ export default function SignInPage() {
           elements: {
             rootBox: 'auth-clerk-root',
             cardBox: 'auth-clerk-card',
+            footer: 'hidden',
           },
         }}
       />
