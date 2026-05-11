@@ -4829,7 +4829,6 @@ footer {
 
 div[class*="cl-internal-"] > a[href*="clerk.com"],
 div[class*="cl-internal-"] > a[href*="clerk.dev"],
-aside, 
 div[style*="z-index: 9999"] > div[style*="bottom: 12px"] {
   display: none !important;
 }
