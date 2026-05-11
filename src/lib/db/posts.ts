@@ -394,10 +394,3 @@ export async function getRssPosts(): Promise<BlogPost[]> {
 
   return posts;
 }
-ostRow.body || '',
-      } as BlogPost;
-    }),
-  );
-
-  return posts;
-}

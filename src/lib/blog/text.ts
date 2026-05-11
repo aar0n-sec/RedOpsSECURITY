@@ -42,7 +42,7 @@ export function extractTableOfContents(markdown: string): TableOfContentsItem[] 
     if (!match) continue;
 
     const level = match[1].length as 2 | 3;
-    const text = match[2].replace(/[*_`~\[\]]/g, '').trim();
+    const text = match[2].replace(/[*_`~[\]]/g, '').trim();
     if (!text) continue;
 
     const baseId = createHeadingId(text);
