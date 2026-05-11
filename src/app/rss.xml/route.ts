@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { plainTextFromPortableText, escapeHtml } from '@/lib/blog/text';
-import { getRssPosts } from '@/sanity/lib/blog';
+import { escapeHtml } from '@/lib/blog/text';
+import { getRssPosts } from '@/lib/db/posts';
 import { SITE_NAME, SITE_URL } from '@/seo';
 
 export const revalidate = 900;
@@ -11,7 +11,7 @@ export async function GET() {
     .map((post) => {
       const url = `${SITE_URL}/blog/${post.slug}`;
       const description = escapeHtml(post.excerpt);
-      const body = escapeHtml(plainTextFromPortableText(post.body || []).slice(0, 2000));
+      const body = escapeHtml((post.body || '').slice(0, 2000));
 
       return `
         <item>

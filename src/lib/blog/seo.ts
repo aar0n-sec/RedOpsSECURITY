@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import type { BlogPost } from '@/types/blog';
-import { getBlogImageUrl } from '@/sanity/lib/image';
-import { plainTextFromPortableText } from './text';
+import { getBlogImageUrl } from '@/lib/db/images';
 import { SITE_NAME, SITE_URL } from '@/seo';
 
 export function createBlogListingMetadata(input?: {
@@ -110,7 +109,7 @@ export function createBlogPostJsonLd(post: BlogPost) {
     dateModified: post.updatedAt || post.publishedAt,
     articleSection: post.categories?.map((category) => category.title),
     keywords: post.tags?.map((tag) => tag.title).join(', '),
-    wordCount: plainTextFromPortableText(post.body || []).split(/\s+/).filter(Boolean).length,
+    wordCount: (post.body || '').split(/\s+/).filter(Boolean).length,
     timeRequired: post.readingTime,
     image,
     author: {

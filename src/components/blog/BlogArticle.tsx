@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { BlogPost } from '@/types/blog';
-import { getBlogImageUrl } from '@/sanity/lib/image';
+import { getBlogImageUrl } from '@/lib/db/images';
 import { formatPostDate } from '@/lib/blog/format';
 import BlogCard from './BlogCard';
-import PortableTextContent from './PortableTextContent';
+import MarkdownContent from './MarkdownContent';
 
 export default function BlogArticle({ post }: { post: BlogPost }) {
   const heroImage = getBlogImageUrl(post.mainImage, 1400, 760);
@@ -74,7 +74,7 @@ export default function BlogArticle({ post }: { post: BlogPost }) {
           </aside>
 
           <div className="blog-article-main">
-            <PortableTextContent value={post.body} />
+            <MarkdownContent value={post.body} />
 
             {post.seo?.faqs?.length ? (
               <section className="blog-faq">

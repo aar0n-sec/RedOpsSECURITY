@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { BlogPostCard } from '@/types/blog';
-import { getBlogImageUrl } from '@/sanity/lib/image';
+import { getBlogImageUrl } from '@/lib/db/images';
 import { formatPostDate } from '@/lib/blog/format';
 
 type BlogCardProps = {

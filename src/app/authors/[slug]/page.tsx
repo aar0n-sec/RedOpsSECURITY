@@ -2,7 +2,8 @@ import AuthorDetail from '@/views/AuthorDetail';
 import { authorsData } from '@/data/authors';
 import { createPageMetadata } from '@/seo';
 import BlogCard from '@/components/blog/BlogCard';
-import { getBlogAuthor, getBlogAuthorSlugs, getPostsByAuthor } from '@/sanity/lib/blog';
+import { getBlogAuthor, getBlogAuthorSlugs } from '@/lib/db/authors';
+import { getPostsByAuthor } from '@/lib/db/posts';
 import { notFound } from 'next/navigation';
 
 type AuthorPageProps = {
@@ -10,11 +11,11 @@ type AuthorPageProps = {
 };
 
 export async function generateStaticParams() {
-  const sanityAuthors = await getBlogAuthorSlugs();
+  const dbAuthors = await getBlogAuthorSlugs();
   const staticAuthors = Object.keys(authorsData).map((slug) => ({ slug }));
   const seen = new Set<string>();
 
-  return [...staticAuthors, ...sanityAuthors].filter((author) => {
+  return [...staticAuthors, ...dbAuthors].filter((author) => {
     if (seen.has(author.slug)) return false;
     seen.add(author.slug);
     return true;
@@ -23,14 +24,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: AuthorPageProps) {
   const { slug } = await params;
-  const sanityAuthor = await getBlogAuthor(slug);
+  const author = await getBlogAuthor(slug);
 
-  if (sanityAuthor) {
+  if (author) {
     return {
-      title: `${sanityAuthor.name} | ${sanityAuthor.role || 'RedOps Author'} | RedOps`,
+      title: `${author.name} | ${author.role || 'RedOps Author'} | RedOps`,
       description:
-        sanityAuthor.bio ||
-        `${sanityAuthor.name} writes RedOps Security research and offensive security field notes.`,
+        author.bio ||
+        `${author.name} writes RedOps Security research and offensive security field notes.`,
       alternates: {
         canonical: `/authors/${slug}`,
       },
@@ -42,9 +43,9 @@ export async function generateMetadata({ params }: AuthorPageProps) {
 
 export default async function Page({ params }: AuthorPageProps) {
   const { slug } = await params;
-  const sanityAuthor = await getBlogAuthor(slug);
+  const author = await getBlogAuthor(slug);
 
-  if (sanityAuthor) {
+  if (author) {
     const posts = await getPostsByAuthor(slug);
 
     return (
@@ -54,17 +55,17 @@ export default async function Page({ params }: AuthorPageProps) {
           <div className="page-hero-grid" />
           <div className="page-hero-inner">
             <div className="section-tag">Author Profile</div>
-            <h1 className="page-hero-title">{sanityAuthor.name}</h1>
+            <h1 className="page-hero-title">{author.name}</h1>
             <p className="page-hero-sub">
-              {sanityAuthor.bio ||
-                `${sanityAuthor.role || 'RedOps operator'} publishing technical offensive security research.`}
+              {author.bio ||
+                `${author.role || 'RedOps operator'} publishing technical offensive security research.`}
             </p>
           </div>
         </header>
 
         <section className="blog-related author-posts">
           <div className="blog-related-header">
-            <div className="section-tag">{sanityAuthor.role || 'RedOps Research'}</div>
+            <div className="section-tag">{author.role || 'RedOps Research'}</div>
             <h2>Published Research</h2>
           </div>
           {posts.length ? (

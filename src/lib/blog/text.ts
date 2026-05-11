@@ -1,38 +1,23 @@
-import type { PortableTextBlock, TableOfContentsItem } from '@/types/blog';
+import type { TableOfContentsItem } from '@/types/blog';
 
-const HEADING_STYLES = new Set(['h2', 'h3']);
-
-export function plainTextFromPortableText(blocks: PortableTextBlock[] = []) {
-  return blocks
-    .map((block) => {
-      if (block._type === 'block') {
-        return block.children?.map((child) => child.text || '').join('') || '';
-      }
-
-      if (block._type === 'code' && typeof block.code === 'string') {
-        return block.code;
-      }
-
-      return '';
-    })
-    .filter(Boolean)
-    .join('\n\n');
-}
-
+/**
+ * Estimate reading time from markdown text.
+ */
 export function estimateReadingTime(input: {
   title?: string;
   excerpt?: string;
-  body?: PortableTextBlock[];
+  body?: string;
 }) {
-  const text = [input.title, input.excerpt, plainTextFromPortableText(input.body)]
-    .filter(Boolean)
-    .join(' ');
+  const text = [input.title, input.excerpt, input.body].filter(Boolean).join(' ');
   const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.ceil(wordCount / 220));
 
   return `${minutes} min`;
 }
 
+/**
+ * Create a URL-safe heading ID from heading text.
+ */
 export function createHeadingId(text: string) {
   return text
     .toLowerCase()
@@ -42,29 +27,36 @@ export function createHeadingId(text: string) {
     .replace(/-+/g, '-');
 }
 
-export function extractTableOfContents(blocks: PortableTextBlock[] = []): TableOfContentsItem[] {
+/**
+ * Extract table of contents from markdown headings (## and ###).
+ */
+export function extractTableOfContents(markdown: string): TableOfContentsItem[] {
+  if (!markdown) return [];
+
   const usedIds = new Map<string, number>();
+  const items: TableOfContentsItem[] = [];
+  const lines = markdown.split('\n');
 
-  return blocks.flatMap((block) => {
-    if (block._type !== 'block' || !block.style || !HEADING_STYLES.has(block.style)) {
-      return [];
-    }
+  for (const line of lines) {
+    const match = line.match(/^(#{2,3})\s+(.+)$/);
+    if (!match) continue;
 
-    const text = block.children?.map((child) => child.text || '').join('').trim();
-    if (!text) return [];
+    const level = match[1].length as 2 | 3;
+    const text = match[2].replace(/[*_`~\[\]]/g, '').trim();
+    if (!text) continue;
 
     const baseId = createHeadingId(text);
     const count = usedIds.get(baseId) || 0;
     usedIds.set(baseId, count + 1);
 
-    return [
-      {
-        id: count === 0 ? baseId : `${baseId}-${count + 1}`,
-        text,
-        level: block.style === 'h2' ? 2 : 3,
-      },
-    ];
-  });
+    items.push({
+      id: count === 0 ? baseId : `${baseId}-${count + 1}`,
+      text,
+      level,
+    });
+  }
+
+  return items;
 }
 
 export function escapeHtml(value: string) {

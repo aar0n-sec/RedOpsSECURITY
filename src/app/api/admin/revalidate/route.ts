@@ -1,7 +1,7 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextResponse, type NextRequest } from 'next/server';
 import { requireAdminActor, AdminForbiddenError } from '@/lib/security/admin';
-import { writeAuditLog } from '@/lib/security/audit';
+import { writeAuditLog } from '@/lib/db/audit';
 import { assertSameOrigin } from '@/lib/security/csrf';
 import { clientIp, rateLimit } from '@/lib/security/rate-limit';
 

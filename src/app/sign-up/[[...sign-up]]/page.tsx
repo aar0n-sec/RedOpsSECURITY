@@ -12,6 +12,7 @@ export default function SignUpPage() {
   return (
     <main className="auth-page">
       <SignUp
+        fallbackRedirectUrl="/admin"
         appearance={{
           elements: {
             rootBox: 'auth-clerk-root',

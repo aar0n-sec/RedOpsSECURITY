@@ -1,17 +1,3 @@
-export type PortableTextSpan = {
-  _type?: string;
-  text?: string;
-};
-
-export type PortableTextBlock = {
-  _key?: string;
-  _type: string;
-  style?: string;
-  children?: PortableTextSpan[];
-  markDefs?: Record<string, unknown>[];
-  [key: string]: unknown;
-};
-
 export type BlogTaxonomy = {
   _id?: string;
   title: string;
@@ -33,28 +19,11 @@ export type BlogAuthor = {
 };
 
 export type BlogImage = {
+  url?: string;
   alt?: string;
   caption?: string;
-  asset?: {
-    url?: string;
-    metadata?: {
-      lqip?: string;
-      dimensions?: {
-        width?: number;
-        height?: number;
-        aspectRatio?: number;
-      };
-    };
-  };
-  cloudinary?: {
-    publicId?: string;
-    secureUrl?: string;
-    url?: string;
-    width?: number;
-    height?: number;
-    format?: string;
-    bytes?: number;
-  };
+  width?: number;
+  height?: number;
 };
 
 export type BlogFaq = {
@@ -87,7 +56,8 @@ export type BlogPostCard = {
 };
 
 export type BlogPost = BlogPostCard & {
-  body?: PortableTextBlock[];
+  /** Markdown body content */
+  body?: string;
   seo?: BlogSeo;
   relatedPosts?: BlogPostCard[];
   tableOfContents?: TableOfContentsItem[];

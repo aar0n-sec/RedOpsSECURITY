@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { ALL_ROUTES, SITE_URL } from '@/seo';
-import { getBlogPostSlugs } from '@/sanity/lib/blog';
+import { getBlogPostSlugs } from '@/lib/db/posts';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Use a fallback date if file reading fails

@@ -19,7 +19,7 @@ const uploadFormSchema = z.object({
 
 type UploadFormValues = z.infer<typeof uploadFormSchema>;
 
-export default function CloudinaryUploadField() {
+export default function CloudinaryUploadField({ onUpload }: { onUpload?: (url: string) => void }) {
   const [result, setResult] = useState<string>('');
   const {
     register,
@@ -44,7 +44,11 @@ export default function CloudinaryUploadField() {
       return;
     }
 
-    setResult(payload.image?.secureUrl || 'Upload complete');
+    const url = payload.image?.secureUrl || '';
+    setResult(url ? 'Upload complete' : 'Upload failed');
+    if (url && onUpload) {
+      onUpload(url);
+    }
   });
 
   return (

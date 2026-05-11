@@ -2,119 +2,89 @@
 
 ## Overview
 
-The blog system is a Next.js App Router implementation backed by Sanity CMS, Clerk-protected admin access, Cloudinary image ingestion, Zod validation, ISR, RSS, sitemap integration, and structured SEO output.
-
-This checkout currently resolves Next.js 16 during build, while the implementation uses the App Router conventions requested for Next.js 15. If the deployment must be hard-pinned to Next.js 15, use a `next-sanity` release whose peer dependency supports Next 15 before changing `next` and `@next/eslint-plugin-next`.
+The blog system is a Next.js App Router implementation backed by Supabase (PostgreSQL), Clerk-protected admin access, Cloudinary image ingestion, Zod validation, ISR, RSS, sitemap integration, and structured SEO output. This architecture replaces the previous Sanity CMS implementation with a custom admin dashboard and a relational database schema.
 
 ## Folder Structure
 
 ```txt
 src/app/blog/                         Public listing, detail, category, tag routes
-src/app/admin/studio/[[...index]]/    Embedded Sanity Studio
-src/app/api/admin/images/             Clerk-protected Cloudinary upload API
-src/app/api/admin/revalidate/         Clerk-protected manual revalidation API
-src/app/api/sanity/revalidate/        Signed Sanity webhook revalidation
-src/app/api/draft/                    Clerk-protected draft mode endpoints
+src/app/admin/                        Custom admin dashboard (Posts, Categories, Tags, Authors)
+src/app/api/admin/                    Clerk-protected admin CRUD and utility APIs
 src/app/api/blog/search/              Public validated search endpoint
 src/app/sign-in/ and sign-up/         Clerk auth screens for admin access
 src/app/rss.xml/                      RSS feed route
-src/components/blog/                  Blog cards, filters, article renderer, Portable Text
-src/components/admin/                 Admin-only UI helpers
+src/components/blog/                  Blog cards, filters, article renderer (Markdown)
+src/components/admin/                 Admin-only UI components and form helpers
+src/lib/db/                           Supabase data access layer (posts, authors, taxonomy, audit)
 src/lib/blog/                         Formatting, SEO, reading time, TOC utilities
-src/lib/security/                     Clerk RBAC, CSRF, rate limit, audit, validators
-src/sanity/                           Sanity config, schemas, queries, typed fetch layer
+src/lib/security/                     Clerk RBAC, CSRF, rate limit, validators
+src/lib/supabase.ts                   Supabase client configuration
+src/types/blog.ts                     Unified blog type definitions
+supabase/migration.sql                Database schema and RLS policies
 ```
 
 ## Install Commands
 
 ```powershell
-npm.cmd install @clerk/nextjs @hookform/resolvers @portabletext/react @sanity/code-input @sanity/image-url @sanity/vision cloudinary highlight.js next-sanity react-hook-form sanity zod
-npm.cmd install -D tailwindcss@^3 postcss autoprefixer
+npm.cmd install @clerk/nextjs @supabase/supabase-js @hookform/resolvers cloudinary highlight.js lucide-react next react react-dom react-hook-form react-markdown rehype-highlight remark-gfm zod
+npm.cmd install -D tailwindcss@^3 postcss autoprefixer typescript
 ```
 
 ## Environment Variables
 
 Use `.env.example` as the source of truth. Required production values:
 
-- Sanity: `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `SANITY_API_READ_TOKEN`, `SANITY_API_WRITE_TOKEN`, `SANITY_REVALIDATE_SECRET`, `SANITY_PREVIEW_SECRET`
+- Supabase: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
 - Clerk: `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, admin role metadata or `REDOPS_ADMIN_EMAILS`
 - Cloudinary: `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
 - Optional serverless rate limiting: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
 
-## Sanity CMS
+## Database Schema (Supabase)
 
-Schemas live in `src/sanity/schemaTypes/`:
+The relational schema (defined in `supabase/migration.sql`) includes:
 
-- `post`: slug generation, status workflow, scheduled publish date, featured image, author, categories, tags, Portable Text body, SEO object
-- `author`: author profile, credentials, social links, image
-- `category` and `tag`: taxonomy pages and filters
-- `seo`: title, description, canonical override, noindex, OG image, FAQ schema
-- `blockContent`: rich text, internal links, external links, code blocks, optimized images
-- `adminAuditLog`: immutable admin activity trail written by server APIs
-
-Studio is embedded at `/admin/studio` and protected by Clerk middleware.
+- `posts`: Main content table with markdown body, status workflow, and search vector.
+- `authors`: Author profiles with credentials and social links.
+- `categories` and `tags`: Many-to-many taxonomy systems.
+- `post_seo`: SEO metadata including meta tags and canonical overrides.
+- `post_faqs`: Structured FAQ entries per post.
+- `audit_logs`: Immutable admin activity trail.
 
 ## Next.js Routes
 
 Public routes:
 
-- `/blog`: search, filters, pagination, ISR
-- `/blog/[slug]`: dynamic article route, table of contents, related posts, JSON-LD
-- `/blog/category/[slug]` and `/blog/tag/[slug]`: taxonomy landing pages
-- `/authors/[slug]`: Sanity author profile support with fallback to existing static authors
-- `/rss.xml`, `/sitemap.xml`, `/robots.txt`
+- `/blog`: Search, filters, pagination, ISR (revalidated every 300s).
+- `/blog/[slug]`: Dynamic article route, table of contents, related posts, JSON-LD.
+- `/blog/category/[slug]` and `/blog/tag/[slug]`: Taxonomy landing pages.
+- `/authors/[slug]`: Dynamic author profile support with fallback to static data.
+- `/rss.xml`, `/sitemap.xml`, `/robots.txt`.
 
 Admin/API routes:
 
-- `/api/admin/images`: validates image type/size, rate limits, uploads to Cloudinary, writes audit log
-- `/api/admin/revalidate`: authenticated manual revalidation
-- `/api/sanity/revalidate`: signed Sanity webhook endpoint
-- `/api/draft/enable` and `/api/draft/disable`: authenticated draft preview
-- `/api/blog/search`: validated public search JSON endpoint
-- `/sign-in` and `/sign-up`: Clerk admin authentication screens
+- `/admin`: Dashboard overview and content management lists.
+- `/api/admin/posts`: CRUD for blog articles.
+- `/api/admin/images`: Cloudinary upload handler with rate limiting and audit logging.
+- `/api/admin/revalidate`: Authenticated manual revalidation.
+- `/api/blog/search`: Validated public search JSON endpoint.
 
 ## Security Model
 
-- Clerk protects `/admin`, `/api/admin`, and `/api/draft`.
-- RBAC accepts Clerk org role `org:admin`, metadata roles `admin`, `redops_admin`, `security_admin`, or an allowlisted `REDOPS_ADMIN_EMAILS` address.
-- Mutating admin APIs enforce same-origin checks.
-- Zod validates admin upload metadata, revalidation payloads, and search inputs.
-- Rate limiting uses Upstash Redis when configured and falls back to an in-process limiter for local development.
-- CSP and security headers are attached globally from `next.config.ts`.
-- `src/middleware.ts` is narrowed to Clerk-protected admin and draft routes.
-- Portable Text rendering avoids arbitrary HTML. Code highlighting escapes content before inserting markup.
-- Cloudinary secrets and Sanity write tokens are only used in server route handlers.
+- Clerk protects `/admin` and `/api/admin`.
+- RBAC accepts Clerk org role `org:admin`, metadata roles `admin`, `redops_admin`, or an allowlisted `REDOPS_ADMIN_EMAILS` address.
+- Supabase Row Level Security (RLS) provides public read-only access to published content.
+- Admin writes use the Supabase Service Role key in server-side routes, bypassing RLS after Clerk authentication.
+- Mutating admin APIs enforce same-origin checks and CSRF protection.
+- Content is stored as Markdown and rendered via `react-markdown` with strict sanitization.
 
 ## SEO Architecture
 
 - Dynamic metadata is generated for blog listing, category, tag, and article pages.
-- Article pages emit BlogPosting JSON-LD, breadcrumb JSON-LD, and FAQ JSON-LD when provided.
-- Canonical URLs are generated by default and can be overridden per post.
+- Article pages emit BlogPosting JSON-LD, breadcrumb JSON-LD, and FAQ JSON-LD.
 - RSS is available at `/rss.xml`.
-- Sitemap includes static routes and Sanity blog slugs.
-- Robots disallows admin and draft/admin API surfaces.
+- Sitemap includes static routes and Supabase blog slugs.
 
-## Vercel Deployment
-
-1. Add all `.env.example` variables to Vercel project settings.
-2. Configure Sanity CORS for `https://redops.in`, Vercel preview domains, and local development.
-3. Create Sanity API tokens:
-   - Viewer/read token for draft preview.
-   - Write token for audit log writes.
-4. Configure a Sanity webhook:
-   - URL: `https://redops.in/api/sanity/revalidate`
-   - Method: `POST`
-   - Header: `x-sanity-secret: <SANITY_REVALIDATE_SECRET>`
-   - Trigger: create/update/delete/publish for post, author, category, tag.
-5. Configure Clerk roles:
-   - Prefer organization role `org:admin`.
-   - Or set user public metadata `{ "role": "admin" }`.
-6. Configure Cloudinary upload credentials.
-7. Deploy with `npm.cmd run build` locally first, then Vercel build.
-
-## Validation Status
-
-Current local validation:
+## Verification Status
 
 ```powershell
 npm.cmd run typecheck
@@ -122,6 +92,4 @@ npm.cmd run lint
 npm.cmd run build
 ```
 
-All three pass. The build reports the existing project runtime as Next.js 16.2.4 and warns that `middleware.ts` is deprecated in favor of `proxy.ts` for Next 16. It is kept as middleware because the requested target is Next.js 15 and the security behavior is correct.
-
-`npm.cmd audit --audit-level=moderate` currently reports 11 moderate advisories in transitive dependencies from `sanity`, `next-sanity`, and `next`. npm reports no available fix for the listed `js-yaml` and nested `postcss` advisories at this time, so do not run `npm audit fix --force` without reviewing framework compatibility.
+All verification steps pass. The system is fully migrated from Sanity to Supabase.

@@ -8,19 +8,22 @@ function securityHeaders() {
     isDev ? "'unsafe-eval'" : '',
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
-    'https://core.sanity-cdn.com',
     'https://*.clerk.com',
     'https://*.clerk.accounts.dev',
     'https://challenges.cloudflare.com',
   ].filter(Boolean);
 
+  const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
+    ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
+    : '*.supabase.co';
+
   const csp = [
     "default-src 'self'",
     `script-src ${scriptSrc.join(' ')}`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "img-src 'self' data: blob: https://cdn.sanity.io https://res.cloudinary.com https://images.clerk.dev https://img.clerk.com https://www.google-analytics.com",
+    `img-src 'self' data: blob: https://${supabaseHost} https://res.cloudinary.com https://images.clerk.dev https://img.clerk.com https://www.google-analytics.com`,
     "font-src 'self' data: https://fonts.gstatic.com",
-    "connect-src 'self' https://*.sanity.io https://*.apicdn.sanity.io https://api.cloudinary.com https://*.clerk.com https://*.clerk.accounts.dev https://www.google-analytics.com https://analytics.google.com",
+    `connect-src 'self' https://${supabaseHost} https://api.cloudinary.com https://*.clerk.com https://*.clerk.accounts.dev https://www.google-analytics.com https://analytics.google.com`,
     "frame-src 'self' https://*.clerk.com https://*.clerk.accounts.dev https://challenges.cloudflare.com",
     "worker-src 'self' blob:",
     "object-src 'none'",
@@ -60,7 +63,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'cdn.sanity.io',
+        hostname: '*.supabase.co',
       },
       {
         protocol: 'https',

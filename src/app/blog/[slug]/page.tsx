@@ -1,4 +1,3 @@
-import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import BlogArticle from '@/components/blog/BlogArticle';
 import {
@@ -7,7 +6,7 @@ import {
   createBlogPostMetadata,
   createFaqJsonLd,
 } from '@/lib/blog/seo';
-import { getBlogPostBySlug, getBlogPostSlugs } from '@/sanity/lib/blog';
+import { getBlogPostBySlug, getBlogPostSlugs } from '@/lib/db/posts';
 
 export const revalidate = 300;
 
@@ -35,8 +34,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const { isEnabled } = await draftMode();
-  const post = await getBlogPostBySlug(slug, isEnabled);
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) notFound();
 

@@ -2,7 +2,7 @@ import { draftMode } from 'next/headers';
 import BlogIndexView from '@/components/blog/BlogIndexView';
 import { normalizePage, normalizeSearchParam } from '@/lib/blog/text';
 import { createBlogListingMetadata } from '@/lib/blog/seo';
-import { getBlogIndex } from '@/sanity/lib/blog';
+import { getBlogIndex } from '@/lib/db/posts';
 
 export const revalidate = 300;
 

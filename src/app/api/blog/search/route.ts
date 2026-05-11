@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { getBlogIndex } from '@/sanity/lib/blog';
+import { getBlogIndex } from '@/lib/db/posts';
 import { clientIp, rateLimit } from '@/lib/security/rate-limit';
 import { blogSearchSchema } from '@/lib/security/validators';
 

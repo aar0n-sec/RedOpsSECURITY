@@ -12,7 +12,7 @@ export default function SignInPage() {
   return (
     <main className="auth-page">
       <SignIn
-        fallbackRedirectUrl="/admin/studio"
+        fallbackRedirectUrl="/admin"
         appearance={{
           elements: {
             rootBox: 'auth-clerk-root',
