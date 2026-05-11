@@ -32,6 +32,11 @@ export async function POST(request: NextRequest) {
     const db = getServiceClient();
 
     // Create post
+    const publishedAt =
+      body.status === 'published' && !body.published_at
+        ? new Date().toISOString()
+        : body.published_at || null;
+
     const { data: post, error } = await db
       .from('posts')
       .insert({
@@ -45,7 +50,7 @@ export async function POST(request: NextRequest) {
         image_url: body.image_url || null,
         image_alt: body.image_alt || null,
         author_id: body.author_id || null,
-        published_at: body.published_at || null,
+        published_at: publishedAt,
       })
       .select('id')
       .single();

@@ -51,6 +51,11 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     const db = getServiceClient();
 
     // Update post
+    const publishedAt =
+      body.status === 'published' && !body.published_at
+        ? new Date().toISOString()
+        : body.published_at || null;
+
     const { error } = await db
       .from('posts')
       .update({
@@ -64,7 +69,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
         image_url: body.image_url || null,
         image_alt: body.image_alt || null,
         author_id: body.author_id || null,
-        published_at: body.published_at || null,
+        published_at: publishedAt,
       })
       .eq('id', id);
 

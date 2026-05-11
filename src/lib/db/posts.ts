@@ -244,13 +244,15 @@ export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false)
 }
 
 export async function getBlogPostBySlug(slug: string, _preview = false) {
-  const { data: row, error } = await supabase
-    .from('posts')
-    .select('*')
-    .eq('slug', slug)
-    .eq('status', 'published')
-    .lte('published_at', new Date().toISOString())
-    .single();
+  let query = supabase.from('posts').select('*').eq('slug', slug);
+
+  if (!_preview) {
+    query = query
+      .eq('status', 'published')
+      .or(`published_at.lte.${new Date().toISOString()},published_at.is.null`);
+  }
+
+  const { data: row, error } = await query.single();
 
   if (error || !row) return null;
 
@@ -386,6 +388,13 @@ export async function getRssPosts(): Promise<BlogPost[]> {
       return {
         ...card,
         body: postRow.body || '',
+      } as BlogPost;
+    }),
+  );
+
+  return posts;
+}
+ostRow.body || '',
       } as BlogPost;
     }),
   );
