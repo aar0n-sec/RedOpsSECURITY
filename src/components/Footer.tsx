@@ -2,12 +2,16 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useTheme } from '../context/ThemeContext';
 import logoFull from '../assets/logo-full.png';
 import logoDark from '../assets/logo-dark-theme.png';
 
 const Footer = () => {
   const { theme } = useTheme();
+  const pathname = usePathname();
+
+  if (pathname?.startsWith('/admin')) return null;
 
   return (
     <footer>
@@ -23,7 +27,7 @@ const Footer = () => {
               <li><Link href="/">Home</Link></li>
               <li><Link href="/services">Services Overview</Link></li>
               <li><Link href="/about">About Us</Link></li>
-              <li><Link href="/resources">Blogs</Link></li>
+              <li><Link href="/blog">Blogs</Link></li>
               <li><Link href="/contact">Contact</Link></li>
             </ul>
           </div>

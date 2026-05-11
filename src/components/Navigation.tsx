@@ -15,6 +15,7 @@ const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
+  const isAdminSurface = pathname?.startsWith('/admin');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,8 +36,11 @@ const Navigation = () => {
   };
 
   const isActive = (path: string) => {
-    return pathname === path ? 'active' : '';
+    if (path === '/') return pathname === path ? 'active' : '';
+    return pathname === path || pathname?.startsWith(`${path}/`) ? 'active' : '';
   };
+
+  if (isAdminSurface) return null;
 
   return (
     <nav id="nav" className={`${scrolled || mobileMenuOpen ? 'scrolled' : ''} ${mobileMenuOpen ? 'menu-active' : ''}`}>
@@ -49,7 +53,7 @@ const Navigation = () => {
         <li><Link href="/services" className={isActive('/services')} onClick={closeMenu}>Services</Link></li>
         <li><Link href="/about" className={isActive('/about')} onClick={closeMenu}>About</Link></li>
         <li><Link href="/case-studies" className={isActive('/case-studies')} onClick={closeMenu}>Case Studies</Link></li>
-        <li><Link href="/resources" className={isActive('/resources')} onClick={closeMenu}>Resources</Link></li>
+        <li><Link href="/blog" className={isActive('/blog') || isActive('/resources') ? 'active' : ''} onClick={closeMenu}>Blogs</Link></li>
         <li className="mobile-nav-cta"><Link href="/contact" className={isActive('/contact')} onClick={closeMenu}>Get Free Audit</Link></li>
       </ul>
 

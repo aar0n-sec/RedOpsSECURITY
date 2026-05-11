@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import Script from 'next/script';
+import { ClerkProvider } from '@clerk/nextjs';
 import { Barlow_Condensed, Barlow, JetBrains_Mono } from 'next/font/google';
 import '../index.css';
 import { ThemeProvider } from '@/context/ThemeContext';
@@ -106,11 +107,13 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        <ThemeProvider>
-          <Navigation />
-          {children}
-          <Footer />
-        </ThemeProvider>
+        <ClerkProvider>
+          <ThemeProvider>
+            <Navigation />
+            {children}
+            <Footer />
+          </ThemeProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

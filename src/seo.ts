@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { resourceData } from './data/resources';
 import { caseStudiesData } from './data/case-studies';
 import { authorsData } from './data/authors';
 
@@ -69,6 +68,10 @@ const SEO_DATA: Record<string, SeoEntry> = {
     title: 'Security Intelligence, Threat Research & Guides | RedOps',
     description: 'Practitioner-written guides, threat analysis, and attack breakdowns. JWT exploitation, Active Directory attacks, mobile security, cloud IAM, and API security research.',
   },
+  '/blog': {
+    title: 'Cybersecurity Blog, CVE Analysis & Red Team Research | RedOps',
+    description: 'Technical writeups, vulnerability research, CVE analysis, cloud security research, threat intelligence, and pentesting guides from RedOps Security.',
+  },
   '/contact': {
     title: 'Scope Your Security Assessment | Contact RedOps Security',
     description: 'Schedule a scoping call with our senior operators. Free initial attack surface review, tailored scope within 48 hours, NDA before information sharing.',
@@ -95,18 +98,6 @@ const DEFAULT_SEO: SeoEntry = {
 };
 
 export function getSeoForRoute(path: string): SeoEntry {
-  // Check for dynamic resource routes
-  if (path.startsWith('/resources/')) {
-    const slug = path.split('/').pop();
-    const resource = slug ? resourceData[slug] : null;
-    if (resource) {
-      return {
-        title: `${resource.title} | RedOps Security Research`,
-        description: resource.excerpt,
-      };
-    }
-  }
-
   // Check for dynamic case study routes
   if (path.startsWith('/case-studies/')) {
     const slug = path.split('/').pop();
@@ -209,46 +200,6 @@ export function generateMetaTags(path: string) {
   `;
 }
 
-export function generateArticleSchema(path: string) {
-  if (!path.startsWith('/resources/')) return null;
-  
-  const slug = path.split('/').pop();
-  const resource = slug ? resourceData[slug] : null;
-  if (!resource) return null;
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    'headline': resource.title,
-    'description': resource.excerpt,
-    'datePublished': resource.date, // Note: ISO format would be better but keeping consistency
-    'author': {
-      '@type': 'Person',
-      'name': 'RedOps Senior Operator',
-      'jobTitle': 'Senior Penetration Tester (OSCP)',
-      'url': `${SITE_URL}/about`
-    },
-    'reviewedBy': {
-      '@type': 'Organization',
-      'name': SITE_NAME,
-      'url': SITE_URL
-    },
-    'publisher': {
-      '@type': 'Organization',
-      'name': SITE_NAME,
-      'logo': {
-        '@type': 'ImageObject',
-        'url': `${SITE_URL}/favicon.png`
-      }
-    },
-    'mainEntityOfPage': {
-      '@type': 'WebPage',
-      '@id': `${SITE_URL}${path}`
-    },
-    'image': OG_IMAGE_URL
-  };
-}
-
 export function generateCaseStudySchema(path: string) {
   if (!path.startsWith('/case-studies/')) return null;
   
@@ -343,6 +294,7 @@ const STATIC_ROUTES = [
   '/about',
   '/case-studies',
   '/resources',
+  '/blog',
   '/contact',
   '/industries/saas',
   '/industries/fintech',
@@ -351,7 +303,6 @@ const STATIC_ROUTES = [
 // All routes to pre-render (including dynamic ones)
 export const ALL_ROUTES = [
   ...STATIC_ROUTES,
-  ...Object.keys(resourceData).map(slug => `/resources/${slug}`),
   ...Object.keys(caseStudiesData).map(slug => `/case-studies/${slug}`),
   ...Object.keys(authorsData).map(slug => `/authors/${slug}`)
 ];
