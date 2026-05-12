@@ -44,12 +44,26 @@ export default function TaxonomyManager({ type }: { type: 'categories' | 'tags' 
     setDescription('');
     setEditId(null);
     loadItems();
+
+    // Revalidate blog index to update filters
+    fetch('/api/admin/revalidate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    }).catch((e) => console.error('Revalidation failed', e));
   }
 
   async function handleDelete(id: string) {
     if (!confirm(`Delete this ${label.toLowerCase()}?`)) return;
     await fetch(`/api/admin/${type}/${id}`, { method: 'DELETE' });
     loadItems();
+
+    // Revalidate blog index to update filters
+    fetch('/api/admin/revalidate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    }).catch((e) => console.error('Revalidation failed', e));
   }
 
   function startEdit(item: Item) {

@@ -143,6 +143,17 @@ export default function PostForm({ postId }: { postId?: string }) {
         throw new Error(body.error || 'Failed to save post');
       }
 
+      // Revalidate cache
+      try {
+        await fetch('/api/admin/revalidate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug: form.slug }),
+        });
+      } catch (e) {
+        console.error('Revalidation failed', e);
+      }
+
       router.push('/admin/posts');
       router.refresh();
     } catch (err) {
@@ -155,9 +166,23 @@ export default function PostForm({ postId }: { postId?: string }) {
   async function handleDelete() {
     if (!postId || !confirm('Delete this post permanently?')) return;
     setSaving(true);
-    await fetch(`/api/admin/posts/${postId}`, { method: 'DELETE' });
-    router.push('/admin/posts');
-    router.refresh();
+    try {
+      await fetch(`/api/admin/posts/${postId}`, { method: 'DELETE' });
+
+      // Revalidate cache after deletion
+      await fetch('/api/admin/revalidate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: form.slug }),
+      }).catch((e) => console.error('Revalidation failed', e));
+
+      router.push('/admin/posts');
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Delete failed');
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (

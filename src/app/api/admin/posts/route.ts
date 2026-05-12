@@ -57,37 +57,47 @@ export async function POST(request: NextRequest) {
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-    // Link categories
-    if (body.category_ids?.length && post) {
-      await db.from('post_categories').insert(
-        body.category_ids.map((catId: string) => ({ post_id: post.id, category_id: catId })),
-      );
-    }
+    // Parallelize related data insertion
+    await Promise.all([
+      // Link categories
+      (async () => {
+        if (body.category_ids?.length && post) {
+          await db.from('post_categories').insert(
+            body.category_ids.map((catId: string) => ({ post_id: post.id, category_id: catId })),
+          );
+        }
+      })(),
 
-    // Link tags
-    if (body.tag_ids?.length && post) {
-      await db.from('post_tags').insert(
-        body.tag_ids.map((tagId: string) => ({ post_id: post.id, tag_id: tagId })),
-      );
-    }
+      // Link tags
+      (async () => {
+        if (body.tag_ids?.length && post) {
+          await db.from('post_tags').insert(
+            body.tag_ids.map((tagId: string) => ({ post_id: post.id, tag_id: tagId })),
+          );
+        }
+      })(),
 
-    // SEO
-    if (post && (body.seo_meta_title || body.seo_meta_description || body.seo_canonical_path)) {
-      await db.from('post_seo').insert({
-        post_id: post.id,
-        meta_title: body.seo_meta_title || null,
-        meta_description: body.seo_meta_description || null,
-        canonical_path: body.seo_canonical_path || null,
-      });
-    }
+      // SEO
+      (async () => {
+        if (post && (body.seo_meta_title || body.seo_meta_description || body.seo_canonical_path)) {
+          await db.from('post_seo').insert({
+            post_id: post.id,
+            meta_title: body.seo_meta_title || null,
+            meta_description: body.seo_meta_description || null,
+            canonical_path: body.seo_canonical_path || null,
+          });
+        }
+      })(),
 
-    await writeAuditLog({
-      actor,
-      action: 'post.create',
-      resourceType: 'post',
-      resourceId: post?.id,
-      ip,
-    });
+      // Audit log
+      writeAuditLog({
+        actor,
+        action: 'post.create',
+        resourceType: 'post',
+        resourceId: post?.id,
+        ip,
+      }),
+    ]);
 
     return NextResponse.json({ data: post }, { status: 201 });
   } catch {

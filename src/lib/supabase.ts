@@ -15,12 +15,18 @@ export const supabase: SupabaseClient = createClient(
  * Admin Supabase client (uses service role key).
  * Bypasses RLS — use ONLY in server-side API routes behind Clerk auth.
  */
+let serviceClient: SupabaseClient | null = null;
+
 export function getServiceClient(): SupabaseClient {
+  if (serviceClient) return serviceClient;
+
   if (!supabaseEnv.serviceRoleKey) {
     throw new Error('SUPABASE_SERVICE_ROLE_KEY is not configured');
   }
 
-  return createClient(supabaseEnv.url, supabaseEnv.serviceRoleKey, {
+  serviceClient = createClient(supabaseEnv.url, supabaseEnv.serviceRoleKey, {
     auth: { persistSession: false },
   });
+
+  return serviceClient;
 }

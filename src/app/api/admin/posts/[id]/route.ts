@@ -75,40 +75,50 @@ export async function PUT(request: NextRequest, context: RouteContext) {
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-    // Update categories
-    await db.from('post_categories').delete().eq('post_id', id);
-    if (body.category_ids?.length) {
-      await db.from('post_categories').insert(
-        body.category_ids.map((catId: string) => ({ post_id: id, category_id: catId })),
-      );
-    }
+    // Parallelize related updates
+    await Promise.all([
+      // Update categories
+      (async () => {
+        await db.from('post_categories').delete().eq('post_id', id);
+        if (body.category_ids?.length) {
+          await db.from('post_categories').insert(
+            body.category_ids.map((catId: string) => ({ post_id: id, category_id: catId })),
+          );
+        }
+      })(),
 
-    // Update tags
-    await db.from('post_tags').delete().eq('post_id', id);
-    if (body.tag_ids?.length) {
-      await db.from('post_tags').insert(
-        body.tag_ids.map((tagId: string) => ({ post_id: id, tag_id: tagId })),
-      );
-    }
+      // Update tags
+      (async () => {
+        await db.from('post_tags').delete().eq('post_id', id);
+        if (body.tag_ids?.length) {
+          await db.from('post_tags').insert(
+            body.tag_ids.map((tagId: string) => ({ post_id: id, tag_id: tagId })),
+          );
+        }
+      })(),
 
-    // Update SEO
-    await db.from('post_seo').delete().eq('post_id', id);
-    if (body.seo_meta_title || body.seo_meta_description || body.seo_canonical_path) {
-      await db.from('post_seo').insert({
-        post_id: id,
-        meta_title: body.seo_meta_title || null,
-        meta_description: body.seo_meta_description || null,
-        canonical_path: body.seo_canonical_path || null,
-      });
-    }
+      // Update SEO
+      (async () => {
+        await db.from('post_seo').delete().eq('post_id', id);
+        if (body.seo_meta_title || body.seo_meta_description || body.seo_canonical_path) {
+          await db.from('post_seo').insert({
+            post_id: id,
+            meta_title: body.seo_meta_title || null,
+            meta_description: body.seo_meta_description || null,
+            canonical_path: body.seo_canonical_path || null,
+          });
+        }
+      })(),
 
-    await writeAuditLog({
-      actor,
-      action: 'post.update',
-      resourceType: 'post',
-      resourceId: id,
-      ip,
-    });
+      // Audit log (don't even need to strictly await it if we want to return faster, but let's keep it in Promise.all for reliability)
+      writeAuditLog({
+        actor,
+        action: 'post.update',
+        resourceType: 'post',
+        resourceId: id,
+        ip,
+      }),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch {

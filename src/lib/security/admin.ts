@@ -52,12 +52,19 @@ export function hasAdminAccess(input: {
 
 export async function requireAdminActor(): Promise<AdminActor> {
   const authObject = await auth.protect();
-  const user = await currentUser();
-  const email = user?.primaryEmailAddress?.emailAddress;
+  const claims = authObject.sessionClaims as ClerkClaims;
+
+  // Try to get email from claims first to avoid an extra network call
+  let email = readClaim(claims, ['email', 'primary_email_address']);
+
+  if (!email) {
+    const user = await currentUser();
+    email = user?.primaryEmailAddress?.emailAddress;
+  }
 
   if (
     !hasAdminAccess({
-      sessionClaims: authObject.sessionClaims as ClerkClaims,
+      sessionClaims: claims,
       orgRole: authObject.orgRole,
       email,
     })
@@ -68,6 +75,6 @@ export async function requireAdminActor(): Promise<AdminActor> {
   return {
     id: authObject.userId,
     email,
-    role: authObject.orgRole || readClaim(authObject.sessionClaims as ClerkClaims, ['role']),
+    role: authObject.orgRole || readClaim(claims, ['role']),
   };
 }
