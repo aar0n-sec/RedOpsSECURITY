@@ -143,9 +143,15 @@ export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false)
 
   let query = supabase
     .from('posts')
-    .select(POST_CARD_QUERY, { count: 'exact' })
-    .eq('status', 'published')
-    .lte('published_at', new Date().toISOString())
+    .select(POST_CARD_QUERY, { count: 'exact' });
+
+  if (!_preview) {
+    query = query
+      .eq('status', 'published')
+      .lte('published_at', new Date().toISOString());
+  }
+
+  query = query
     .order('featured', { ascending: false })
     .order('published_at', { ascending: false })
     .range(from, to);
