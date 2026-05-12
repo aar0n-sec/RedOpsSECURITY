@@ -8,7 +8,8 @@ import {
 } from '@/lib/blog/seo';
 import { getBlogPostBySlug, getBlogPostSlugs } from '@/lib/db/posts';
 
-export const revalidate = 300;
+export const revalidate = 60;
+export const dynamicParams = true;
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;

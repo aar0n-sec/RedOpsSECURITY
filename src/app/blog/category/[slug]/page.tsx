@@ -4,7 +4,7 @@ import { normalizePage } from '@/lib/blog/text';
 import { createBlogListingMetadata } from '@/lib/blog/seo';
 import { getBlogIndex } from '@/lib/db/posts';
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;

@@ -4,7 +4,7 @@ import { normalizePage, normalizeSearchParam } from '@/lib/blog/text';
 import { createBlogListingMetadata } from '@/lib/blog/seo';
 import { getBlogIndex } from '@/lib/db/posts';
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 type BlogPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;

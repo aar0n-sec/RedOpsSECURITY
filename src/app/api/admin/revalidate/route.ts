@@ -1,4 +1,4 @@
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import { NextResponse, type NextRequest } from 'next/server';
 import { requireAdminActor, AdminForbiddenError } from '@/lib/security/admin';
 import { writeAuditLog } from '@/lib/db/audit';
@@ -30,17 +30,18 @@ export async function POST(request: NextRequest) {
     const body = (await request.json().catch(() => ({}))) as { slug?: string };
     const slug = body.slug?.trim();
 
-    revalidateTag('blog', { expire: 0 });
-    revalidateTag('post', { expire: 0 });
+    // Purge the entire /blog route tree (index, category, tag pages)
     revalidatePath('/blog', 'layout');
+
+    // Purge the specific post page if a slug was provided
+    if (slug) {
+      revalidatePath(`/blog/${slug}`, 'page');
+    }
+
+    // Purge related content pages
     revalidatePath('/authors', 'layout');
     revalidatePath('/sitemap.xml');
     revalidatePath('/rss.xml');
-
-    if (slug) {
-      revalidateTag(`post:${slug}`, { expire: 0 });
-      revalidatePath(`/blog/${slug}`);
-    }
 
     await writeAuditLog({
       actor,
