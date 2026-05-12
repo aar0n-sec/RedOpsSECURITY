@@ -47,7 +47,11 @@ export default function BlogFilters({
       <div className="blog-filter-group">
         <div className="blog-filter-title">Categories</div>
         <div className="blog-chip-list">
-          <Link className={!category ? 'active' : ''} href={hrefFor({ q: query, tag })}>
+          <Link 
+            className={!category ? 'active' : ''} 
+            href={hrefFor({ q: query, tag })}
+            prefetch={false}
+          >
             All
           </Link>
           {categories.map((item) => (
@@ -55,6 +59,7 @@ export default function BlogFilters({
               key={item.slug}
               className={category === item.slug ? 'active' : ''}
               href={hrefFor({ q: query, category: item.slug, tag })}
+              prefetch={false}
             >
               {item.title}
             </Link>
@@ -65,7 +70,11 @@ export default function BlogFilters({
       <div className="blog-filter-group">
         <div className="blog-filter-title">Tags</div>
         <div className="blog-chip-list compact">
-          <Link className={!tag ? 'active' : ''} href={hrefFor({ q: query, category })}>
+          <Link 
+            className={!tag ? 'active' : ''} 
+            href={hrefFor({ q: query, category })}
+            prefetch={false}
+          >
             All
           </Link>
           {tags.slice(0, 16).map((item) => (
@@ -73,6 +82,7 @@ export default function BlogFilters({
               key={item.slug}
               className={tag === item.slug ? 'active' : ''}
               href={hrefFor({ q: query, category, tag: item.slug })}
+              prefetch={false}
             >
               {item.title}
             </Link>

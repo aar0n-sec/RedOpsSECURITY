@@ -1,3 +1,4 @@
+import { unstable_cache } from 'next/cache';
 import { supabase } from '../supabase';
 import type { BlogTaxonomy } from '@/types/blog';
 
@@ -35,32 +36,40 @@ export async function getTag(slug: string): Promise<BlogTaxonomy | null> {
   };
 }
 
-export async function getAllCategories(): Promise<BlogTaxonomy[]> {
-  const { data, error } = await supabase
-    .from('categories')
-    .select('id, title, slug, description')
-    .order('title');
+export const getAllCategories = unstable_cache(
+  async (): Promise<BlogTaxonomy[]> => {
+    const { data, error } = await supabase
+      .from('categories')
+      .select('id, title, slug, description')
+      .order('title');
 
-  if (error || !data) return [];
-  return data.map((c) => ({
-    _id: c.id,
-    title: c.title,
-    slug: c.slug,
-    description: c.description ?? undefined,
-  }));
-}
+    if (error || !data) return [];
+    return data.map((c) => ({
+      _id: c.id,
+      title: c.title,
+      slug: c.slug,
+      description: c.description ?? undefined,
+    }));
+  },
+  ['all-categories'],
+  { revalidate: 3600, tags: ['taxonomy'] }
+);
 
-export async function getAllTags(): Promise<BlogTaxonomy[]> {
-  const { data, error } = await supabase
-    .from('tags')
-    .select('id, title, slug, description')
-    .order('title');
+export const getAllTags = unstable_cache(
+  async (): Promise<BlogTaxonomy[]> => {
+    const { data, error } = await supabase
+      .from('tags')
+      .select('id, title, slug, description')
+      .order('title');
 
-  if (error || !data) return [];
-  return data.map((t) => ({
-    _id: t.id,
-    title: t.title,
-    slug: t.slug,
-    description: t.description ?? undefined,
-  }));
-}
+    if (error || !data) return [];
+    return data.map((t) => ({
+      _id: t.id,
+      title: t.title,
+      slug: t.slug,
+      description: t.description ?? undefined,
+    }));
+  },
+  ['all-tags'],
+  { revalidate: 3600, tags: ['taxonomy'] }
+);

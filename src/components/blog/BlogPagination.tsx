@@ -34,6 +34,7 @@ export default function BlogPagination({
         className={page <= 1 ? 'blog-page-link disabled' : 'blog-page-link'}
         href={page <= 1 ? buildHref(1, query, category, tag) : buildHref(page - 1, query, category, tag)}
         aria-disabled={page <= 1}
+        prefetch={false}
       >
         Previous
       </Link>
@@ -48,6 +49,7 @@ export default function BlogPagination({
             : buildHref(page + 1, query, category, tag)
         }
         aria-disabled={page >= totalPages}
+        prefetch={false}
       >
         Next
       </Link>
