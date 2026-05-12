@@ -83,3 +83,13 @@ export type BlogIndexInput = {
   category?: string;
   tag?: string;
 };
+
+export type Lead = {
+  id: string;
+  name: string;
+  website: string;
+  status: 'not_tested' | 'tested';
+  remarks?: string;
+  created_at: string;
+  updated_at: string;
+};
