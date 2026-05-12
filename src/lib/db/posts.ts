@@ -18,7 +18,7 @@ const DEFAULT_PAGE_SIZE = 9;
 // Row → Domain mappers
 // ---------------------------------------------------------------------------
 
-type PostRow = {
+type JoinedPostRow = {
   id: string;
   title: string;
   slug: string;
@@ -32,14 +32,47 @@ type PostRow = {
   published_at: string | null;
   updated_at: string | null;
   author_id: string | null;
+  authors: any;
+  post_categories: any[];
+  post_tags: any[];
+  post_seo?: any;
+  post_faqs?: any[];
 };
 
-function mapPostCard(
-  row: PostRow,
-  author?: BlogAuthor | null,
-  categories?: BlogTaxonomy[],
-  tags?: BlogTaxonomy[],
-): BlogPostCard {
+function mapJoinedPost(row: JoinedPostRow): BlogPostCard {
+  const author = row.authors
+    ? {
+        _id: row.authors.id,
+        name: row.authors.name,
+        slug: row.authors.slug,
+        role: row.authors.role ?? undefined,
+        bio: row.authors.bio ?? undefined,
+        credentials: row.authors.credentials ?? undefined,
+        image: row.authors.image_url ? { url: row.authors.image_url } : undefined,
+        linkedin: row.authors.linkedin ?? undefined,
+        github: row.authors.github ?? undefined,
+        twitter: row.authors.twitter ?? undefined,
+      }
+    : undefined;
+
+  const categories =
+    row.post_categories
+      ?.map((pc) => {
+        const c = pc.categories;
+        if (!c) return null;
+        return { _id: c.id, title: c.title, slug: c.slug, description: c.description ?? undefined };
+      })
+      .filter(Boolean) as BlogTaxonomy[] ?? [];
+
+  const tags =
+    row.post_tags
+      ?.map((pt) => {
+        const t = pt.tags;
+        if (!t) return null;
+        return { _id: t.id, title: t.title, slug: t.slug, description: t.description ?? undefined };
+      })
+      .filter(Boolean) as BlogTaxonomy[] ?? [];
+
   const card: BlogPostCard = {
     _id: row.id,
     title: row.title,
@@ -50,7 +83,7 @@ function mapPostCard(
     featured: row.featured,
     readingTime: row.reading_time ?? undefined,
     mainImage: row.image_url ? { url: row.image_url, alt: row.image_alt ?? undefined } : undefined,
-    author: author ?? undefined,
+    author,
     categories,
     tags,
   };
@@ -67,109 +100,40 @@ function mapPostCard(
 }
 
 // ---------------------------------------------------------------------------
-// Helpers: fetch related author, categories, tags for a post
+// Helpers: Taxonomy Cache
 // ---------------------------------------------------------------------------
 
-async function fetchAuthorById(authorId: string | null): Promise<BlogAuthor | null> {
-  if (!authorId) return null;
+let taxonomyCache: {
+  categories: BlogTaxonomy[];
+  tags: BlogTaxonomy[];
+  expiry: number;
+} | null = null;
 
-  const { data } = await supabase
-    .from('authors')
-    .select('id, name, slug, role, bio, credentials, image_url, linkedin, github, twitter')
-    .eq('id', authorId)
-    .single();
+async function getCachedTaxonomy() {
+  const now = Date.now();
+  if (taxonomyCache && taxonomyCache.expiry > now) {
+    return { categories: taxonomyCache.categories, tags: taxonomyCache.tags };
+  }
 
-  if (!data) return null;
-
-  return {
-    _id: data.id,
-    name: data.name,
-    slug: data.slug,
-    role: data.role ?? undefined,
-    bio: data.bio ?? undefined,
-    credentials: data.credentials ?? undefined,
-    image: data.image_url ? { url: data.image_url } : undefined,
-    linkedin: data.linkedin ?? undefined,
-    github: data.github ?? undefined,
-    twitter: data.twitter ?? undefined,
+  const [categories, tags] = await Promise.all([getAllCategories(), getAllTags()]);
+  taxonomyCache = {
+    categories,
+    tags,
+    expiry: now + 1000 * 60 * 5, // 5 minute cache
   };
-}
-
-async function fetchPostCategories(postId: string): Promise<BlogTaxonomy[]> {
-  const { data } = await supabase
-    .from('post_categories')
-    .select('categories(id, title, slug, description)')
-    .eq('post_id', postId);
-
-  if (!data) return [];
-
-  return data
-    .map((row) => {
-      const c = (row as unknown as { categories: { id: string; title: string; slug: string; description: string | null } }).categories;
-      if (!c) return null;
-      return { _id: c.id, title: c.title, slug: c.slug, description: c.description ?? undefined };
-    })
-    .filter(Boolean) as BlogTaxonomy[];
-}
-
-async function fetchPostTags(postId: string): Promise<BlogTaxonomy[]> {
-  const { data } = await supabase
-    .from('post_tags')
-    .select('tags(id, title, slug, description)')
-    .eq('post_id', postId);
-
-  if (!data) return [];
-
-  return data
-    .map((row) => {
-      const t = (row as unknown as { tags: { id: string; title: string; slug: string; description: string | null } }).tags;
-      if (!t) return null;
-      return { _id: t.id, title: t.title, slug: t.slug, description: t.description ?? undefined };
-    })
-    .filter(Boolean) as BlogTaxonomy[];
-}
-
-async function fetchPostSeo(postId: string): Promise<BlogSeo | undefined> {
-  const { data } = await supabase
-    .from('post_seo')
-    .select('*')
-    .eq('post_id', postId)
-    .single();
-
-  if (!data) return undefined;
-
-  return {
-    metaTitle: data.meta_title ?? undefined,
-    metaDescription: data.meta_description ?? undefined,
-    canonicalPath: data.canonical_path ?? undefined,
-    noIndex: data.no_index ?? false,
-    ogImage: data.og_image_url ? { url: data.og_image_url } : undefined,
-  };
-}
-
-async function fetchPostFaqs(postId: string): Promise<BlogFaq[]> {
-  const { data } = await supabase
-    .from('post_faqs')
-    .select('question, answer')
-    .eq('post_id', postId)
-    .order('sort_order');
-
-  return data ?? [];
-}
-
-async function enrichPostCard(row: PostRow): Promise<BlogPostCard> {
-  const [author, categories, tags] = await Promise.all([
-    fetchAuthorById(row.author_id),
-    fetchPostCategories(row.id),
-    fetchPostTags(row.id),
-  ]);
-
-  return mapPostCard(row, author, categories, tags);
+  return { categories, tags };
 }
 
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
+
+const POST_CARD_QUERY = `
+  id, title, slug, excerpt, status, featured, reading_time, image_url, image_alt, published_at, updated_at, author_id,
+  authors ( id, name, slug, role, bio, credentials, image_url, linkedin, github, twitter ),
+  post_categories ( categories ( id, title, slug, description ) ),
+  post_tags ( tags ( id, title, slug, description ) )
+`;
 
 export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false) {
   const page = input.page && input.page > 0 ? input.page : 1;
@@ -179,7 +143,7 @@ export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false)
 
   let query = supabase
     .from('posts')
-    .select('*', { count: 'exact' })
+    .select(POST_CARD_QUERY, { count: 'exact' })
     .eq('status', 'published')
     .lte('published_at', new Date().toISOString())
     .order('featured', { ascending: false })
@@ -193,9 +157,9 @@ export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false)
       .select('post_id, categories!inner(slug)')
       .eq('categories.slug', input.category);
 
-    const postIds = catJoin?.map((r) => (r as unknown as { post_id: string }).post_id) ?? [];
+    const postIds = catJoin?.map((r: any) => r.post_id) ?? [];
     if (postIds.length === 0) {
-      const [categories, tags] = await Promise.all([getAllCategories(), getAllTags()]);
+      const { categories, tags } = await getCachedTaxonomy();
       return { posts: [], total: 0, categories, tags, page, pageSize, totalPages: 1 };
     }
     query = query.in('id', postIds);
@@ -208,9 +172,9 @@ export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false)
       .select('post_id, tags!inner(slug)')
       .eq('tags.slug', input.tag);
 
-    const postIds = tagJoin?.map((r) => (r as unknown as { post_id: string }).post_id) ?? [];
+    const postIds = tagJoin?.map((r: any) => r.post_id) ?? [];
     if (postIds.length === 0) {
-      const [categories, tags] = await Promise.all([getAllCategories(), getAllTags()]);
+      const { categories, tags } = await getCachedTaxonomy();
       return { posts: [], total: 0, categories, tags, page, pageSize, totalPages: 1 };
     }
     query = query.in('id', postIds);
@@ -221,22 +185,21 @@ export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false)
     query = query.textSearch('search_vector', input.query, { type: 'websearch' });
   }
 
-  const { data: rows, count, error } = await query;
+  const [res, taxonomy] = await Promise.all([query, getCachedTaxonomy()]);
+  const { data: rows, count, error } = res;
 
   if (error || !rows) {
-    const [categories, tags] = await Promise.all([getAllCategories(), getAllTags()]);
-    return { posts: [], total: 0, categories, tags, page, pageSize, totalPages: 1 };
+    return { posts: [], total: 0, categories: taxonomy.categories, tags: taxonomy.tags, page, pageSize, totalPages: 1 };
   }
 
-  const posts = await Promise.all(rows.map((row) => enrichPostCard(row as PostRow)));
-  const [categories, tags] = await Promise.all([getAllCategories(), getAllTags()]);
+  const posts = rows.map((row) => mapJoinedPost(row as unknown as JoinedPostRow));
   const total = count ?? 0;
 
   return {
     posts,
     total,
-    categories,
-    tags,
+    categories: taxonomy.categories,
+    tags: taxonomy.tags,
     page,
     pageSize,
     totalPages: Math.max(1, Math.ceil(total / pageSize)),
@@ -244,7 +207,15 @@ export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false)
 }
 
 export async function getBlogPostBySlug(slug: string, _preview = false) {
-  let query = supabase.from('posts').select('*').eq('slug', slug);
+  let query = supabase
+    .from('posts')
+    .select(`
+      ${POST_CARD_QUERY},
+      body,
+      post_seo ( meta_title, meta_description, canonical_path, no_index, og_image_url ),
+      post_faqs ( question, answer, sort_order )
+    `)
+    .eq('slug', slug);
 
   if (!_preview) {
     query = query
@@ -256,35 +227,33 @@ export async function getBlogPostBySlug(slug: string, _preview = false) {
 
   if (error || !row) return null;
 
-  const postRow = row as PostRow;
-  const [author, categories, tags, seo, faqs] = await Promise.all([
-    fetchAuthorById(postRow.author_id),
-    fetchPostCategories(postRow.id),
-    fetchPostTags(postRow.id),
-    fetchPostSeo(postRow.id),
-    fetchPostFaqs(postRow.id),
-  ]);
-
-  const card = mapPostCard(postRow, author, categories, tags);
+  const postRow = row as unknown as JoinedPostRow;
+  const card = mapJoinedPost(postRow);
   const body = postRow.body || '';
   const tableOfContents = extractTableOfContents(body);
 
+  // SEO
+  const seoData = postRow.post_seo;
+  const faqData = postRow.post_faqs?.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)) ?? [];
+
+  const seo: BlogSeo | undefined = seoData || faqData.length ? {
+    metaTitle: seoData?.meta_title ?? undefined,
+    metaDescription: seoData?.meta_description ?? undefined,
+    canonicalPath: seoData?.canonical_path ?? undefined,
+    noIndex: seoData?.no_index ?? false,
+    ogImage: seoData?.og_image_url ? { url: seoData?.og_image_url } : undefined,
+    faqs: faqData.length ? faqData.map(f => ({ question: f.question, answer: f.answer })) : undefined,
+  } : undefined;
+
   // Related posts
-  const categorySlugs = categories.map((c) => c.slug).filter(Boolean);
-  const tagSlugs = tags.map((t) => t.slug).filter(Boolean);
+  const categorySlugs = card.categories?.map((c) => c.slug).filter(Boolean) ?? [];
+  const tagSlugs = card.tags?.map((t) => t.slug).filter(Boolean) ?? [];
   const relatedPosts = await getRelatedPosts(postRow.id, categorySlugs, tagSlugs);
 
   const post: BlogPost = {
     ...card,
     body,
-    seo: seo
-      ? {
-          ...seo,
-          faqs: faqs.length ? faqs : undefined,
-        }
-      : faqs.length
-        ? { faqs }
-        : undefined,
+    seo,
     relatedPosts,
     tableOfContents,
   };
@@ -314,7 +283,7 @@ export async function getPostsByAuthor(slug: string): Promise<BlogPostCard[]> {
 
   const { data: rows } = await supabase
     .from('posts')
-    .select('*')
+    .select(POST_CARD_QUERY)
     .eq('author_id', authorRow.id)
     .eq('status', 'published')
     .lte('published_at', new Date().toISOString())
@@ -323,7 +292,7 @@ export async function getPostsByAuthor(slug: string): Promise<BlogPostCard[]> {
 
   if (!rows) return [];
 
-  return Promise.all(rows.map((row) => enrichPostCard(row as PostRow)));
+  return rows.map((row) => mapJoinedPost(row as unknown as JoinedPostRow));
 }
 
 async function getRelatedPosts(
@@ -341,7 +310,7 @@ async function getRelatedPosts(
       .in('categories.slug', categorySlugs)
       .neq('post_id', excludePostId);
 
-    catRows?.forEach((r) => relatedPostIds.add((r as unknown as { post_id: string }).post_id));
+    catRows?.forEach((r: any) => relatedPostIds.add(r.post_id));
   }
 
   if (tagSlugs.length) {
@@ -351,14 +320,14 @@ async function getRelatedPosts(
       .in('tags.slug', tagSlugs)
       .neq('post_id', excludePostId);
 
-    tagRows?.forEach((r) => relatedPostIds.add((r as unknown as { post_id: string }).post_id));
+    tagRows?.forEach((r: any) => relatedPostIds.add(r.post_id));
   }
 
   if (relatedPostIds.size === 0) return [];
 
   const { data: rows } = await supabase
     .from('posts')
-    .select('*')
+    .select(POST_CARD_QUERY)
     .in('id', Array.from(relatedPostIds))
     .eq('status', 'published')
     .lte('published_at', new Date().toISOString())
@@ -367,13 +336,16 @@ async function getRelatedPosts(
 
   if (!rows) return [];
 
-  return Promise.all(rows.map((row) => enrichPostCard(row as PostRow)));
+  return rows.map((row) => mapJoinedPost(row as unknown as JoinedPostRow));
 }
 
 export async function getRssPosts(): Promise<BlogPost[]> {
   const { data: rows } = await supabase
     .from('posts')
-    .select('*')
+    .select(`
+      ${POST_CARD_QUERY},
+      body
+    `)
     .eq('status', 'published')
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
@@ -381,16 +353,12 @@ export async function getRssPosts(): Promise<BlogPost[]> {
 
   if (!rows) return [];
 
-  const posts = await Promise.all(
-    rows.map(async (row) => {
-      const postRow = row as PostRow;
-      const card = await enrichPostCard(postRow);
-      return {
-        ...card,
-        body: postRow.body || '',
-      } as BlogPost;
-    }),
-  );
-
-  return posts;
+  return rows.map((row) => {
+    const postRow = row as unknown as JoinedPostRow;
+    const card = mapJoinedPost(postRow);
+    return {
+      ...card,
+      body: postRow.body || '',
+    } as BlogPost;
+  });
 }

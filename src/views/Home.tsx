@@ -1,7 +1,12 @@
 import Link from 'next/link';
-import HeroCanvas from '../components/HeroCanvas';
+import dynamic from 'next/dynamic';
 import Reveal from '../components/Reveal';
 import AnimatedCounter from '../components/AnimatedCounter';
+
+const HeroCanvas = dynamic(() => import('../components/HeroCanvas'), {
+  ssr: false,
+  loading: () => <div className="hero-canvas-placeholder" aria-hidden="true" />,
+});
 
 const Home = () => {
   return (
