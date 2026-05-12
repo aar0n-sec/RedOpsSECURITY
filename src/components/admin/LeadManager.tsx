@@ -33,39 +33,69 @@ export default function LeadManager() {
     reader.onload = async (event) => {
       const text = event.target?.result as string;
       const lines = text.split('\n').filter(line => line.trim());
-      if (lines.length < 2) {
-        alert('CSV is empty or missing data');
+      if (lines.length < 1) {
+        alert('CSV is empty');
         setUploading(false);
         return;
       }
 
-      const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-      
-      const nameIdx = headers.findIndex(h => h.includes('name') || h.includes('lead') || h.includes('person'));
-      const websiteIdx = headers.findIndex(h => h.includes('website') || h.includes('url') || h.includes('site') || h.includes('link'));
-      const emailIdx = headers.findIndex(h => h.includes('email') || h.includes('mail') || h.includes('contact'));
-
-      if (nameIdx === -1 || websiteIdx === -1) {
-        alert('CSV must have columns identifying "name" and "website" (e.g., "Full Name", "Site URL")');
-        setUploading(false);
-        return;
-      }
-
-      const parsedLeads = lines.slice(1).map(line => {
+      // Intelligent parser that doesn't rely on headers
+      const parsedLeads = lines.map((line, index) => {
         const values = line.split(',').map(v => v.trim());
-        return {
-          name: values[nameIdx],
-          website: values[websiteIdx],
-          email: emailIdx !== -1 ? values[emailIdx] : undefined,
-          status: 'not_tested' as const,
-        };
-      }).filter(l => l.name && l.website);
+        
+        let website = '';
+        let email = '';
+        let name = '';
+
+        // Pattern for identification
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
+
+        // 1. Identify URL and Email by content scanning
+        values.forEach(val => {
+          if (!email && emailRegex.test(val)) {
+            email = val;
+          } else if (!website && urlRegex.test(val) && !val.includes('@')) {
+            website = val;
+          }
+        });
+
+        // 2. Identify Name (Take first non-empty value that isn't the website or email)
+        for (const val of values) {
+          if (val && val !== website && val !== email && val.length > 2) {
+            name = val;
+            break;
+          }
+        }
+
+        // 3. Fallback (If it's the first line and looks like headers, we'll skip it in the next step)
+        return { name, website, email, isHeaderLikely: index === 0 && (name.toLowerCase().includes('name') || website.toLowerCase().includes('url')) };
+      });
+
+      // Filter out rows that are likely headers or missing critical data (website)
+      const finalLeads = parsedLeads
+        .filter((l, i) => {
+          if (i === 0 && l.isHeaderLikely) return false;
+          return l.website && l.name;
+        })
+        .map(({ name, website, email }) => ({
+          name,
+          website,
+          email,
+          status: 'not_tested' as const
+        }));
+
+      if (finalLeads.length === 0) {
+        alert('Could not identify any leads (names and websites) in the file. Please ensure data is present.');
+        setUploading(false);
+        return;
+      }
 
       try {
         const res = await fetch('/api/admin/leads', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(parsedLeads),
+          body: JSON.stringify(finalLeads),
         });
         if (res.ok) {
           loadLeads();
@@ -225,14 +255,15 @@ export default function LeadManager() {
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="admin-table-empty">
+                <td colSpan={6} className="admin-table-empty">
                   No leads found. Upload a CSV to get started.
                 </td>
               </tr>
             )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
+            </tbody>
+            </table>
+            </div>
+            </div>
+            );
+            }
+
