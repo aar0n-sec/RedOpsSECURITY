@@ -88,6 +88,7 @@ export type Lead = {
   id: string;
   name: string;
   website: string;
+  email?: string;
   status: 'not_tested' | 'tested';
   remarks?: string;
   created_at: string;

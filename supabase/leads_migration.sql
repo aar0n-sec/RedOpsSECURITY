@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS leads (
   id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name        TEXT NOT NULL,
   website     TEXT NOT NULL,
+  email       TEXT,
   status      TEXT NOT NULL DEFAULT 'not_tested' CHECK (status IN ('not_tested', 'tested')),
   remarks     TEXT,
   created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),

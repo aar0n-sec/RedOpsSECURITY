@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { Lead } from '@/types/blog';
 
 export default function LeadManager() {
@@ -8,11 +8,7 @@ export default function LeadManager() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
 
-  useEffect(() => {
-    loadLeads();
-  }, []);
-
-  async function loadLeads() {
+  const loadLeads = useCallback(async () => {
     try {
       const res = await fetch('/api/admin/leads');
       const data = await res.json();
@@ -22,7 +18,11 @@ export default function LeadManager() {
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    loadLeads();
+  }, [loadLeads]);
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -41,11 +41,12 @@ export default function LeadManager() {
 
       const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
       
-      const nameIdx = headers.indexOf('name');
-      const websiteIdx = headers.indexOf('website');
+      const nameIdx = headers.findIndex(h => h.includes('name') || h.includes('lead') || h.includes('person'));
+      const websiteIdx = headers.findIndex(h => h.includes('website') || h.includes('url') || h.includes('site') || h.includes('link'));
+      const emailIdx = headers.findIndex(h => h.includes('email') || h.includes('mail') || h.includes('contact'));
 
       if (nameIdx === -1 || websiteIdx === -1) {
-        alert('CSV must have "name" and "website" columns');
+        alert('CSV must have columns identifying "name" and "website" (e.g., "Full Name", "Site URL")');
         setUploading(false);
         return;
       }
@@ -55,6 +56,7 @@ export default function LeadManager() {
         return {
           name: values[nameIdx],
           website: values[websiteIdx],
+          email: emailIdx !== -1 ? values[emailIdx] : undefined,
           status: 'not_tested' as const,
         };
       }).filter(l => l.name && l.website);
@@ -138,7 +140,7 @@ export default function LeadManager() {
           </label>
         </div>
         <p className="admin-help-text" style={{ fontSize: '0.85rem', color: 'var(--dark-soft)' }}>
-          CSV columns: <code>name</code>, <code>website</code>
+          CSV columns: <code>name</code>, <code>website</code>, <code>email</code> (auto-identified)
         </p>
       </div>
 
@@ -148,6 +150,7 @@ export default function LeadManager() {
             <tr>
               <th>Name</th>
               <th>Website</th>
+              <th>Email</th>
               <th>Status</th>
               <th>Remarks</th>
               <th>Actions</th>
@@ -155,7 +158,7 @@ export default function LeadManager() {
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={5} className="admin-table-empty">Loading leads...</td></tr>
+              <tr><td colSpan={6} className="admin-table-empty">Loading leads...</td></tr>
             ) : leads.length > 0 ? (
               leads.map((lead) => (
                 <tr key={lead.id}>
@@ -169,6 +172,7 @@ export default function LeadManager() {
                       {lead.website}
                     </a>
                   </td>
+                  <td>{lead.email || '—'}</td>
                   <td>
                     <select 
                       value={lead.status} 

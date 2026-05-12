@@ -4,7 +4,6 @@ import Link from 'next/link';
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div className="page active" id="page-admin">
-      <div style={{ height: 'var(--nav-h)' }} />
       <div className="admin-layout">
         <aside className="admin-sidebar">
           <div className="admin-sidebar-brand">
