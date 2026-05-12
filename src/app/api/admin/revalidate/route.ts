@@ -30,14 +30,16 @@ export async function POST(request: NextRequest) {
     const body = (await request.json().catch(() => ({}))) as { slug?: string };
     const slug = body.slug?.trim();
 
-    revalidateTag('blog');
-    revalidateTag('post');
+    revalidateTag('blog', { expire: 0 });
+    revalidateTag('post', { expire: 0 });
     revalidatePath('/blog', 'layout');
+    revalidatePath('/authors', 'layout');
     revalidatePath('/sitemap.xml');
     revalidatePath('/rss.xml');
 
     if (slug) {
-      revalidateTag(`post:${slug}`);
+      revalidateTag(`post:${slug}`, { expire: 0 });
+      revalidatePath(`/blog/${slug}`);
     }
 
     await writeAuditLog({

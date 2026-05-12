@@ -100,27 +100,11 @@ function mapJoinedPost(row: JoinedPostRow): BlogPostCard {
 }
 
 // ---------------------------------------------------------------------------
-// Helpers: Taxonomy Cache
+// Helpers: Taxonomy
 // ---------------------------------------------------------------------------
 
-let taxonomyCache: {
-  categories: BlogTaxonomy[];
-  tags: BlogTaxonomy[];
-  expiry: number;
-} | null = null;
-
-async function getCachedTaxonomy() {
-  const now = Date.now();
-  if (taxonomyCache && taxonomyCache.expiry > now) {
-    return { categories: taxonomyCache.categories, tags: taxonomyCache.tags };
-  }
-
+async function getTaxonomy() {
   const [categories, tags] = await Promise.all([getAllCategories(), getAllTags()]);
-  taxonomyCache = {
-    categories,
-    tags,
-    expiry: now + 1000 * 60 * 5, // 5 minute cache
-  };
   return { categories, tags };
 }
 
@@ -165,7 +149,7 @@ export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false)
 
     const postIds = catJoin?.map((r: any) => r.post_id) ?? [];
     if (postIds.length === 0) {
-      const { categories, tags } = await getCachedTaxonomy();
+      const { categories, tags } = await getTaxonomy();
       return { posts: [], total: 0, categories, tags, page, pageSize, totalPages: 1 };
     }
     query = query.in('id', postIds);
@@ -180,7 +164,7 @@ export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false)
 
     const postIds = tagJoin?.map((r: any) => r.post_id) ?? [];
     if (postIds.length === 0) {
-      const { categories, tags } = await getCachedTaxonomy();
+      const { categories, tags } = await getTaxonomy();
       return { posts: [], total: 0, categories, tags, page, pageSize, totalPages: 1 };
     }
     query = query.in('id', postIds);
@@ -191,7 +175,7 @@ export async function getBlogIndex(input: BlogIndexInput = {}, _preview = false)
     query = query.textSearch('search_vector', input.query, { type: 'websearch' });
   }
 
-  const [res, taxonomy] = await Promise.all([query, getCachedTaxonomy()]);
+  const [res, taxonomy] = await Promise.all([query, getTaxonomy()]);
   const { data: rows, count, error } = res;
 
   if (error || !rows) {
