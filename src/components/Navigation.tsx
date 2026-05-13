@@ -52,7 +52,6 @@ const Navigation = () => {
         <li><Link href="/" className={isActive('/')} onClick={closeMenu}>Home</Link></li>
         <li><Link href="/services" className={isActive('/services')} onClick={closeMenu}>Services</Link></li>
         <li><Link href="/about" className={isActive('/about')} onClick={closeMenu}>About</Link></li>
-        <li><Link href="/case-studies" className={isActive('/case-studies')} onClick={closeMenu}>Case Studies</Link></li>
         <li><Link href="/blog" className={isActive('/blog') || isActive('/resources') ? 'active' : ''} onClick={closeMenu}>Blogs</Link></li>
         <li className="mobile-nav-cta"><Link href="/contact" className={isActive('/contact')} onClick={closeMenu}>Get Free Audit</Link></li>
       </ul>

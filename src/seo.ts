@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { caseStudiesData } from './data/case-studies';
 import { authorsData } from './data/authors';
 
 // Per-page SEO metadata for Next.js metadata generation
@@ -60,10 +59,6 @@ const SEO_DATA: Record<string, SeoEntry> = {
     title: 'About RedOps Security | Elite Offensive Security Team',
     description: 'Founded by offensive security practitioners. Senior-only operators with OSCP/OSCE certifications and 7+ years of experience. Manual testing, no automation, actionable reports.',
   },
-  '/case-studies': {
-    title: 'Penetration Testing Case Studies | Real Exploits & Findings | RedOps',
-    description: 'Anonymized case studies from real penetration testing engagements. Authentication bypasses, domain compromise, and supply chain vulnerabilities discovered before adversaries.',
-  },
   '/resources': {
     title: 'Security Intelligence, Threat Research & Guides | RedOps',
     description: 'Practitioner-written guides, threat analysis, and attack breakdowns. JWT exploitation, Active Directory attacks, mobile security, cloud IAM, and API security research.',
@@ -98,18 +93,6 @@ const DEFAULT_SEO: SeoEntry = {
 };
 
 export function getSeoForRoute(path: string): SeoEntry {
-  // Check for dynamic case study routes
-  if (path.startsWith('/case-studies/')) {
-    const slug = path.split('/').pop();
-    const cs = slug ? caseStudiesData[slug] : null;
-    if (cs) {
-      return {
-        title: `${cs.title} | Case Study | RedOps`,
-        description: cs.scenario,
-      };
-    }
-  }
-
   // Check for dynamic author routes
   if (path.startsWith('/authors/')) {
     const slug = path.split('/').pop();
@@ -200,39 +183,6 @@ export function generateMetaTags(path: string) {
   `;
 }
 
-export function generateCaseStudySchema(path: string) {
-  if (!path.startsWith('/case-studies/')) return null;
-  
-  const slug = path.split('/').pop();
-  const cs = slug ? caseStudiesData[slug] : null;
-  if (!cs) return null;
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'TechArticle',
-    'headline': cs.title,
-    'description': cs.scenario,
-    'author': {
-      '@type': 'Organization',
-      'name': SITE_NAME,
-      'url': SITE_URL
-    },
-    'publisher': {
-      '@type': 'Organization',
-      'name': SITE_NAME,
-      'logo': {
-        '@type': 'ImageObject',
-        'url': `${SITE_URL}/favicon.png`
-      }
-    },
-    'mainEntityOfPage': {
-      '@type': 'WebPage',
-      '@id': `${SITE_URL}${path}`
-    },
-    'image': OG_IMAGE_URL
-  };
-}
-
 export function generateServiceSchema(path: string, serviceType: string, description: string) {
   return {
     '@context': 'https://schema.org',
@@ -292,7 +242,6 @@ const STATIC_ROUTES = [
   '/services/iso',
   '/services/webdev',
   '/about',
-  '/case-studies',
   '/resources',
   '/blog',
   '/contact',
@@ -303,7 +252,6 @@ const STATIC_ROUTES = [
 // All routes to pre-render (including dynamic ones)
 export const ALL_ROUTES = [
   ...STATIC_ROUTES,
-  ...Object.keys(caseStudiesData).map(slug => `/case-studies/${slug}`),
   ...Object.keys(authorsData).map(slug => `/authors/${slug}`)
 ];
 
