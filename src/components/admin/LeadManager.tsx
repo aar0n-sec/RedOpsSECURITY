@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import type { Lead } from '@/types/blog';
+import * as XLSX from 'xlsx';
 
 export default function LeadManager() {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -31,67 +32,77 @@ export default function LeadManager() {
     setUploading(true);
     const reader = new FileReader();
     reader.onload = async (event) => {
-      const text = event.target?.result as string;
-      const lines = text.split('\n').filter(line => line.trim());
-      if (lines.length < 1) {
-        alert('CSV is empty');
-        setUploading(false);
-        return;
-      }
+      try {
+        const data = event.target?.result;
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const rows = XLSX.utils.sheet_to_json<any[]>(worksheet, { header: 1 });
 
-      // Intelligent parser that doesn't rely on headers
-      const parsedLeads = lines.map((line, index) => {
-        const values = line.split(',').map(v => v.trim());
-        
-        let website = '';
-        let email = '';
-        let name = '';
-
-        // Pattern for identification
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
-
-        // 1. Identify URL and Email by content scanning
-        values.forEach(val => {
-          if (!email && emailRegex.test(val)) {
-            email = val;
-          } else if (!website && urlRegex.test(val) && !val.includes('@')) {
-            website = val;
-          }
-        });
-
-        // 2. Identify Name (Take first non-empty value that isn't the website or email)
-        for (const val of values) {
-          if (val && val !== website && val !== email && val.length > 2) {
-            name = val;
-            break;
-          }
+        if (!rows || rows.length === 0) {
+          alert('File is empty');
+          setUploading(false);
+          return;
         }
 
-        // 3. Fallback (If it's the first line and looks like headers, we'll skip it in the next step)
-        return { name, website, email, isHeaderLikely: index === 0 && (name.toLowerCase().includes('name') || website.toLowerCase().includes('url')) };
-      });
+        // Intelligent parser that doesn't rely on headers
+        const parsedLeads = rows.map((row, index) => {
+          const values = row.map(v => v ? String(v).trim() : '');
+          
+          let website = '';
+          let email = '';
+          let name = '';
 
-      // Filter out rows that are likely headers or missing critical data (website)
-      const finalLeads = parsedLeads
-        .filter((l, i) => {
-          if (i === 0 && l.isHeaderLikely) return false;
-          return l.website && l.name;
-        })
-        .map(({ name, website, email }) => ({
-          name,
-          website,
-          email,
-          status: 'not_tested' as const
-        }));
+          // Pattern for identification
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
 
-      if (finalLeads.length === 0) {
-        alert('Could not identify any leads (names and websites) in the file. Please ensure data is present.');
-        setUploading(false);
-        return;
-      }
+          // 1. Identify URL and Email by content scanning
+          values.forEach(val => {
+            if (!val) return;
+            if (!email && emailRegex.test(val)) {
+              email = val;
+            } else if (!website && urlRegex.test(val) && !val.includes('@')) {
+              website = val;
+            }
+          });
 
-      try {
+          // If we found an email but no website, extract website from email domain
+          if (email && !website) {
+            website = email.split('@')[1];
+          }
+
+          // 2. Identify Name (Take first non-empty value that isn't the website or email)
+          for (const val of values) {
+            if (val && val !== website && val !== email && val.length > 2 && !emailRegex.test(val) && !urlRegex.test(val)) {
+              name = val;
+              break;
+            }
+          }
+
+          // 3. Fallback (If it's the first line and looks like headers, we'll skip it in the next step)
+          return { name, website, email, isHeaderLikely: index === 0 && (name.toLowerCase().includes('name') || website.toLowerCase().includes('url')) };
+        });
+
+        // Filter out rows that are likely headers or missing critical data (website)
+        const finalLeads = parsedLeads
+          .filter((l, i) => {
+            if (i === 0 && l.isHeaderLikely) return false;
+            return l.website && l.name;
+          })
+          .map(({ name, website, email }) => ({
+            name,
+            website,
+            email,
+            status: 'not_tested' as const
+          }));
+
+        if (finalLeads.length === 0) {
+          alert('Could not identify any leads (names and websites) in the file. Please ensure data is present.');
+          setUploading(false);
+          return;
+        }
+
         const res = await fetch('/api/admin/leads', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -112,7 +123,7 @@ export default function LeadManager() {
         e.target.value = '';
       }
     };
-    reader.readAsText(file);
+    reader.readAsArrayBuffer(file);
   }
 
   async function updateStatus(id: string, status: 'tested' | 'not_tested') {
@@ -158,11 +169,11 @@ export default function LeadManager() {
       <div className="admin-inline-form" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <div className="file-upload-group">
           <label htmlFor="csv-upload" className="btn-primary" style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}>
-            <span>{uploading ? 'Uploading...' : 'Upload CSV Leads'}</span>
+            <span>{uploading ? 'Uploading...' : 'Upload Leads (CSV/XLSX)'}</span>
             <input
               id="csv-upload"
               type="file"
-              accept=".csv"
+              accept=".csv,.xlsx,.xls"
               onChange={handleFileUpload}
               style={{ display: 'none' }}
               disabled={uploading}
@@ -170,7 +181,7 @@ export default function LeadManager() {
           </label>
         </div>
         <p className="admin-help-text" style={{ fontSize: '0.85rem', color: 'var(--dark-soft)' }}>
-          CSV columns: <code>name</code>, <code>website</code>, <code>email</code> (auto-identified)
+          Supported files: CSV, XLSX. Unorganized columns are automatically parsed.
         </p>
       </div>
 
