@@ -45,15 +45,43 @@ export default function LeadManager() {
           return;
         }
 
-        // Intelligent parser that doesn't rely on headers
-        const parsedLeads = rows.map((row, index) => {
+        // 1. Detect headers
+        const firstRow = rows[0]?.map(v => String(v || '').trim().toLowerCase()) || [];
+        let nameIdx = -1;
+        let emailIdx = -1;
+        let websiteIdx = -1;
+
+        firstRow.forEach((col, idx) => {
+          if (col.includes('name') || col.includes('company') || col.includes('first') || col.includes('lead')) {
+            if (nameIdx === -1) nameIdx = idx;
+          }
+          if (col.includes('email') || col.includes('e-mail')) {
+            if (emailIdx === -1) emailIdx = idx;
+          }
+          if (col.includes('website') || col.includes('url') || col.includes('domain') || col.includes('link')) {
+            if (websiteIdx === -1) websiteIdx = idx;
+          }
+        });
+
+        const hasHeaders = (nameIdx !== -1) || (emailIdx !== -1) || (websiteIdx !== -1);
+        const dataRows = hasHeaders ? rows.slice(1) : rows;
+
+        // Intelligent parser
+        const parsedLeads = dataRows.map((row) => {
           const values = row.map(v => v ? String(v).trim() : '');
           
           let website = '';
           let email = '';
           let name = '';
 
-          // Pattern for identification
+          // Assign from headers if available
+          if (hasHeaders) {
+            name = nameIdx !== -1 ? values[nameIdx] || '' : '';
+            email = emailIdx !== -1 ? values[emailIdx] || '' : '';
+            website = websiteIdx !== -1 ? values[websiteIdx] || '' : '';
+          }
+
+          // Fallback to pattern identification for missing fields
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
 
@@ -73,29 +101,27 @@ export default function LeadManager() {
           }
 
           // 2. Identify Name (Take first non-empty value that isn't the website or email)
-          for (const val of values) {
-            if (val && val !== website && val !== email && val.length > 2 && !emailRegex.test(val) && !urlRegex.test(val)) {
-              name = val;
-              break;
+          if (!name) {
+            for (const val of values) {
+              if (val && val !== website && val !== email && val.length > 2 && !emailRegex.test(val) && !urlRegex.test(val)) {
+                name = val;
+                break;
+              }
             }
           }
 
-          // 3. Fallback (If it's the first line and looks like headers, we'll skip it in the next step)
-          return { name, website, email, isHeaderLikely: index === 0 && (name.toLowerCase().includes('name') || website.toLowerCase().includes('url')) };
+          return { name, website, email };
         });
 
-        // Filter out rows that are likely headers or missing critical data (website)
+        // Filter out rows missing critical data
         const finalLeads = parsedLeads
-          .filter((l, i) => {
-            if (i === 0 && l.isHeaderLikely) return false;
-            return l.website && l.name;
-          })
-          .map(({ name, website, email }) => ({
-            name,
-            website,
-            email,
-            status: 'not_tested' as const
-          }));
+          .filter((l) => l.website && l.name)
+          .map(({ name, website, email }) => {
+            // Remove email key if it's completely empty so it doesn't crash Supabase if email column is missing
+            const leadObj: any = { name, website, status: 'not_tested' };
+            if (email) leadObj.email = email;
+            return leadObj;
+          });
 
         if (finalLeads.length === 0) {
           alert('Could not identify any leads (names and websites) in the file. Please ensure data is present.');
