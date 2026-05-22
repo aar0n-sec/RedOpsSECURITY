@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       actor,
       action: 'leads.bulk_upload',
       resourceType: 'leads',
-      metadata: { count: leads.length },
+      metadata: { count: leads?.length || 0 },
       ip,
     });
 
