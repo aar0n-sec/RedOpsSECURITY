@@ -143,48 +143,57 @@ const HeroCanvas = () => {
 
     // Beautiful Stars
     const starCanvas = document.createElement('canvas');
-    starCanvas.width = 32;
-    starCanvas.height = 32;
+    starCanvas.width = 16;
+    starCanvas.height = 16;
     const starCtx = starCanvas.getContext('2d');
     if (starCtx) {
-      const gradient = starCtx.createRadialGradient(16, 16, 0, 16, 16, 16);
+      const gradient = starCtx.createRadialGradient(8, 8, 0, 8, 8, 8);
       gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
-      gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)');
+      gradient.addColorStop(0.1, 'rgba(255, 255, 255, 0.8)');
+      gradient.addColorStop(0.4, 'rgba(255, 255, 255, 0.2)');
       gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
       starCtx.fillStyle = gradient;
-      starCtx.fillRect(0, 0, 32, 32);
+      starCtx.fillRect(0, 0, 16, 16);
     }
     const starTexture = new THREE.CanvasTexture(starCanvas);
 
-    const starCount = 600;
-    const starPositions = new Float32Array(starCount * 3);
-    
-    for (let i = 0; i < starCount; i++) {
-      const r = 3 + Math.random() * 6;
-      const theta2 = Math.random() * Math.PI * 2;
-      const phi2 = Math.acos(Math.random() * 2 - 1);
-      
-      starPositions[i * 3] = r * Math.sin(phi2) * Math.cos(theta2);
-      starPositions[i * 3 + 1] = r * Math.sin(phi2) * Math.sin(theta2);
-      starPositions[i * 3 + 2] = r * Math.cos(phi2);
-    }
+    const starGroups = [
+      { count: 1200, size: 0.02, opacity: 0.8, color: textColor }, // small distant
+      { count: 400, size: 0.035, opacity: 0.6, color: isDark ? 0x93b8fa : 0x1f4ed8 }, // medium bluish
+      { count: 150, size: 0.05, opacity: 0.9, color: isDark ? 0xffe9c4 : 0xc44536 }, // slightly larger accent
+    ];
 
-    const starGeo = new THREE.BufferGeometry();
-    starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-    
-    const starMat = new THREE.PointsMaterial({ 
-      color: textColor, 
-      size: 0.08, 
-      map: starTexture,
-      transparent: true, 
-      opacity: 0.7,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending 
+    const starSystems: THREE.Points[] = [];
+
+    starGroups.forEach((group) => {
+      const positions = new Float32Array(group.count * 3);
+      for (let i = 0; i < group.count; i++) {
+        const r = 4 + Math.random() * 8; // Spread further
+        const theta2 = Math.random() * Math.PI * 2;
+        const phi2 = Math.acos(Math.random() * 2 - 1);
+        
+        positions[i * 3] = r * Math.sin(phi2) * Math.cos(theta2);
+        positions[i * 3 + 1] = r * Math.sin(phi2) * Math.sin(theta2);
+        positions[i * 3 + 2] = r * Math.cos(phi2);
+      }
+      
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      
+      const mat = new THREE.PointsMaterial({ 
+        color: group.color, 
+        size: group.size, 
+        map: starTexture,
+        transparent: true, 
+        opacity: group.opacity,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending 
+      });
+      
+      const system = new THREE.Points(geo, mat);
+      starSystems.push(system);
+      scene.add(system);
     });
-    
-    const starSystem = new THREE.Points(starGeo, starMat);
-    scene.add(starSystem);
 
     // Mouse parallax
     let mouseX = 0, mouseY = 0;
@@ -208,8 +217,10 @@ const HeroCanvas = () => {
       solidGlobe.rotation.y = timeSec * 0.12;
       nodeGroup.rotation.y = timeSec * 0.12;
       ring.rotation.z = timeSec * 0.06;
-      starSystem.rotation.y = timeSec * 0.015;
-      starSystem.rotation.x = timeSec * 0.008;
+      starSystems.forEach((system, index) => {
+        system.rotation.y = timeSec * (0.015 + index * 0.002);
+        system.rotation.x = timeSec * (0.008 + index * 0.001);
+      });
 
       // Mouse parallax on camera
       targetRotX += (mouseY * 0.3 - targetRotX) * 0.04;
@@ -250,8 +261,14 @@ const HeroCanvas = () => {
       if (earthNormal) earthNormal.dispose();
       ringGeo.dispose();
       ringMat.dispose();
-      starGeo.dispose();
-      starMat.dispose();
+      starSystems.forEach(system => {
+        system.geometry.dispose();
+        if (Array.isArray(system.material)) {
+          system.material.forEach(m => m.dispose());
+        } else {
+          system.material.dispose();
+        }
+      });
       starTexture.dispose();
       lineMat.dispose();
       renderer.dispose();
