@@ -8,6 +8,7 @@ export default function LeadManager() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set());
 
   const loadLeads = useCallback(async () => {
     try {
@@ -185,15 +186,56 @@ export default function LeadManager() {
     try {
       await fetch(`/api/admin/leads/${id}`, { method: 'DELETE' });
       setLeads(leads.filter(l => l.id !== id));
+      
+      const newSet = new Set(selectedLeads);
+      newSet.delete(id);
+      setSelectedLeads(newSet);
     } catch (err) {
       console.error('Failed to delete lead', err);
     }
   }
 
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setSelectedLeads(new Set(leads.map(l => l.id)));
+    } else {
+      setSelectedLeads(new Set());
+    }
+  };
+
+  const handleSelectLead = (id: string, checked: boolean) => {
+    const newSet = new Set(selectedLeads);
+    if (checked) newSet.add(id);
+    else newSet.delete(id);
+    setSelectedLeads(newSet);
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedLeads.size === 0) return;
+    if (!confirm(`Are you sure you want to delete ${selectedLeads.size} leads?`)) return;
+
+    try {
+      const res = await fetch('/api/admin/leads', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: Array.from(selectedLeads) }),
+      });
+      if (res.ok) {
+        setLeads(leads.filter(l => !selectedLeads.has(l.id)));
+        setSelectedLeads(new Set());
+      } else {
+        const err = await res.json();
+        alert(`Delete failed: ${err.error || 'Unknown error'}`);
+      }
+    } catch (err) {
+      console.error('Failed to bulk delete', err);
+    }
+  };
+
   return (
     <div className="lead-manager">
-      <div className="admin-inline-form" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div className="file-upload-group">
+      <div className="admin-inline-form" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+        <div className="file-upload-group" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <label htmlFor="csv-upload" className="btn-primary" style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}>
             <span>{uploading ? 'Uploading...' : 'Upload Leads (CSV/XLSX)'}</span>
             <input
@@ -205,42 +247,69 @@ export default function LeadManager() {
               disabled={uploading}
             />
           </label>
+          
+          {selectedLeads.size > 0 && (
+            <button 
+              type="button" 
+              className="btn-danger" 
+              onClick={handleBulkDelete}
+              style={{ padding: '0.5rem 1rem', borderRadius: '4px', border: 'none', background: 'var(--red)', color: 'white', cursor: 'pointer', fontWeight: 500, fontSize: '0.9rem' }}
+            >
+              Delete Selected ({selectedLeads.size})
+            </button>
+          )}
         </div>
-        <p className="admin-help-text" style={{ fontSize: '0.85rem', color: 'var(--dark-soft)' }}>
+        <p className="admin-help-text" style={{ fontSize: '0.85rem', color: 'var(--dark-soft)', margin: 0 }}>
           Supported files: CSV, XLSX. Unorganized columns are automatically parsed.
         </p>
       </div>
 
-      <div className="admin-table-wrap">
-        <table className="admin-table">
+      <div className="admin-table-wrap" style={{ overflowX: 'auto', borderRadius: '8px', border: '1px solid var(--border)' }}>
+        <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr>
-              <th>Name</th>
-              <th>Website</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Remarks</th>
-              <th>Actions</th>
+            <tr style={{ background: 'var(--bg-secondary, #f8fafc)', borderBottom: '1px solid var(--border)' }}>
+              <th style={{ width: '40px', textAlign: 'center', padding: '12px 8px' }}>
+                <input 
+                  type="checkbox" 
+                  checked={leads.length > 0 && selectedLeads.size === leads.length}
+                  onChange={handleSelectAll}
+                  style={{ cursor: 'pointer', transform: 'scale(1.2)' }}
+                />
+              </th>
+              <th style={{ padding: '12px 8px', textAlign: 'left', fontWeight: 600 }}>Name</th>
+              <th style={{ padding: '12px 8px', textAlign: 'left', fontWeight: 600 }}>Website</th>
+              <th style={{ padding: '12px 8px', textAlign: 'left', fontWeight: 600 }}>Email</th>
+              <th style={{ padding: '12px 8px', textAlign: 'left', fontWeight: 600 }}>Status</th>
+              <th style={{ padding: '12px 8px', textAlign: 'left', fontWeight: 600 }}>Remarks</th>
+              <th style={{ padding: '12px 8px', textAlign: 'left', fontWeight: 600 }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={6} className="admin-table-empty">Loading leads...</td></tr>
+              <tr><td colSpan={7} className="admin-table-empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--dark-soft)' }}>Loading leads...</td></tr>
             ) : leads.length > 0 ? (
               leads.map((lead) => (
-                <tr key={lead.id}>
-                  <td>{lead.name}</td>
-                  <td>
+                <tr key={lead.id} style={{ borderBottom: '1px solid var(--border)', background: selectedLeads.has(lead.id) ? 'var(--bg-secondary, #f8fafc)' : 'transparent', transition: 'background 0.2s ease' }}>
+                  <td style={{ textAlign: 'center', padding: '12px 8px' }}>
+                    <input 
+                      type="checkbox" 
+                      checked={selectedLeads.has(lead.id)}
+                      onChange={(e) => handleSelectLead(lead.id, e.target.checked)}
+                      style={{ cursor: 'pointer', transform: 'scale(1.2)' }}
+                    />
+                  </td>
+                  <td style={{ padding: '12px 8px' }}>{lead.name}</td>
+                  <td style={{ padding: '12px 8px' }}>
                     <a href={lead.website.startsWith('http') ? lead.website : `https://${lead.website}`} 
                        target="_blank" 
                        rel="noopener noreferrer"
                        className="admin-table-link"
-                       style={{ textDecoration: 'underline' }}>
+                       style={{ textDecoration: 'underline', color: 'var(--primary)' }}>
                       {lead.website}
                     </a>
                   </td>
-                  <td>{lead.email || '—'}</td>
-                  <td>
+                  <td style={{ padding: '12px 8px' }}>{lead.email || '—'}</td>
+                  <td style={{ padding: '12px 8px' }}>
                     <select 
                       value={lead.status} 
                       onChange={(e) => updateStatus(lead.id, e.target.value as any)}
@@ -260,7 +329,7 @@ export default function LeadManager() {
                       <option value="tested">Tested</option>
                     </select>
                   </td>
-                  <td>
+                  <td style={{ padding: '12px 8px' }}>
                     <textarea 
                       defaultValue={lead.remarks} 
                       onBlur={(e) => updateRemarks(lead.id, e.target.value)}
@@ -279,7 +348,7 @@ export default function LeadManager() {
                       }}
                     />
                   </td>
-                  <td>
+                  <td style={{ padding: '12px 8px' }}>
                     <button 
                       type="button" 
                       className="admin-action-link admin-action-danger" 
@@ -292,7 +361,7 @@ export default function LeadManager() {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="admin-table-empty">
+                <td colSpan={7} className="admin-table-empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--dark-soft)' }}>
                   No leads found. Upload a CSV to get started.
                 </td>
               </tr>

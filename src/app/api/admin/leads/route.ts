@@ -62,3 +62,35 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const actor = await requireAdminActor();
+    const ip = clientIp(request);
+    const body = await request.json();
+    const db = getServiceClient();
+
+    if (!body.ids || !Array.isArray(body.ids)) {
+      return NextResponse.json({ error: 'Expected an array of ids' }, { status: 400 });
+    }
+
+    const { error } = await db
+      .from('leads')
+      .delete()
+      .in('id', body.ids);
+
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    await writeAuditLog({
+      actor,
+      action: 'leads.bulk_delete',
+      resourceType: 'leads',
+      metadata: { count: body.ids.length },
+      ip,
+    });
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+}
