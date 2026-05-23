@@ -84,7 +84,7 @@ export default function LeadManager() {
 
           // Fallback to pattern identification for missing fields
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
+          const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i;
 
           // 1. Identify URL and Email by content scanning
           values.forEach(val => {

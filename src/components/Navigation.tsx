@@ -10,6 +10,13 @@ import { useTheme } from '../context/ThemeContext';
 import logoFull from '../assets/logo-full.png';
 import logoDark from '../assets/logo-dark-theme.png';
 
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/services', label: 'Services' },
+  { href: '/about', label: 'About' },
+  { href: '/blog', label: 'Blogs' },
+];
+
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -49,10 +56,13 @@ const Navigation = () => {
       </Link>
 
       <ul className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
-        <li><Link href="/" className={isActive('/')} onClick={closeMenu}>Home</Link></li>
-        <li><Link href="/services" className={isActive('/services')} onClick={closeMenu}>Services</Link></li>
-        <li><Link href="/about" className={isActive('/about')} onClick={closeMenu}>About</Link></li>
-        <li><Link href="/blog" className={isActive('/blog') || isActive('/resources') ? 'active' : ''} onClick={closeMenu}>Blogs</Link></li>
+        {navLinks.map((item) => (
+          <li key={item.href}>
+            <Link href={item.href} className={isActive(item.href)} onClick={closeMenu}>
+              {item.label}
+            </Link>
+          </li>
+        ))}
         <li className="mobile-nav-cta"><Link href="/contact" className={isActive('/contact')} onClick={closeMenu}>Get Free Audit</Link></li>
       </ul>
 

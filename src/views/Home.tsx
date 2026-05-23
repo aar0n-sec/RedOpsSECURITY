@@ -29,6 +29,7 @@ const Home = () => {
             <span className="hero-word hw-1">Security&nbsp;</span>
             <span className="hero-word hw-2">isn’t tested&nbsp;</span>
             <span className="hero-word hw-3">in theory.</span>
+            {' '}
             <span className="hero-line-break"></span>
             <span className="hero-word hw-4">It’s broken&nbsp;</span>
             <span className="hero-word hw-5">in&nbsp;</span>

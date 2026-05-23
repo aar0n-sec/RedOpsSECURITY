@@ -1,7 +1,16 @@
 import type { Metadata } from 'next';
 import type { BlogPost } from '@/types/blog';
 import { getBlogImageUrl } from '@/lib/db/images';
-import { SITE_NAME, SITE_URL } from '@/seo';
+import { OG_IMAGE_URL, SITE_NAME, SITE_URL } from '@/seo';
+
+export function getBlogPostCanonicalUrl(post: Pick<BlogPost, 'slug'>) {
+  return `${SITE_URL}/blog/${post.slug}`;
+}
+
+function getAbsoluteUrl(path: string) {
+  if (path.startsWith('http')) return path;
+  return `${SITE_URL}${path === '/' ? '' : path}`;
+}
 
 export function createBlogListingMetadata(input?: {
   title?: string;
@@ -13,10 +22,22 @@ export function createBlogListingMetadata(input?: {
     input?.description ||
     'Technical cybersecurity writeups, vulnerability research, cloud security analysis, pentesting guides, and red team field notes from RedOps Security.';
   const path = input?.path || '/blog';
+  const url = getAbsoluteUrl(path);
 
   return {
     title,
     description,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
+    },
     alternates: {
       canonical: path,
       types: {
@@ -27,13 +48,24 @@ export function createBlogListingMetadata(input?: {
       title,
       description,
       type: 'website',
-      url: path,
+      url,
       siteName: SITE_NAME,
+      locale: 'en_US',
+      images: [
+        {
+          url: OG_IMAGE_URL,
+          width: 1200,
+          height: 630,
+          alt: `${SITE_NAME} research`,
+          type: 'image/png',
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [OG_IMAGE_URL],
     },
   };
 }
@@ -41,7 +73,7 @@ export function createBlogListingMetadata(input?: {
 export function createBlogPostMetadata(post: BlogPost): Metadata {
   const title = post.seo?.metaTitle || `${post.title} | RedOps Security Research`;
   const description = post.seo?.metaDescription || post.excerpt;
-  const canonical = post.seo?.canonicalPath || `/blog/${post.slug}`;
+  const canonical = getBlogPostCanonicalUrl(post);
   const image = getBlogImageUrl(post.seo?.ogImage || post.mainImage);
 
   return {
@@ -99,6 +131,7 @@ export function createBlogPostMetadata(post: BlogPost): Metadata {
 
 export function createBlogPostJsonLd(post: BlogPost) {
   const image = getBlogImageUrl(post.seo?.ogImage || post.mainImage);
+  const url = getBlogPostCanonicalUrl(post);
 
   return {
     '@context': 'https://schema.org',
@@ -121,14 +154,16 @@ export function createBlogPostJsonLd(post: BlogPost) {
     publisher: {
       '@type': 'Organization',
       name: SITE_NAME,
+      url: SITE_URL,
       logo: {
         '@type': 'ImageObject',
         url: `${SITE_URL}/favicon.png`,
       },
     },
+    url,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${SITE_URL}/blog/${post.slug}`,
+      '@id': url,
     },
   };
 }

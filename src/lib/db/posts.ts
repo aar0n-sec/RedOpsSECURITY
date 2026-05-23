@@ -9,6 +9,7 @@ import type {
   BlogFaq,
 } from '@/types/blog';
 import { supabase } from '../supabase';
+import { applyBlogBodyFixes, applyBlogContentFixes } from '@/lib/blog/content-fixes';
 import { estimateReadingTime, extractTableOfContents } from '@/lib/blog/text';
 import { getAllCategories, getAllTags } from './taxonomy';
 
@@ -96,7 +97,7 @@ function mapJoinedPost(row: JoinedPostRow): BlogPostCard {
     });
   }
 
-  return card;
+  return applyBlogContentFixes(card);
 }
 
 // ---------------------------------------------------------------------------
@@ -219,7 +220,7 @@ export async function getBlogPostBySlug(slug: string, _preview = false) {
 
   const postRow = row as unknown as JoinedPostRow;
   const card = mapJoinedPost(postRow);
-  const body = postRow.body || '';
+  const body = applyBlogBodyFixes(postRow.slug, postRow.body || '');
   const tableOfContents = extractTableOfContents(body);
 
   // SEO
@@ -346,9 +347,10 @@ export async function getRssPosts(): Promise<BlogPost[]> {
   return rows.map((row) => {
     const postRow = row as unknown as JoinedPostRow;
     const card = mapJoinedPost(postRow);
+    const body = applyBlogBodyFixes(postRow.slug, postRow.body || '');
     return {
       ...card,
-      body: postRow.body || '',
+      body,
     } as BlogPost;
   });
 }

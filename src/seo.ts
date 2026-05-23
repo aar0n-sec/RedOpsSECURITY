@@ -59,10 +59,6 @@ const SEO_DATA: Record<string, SeoEntry> = {
     title: 'About RedOps Security | Elite Offensive Security Team',
     description: 'Founded by offensive security practitioners. Senior-only operators with OSCP/OSCE certifications and 7+ years of experience. Manual testing, no automation, actionable reports.',
   },
-  '/resources': {
-    title: 'Security Intelligence, Threat Research & Guides | RedOps',
-    description: 'Practitioner-written guides, threat analysis, and attack breakdowns. JWT exploitation, Active Directory attacks, mobile security, cloud IAM, and API security research.',
-  },
   '/blog': {
     title: 'Cybersecurity Blog, CVE Analysis & Red Team Research | RedOps',
     description: 'Technical writeups, vulnerability research, CVE analysis, cloud security research, threat intelligence, and pentesting guides from RedOps Security.',
@@ -139,7 +135,7 @@ export function createPageMetadata(path: string): Metadata {
       title: seo.title,
       description: seo.description,
       url,
-      type: 'article',
+      type: 'website',
       siteName: 'RedOps Security',
       locale: 'en_US',
       images: [
@@ -172,7 +168,7 @@ export function generateMetaTags(path: string) {
     <meta property="og:title" content="${seo.title}">
     <meta property="og:description" content="${seo.description}">
     <meta property="og:url" content="${url}">
-    <meta property="og:type" content="article">
+    <meta property="og:type" content="website">
     <meta property="og:site_name" content="RedOps Security">
     <meta property="og:image" content="${image}">
     <meta name="twitter:card" content="summary_large_image">
@@ -242,7 +238,6 @@ const STATIC_ROUTES = [
   '/services/iso',
   '/services/webdev',
   '/about',
-  '/resources',
   '/blog',
   '/contact',
   '/industries/saas',

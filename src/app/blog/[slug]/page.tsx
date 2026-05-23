@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 import BlogArticle from '@/components/blog/BlogArticle';
 import {
   createBlogBreadcrumbJsonLd,
@@ -48,8 +49,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <>
       {schemas.map((schema, index) => (
-        <script
+        <Script
           key={index}
+          id={`blog-post-schema-${slug}-${index}`}
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
