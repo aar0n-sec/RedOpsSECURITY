@@ -1,16 +1,64 @@
-# React + Vite
+# RedOps SECURITY
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+RedOps SECURITY is a modern, full-stack web application designed for a cybersecurity and red-teaming organization. It provides a comprehensive platform showcasing security services, methodologies, and industry-specific solutions, alongside a blog and a client assessment portal.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Marketing & Informational Pages:** Details on red-teaming services, methodologies, and supported industries.
+- **Blog System:** Platform for publishing cybersecurity articles, research, and advisories.
+- **Client Assessment Portal:** Interactive tools for security assessments and evaluations.
+- **Authentication & Authorization:** Secure user login and registration powered by [Clerk](https://clerk.com/).
+- **Admin Dashboard:** Interface for managing content, users, and platform data.
+- **Interactive UI:** Engaging visual elements built with [Three.js](https://threejs.org/).
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project is built using a modern, scalable technology stack:
 
-## Expanding the ESLint configuration
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **UI Library:** [React 19](https://react.dev/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Database & Backend:** [Supabase](https://supabase.com/)
+- **Authentication:** [Clerk](https://clerk.com/)
+- **Forms & Validation:** [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- **Media & Asset Management:** [Cloudinary](https://cloudinary.com/)
+- **3D Graphics:** [Three.js](https://threejs.org/)
+- **Markdown Processing:** [React Markdown](https://github.com/remarkjs/react-markdown) & [Highlight.js](https://highlightjs.org/)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+### Prerequisites
+
+Ensure you have Node.js installed on your system.
+
+### Environment Variables
+
+Before running the application, you need to set up your environment variables. Copy the `.env.example` file to `.env.local` (or `.env`) and fill in the required keys:
+
+```bash
+cp .env.example .env.local
+```
+
+Required services include Supabase, Clerk, and Cloudinary.
+
+### Installation & Running Locally
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Available Scripts
+
+- `npm run dev`: Starts the Next.js development server.
+- `npm run build`: Builds the application for production.
+- `npm run start`: Starts the Next.js production server.
+- `npm run lint`: Runs ESLint to check for code quality.
+- `npm run typecheck`: Runs the TypeScript compiler to check for type errors.
