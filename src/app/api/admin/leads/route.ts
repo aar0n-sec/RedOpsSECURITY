@@ -39,13 +39,7 @@ export async function POST(request: NextRequest) {
       .insert(body)
       .select();
 
-    // Fallback: If the database is missing the 'email' column, retry without the email field
-    if (error && error.message.includes("Could not find the 'email' column")) {
-      const sanitizedBody = body.map(({ email, ...rest }: any) => rest);
-      const retryResult = await db.from('leads').insert(sanitizedBody).select();
-      leads = retryResult.data;
-      error = retryResult.error;
-    }
+
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
