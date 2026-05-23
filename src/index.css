@@ -5318,22 +5318,18 @@ div[style*="z-index: 9999"] > div[style*="bottom: 12px"] {
 }
 
 /* ==========================================
-   ===== MOBILE OPTIMIZATION =====
+   ===== MOBILE OPTIMIZATION (ADDITIVE) =====
    ========================================== */
 
-@media (max-width: 1024px) {
-  /* Navigation */
+/* --- Tablet: 901–1024px (fills the gap above the existing 900px query) --- */
+@media (max-width: 1024px) and (min-width: 901px) {
   .nav-links {
     gap: 20px;
   }
   .nav-links a {
     font-size: 10px;
   }
-  .nav-logo-text {
-    font-size: 18px;
-  }
-  
-  /* Hero */
+
   .hero-headline {
     font-size: clamp(48px, 7vw, 84px);
   }
@@ -5347,194 +5343,26 @@ div[style*="z-index: 9999"] > div[style*="bottom: 12px"] {
     font-size: 22px;
   }
 
-  /* Sections */
-  .problem-grid, .manual-grid, .philosophy-grid, .why-grid,
-  .svcs-cards-grid, .sd-content-grid, .resources-grid,
-  .contact-left-grid, .blog-grid, .admin-stats-grid,
-  .admin-quick-grid, .admin-checkbox-grid {
-    grid-template-columns: 1fr !important;
-    gap: 40px;
+  .problem-grid,
+  .manual-grid {
+    gap: 60px;
   }
   .service-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  /* Methodology */
-  .process-steps {
-    flex-direction: column;
-    align-items: flex-start;
-    padding-left: 32px;
-    gap: 48px;
-  }
-  .process-line {
-    width: 2px;
-    height: 100%;
-    top: 0;
-    left: 14px;
-    transform: none;
-  }
-  .process-step {
-    text-align: left;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .process-node {
-    margin: 0 0 16px 0;
-  }
-  
-  /* Footer */
-  .footer-top {
-    flex-direction: column;
-    gap: 40px;
-  }
-  .footer-bottom {
-    flex-direction: column;
     gap: 20px;
   }
-  .footer-inner {
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-    text-align: center;
-  }
-  .footer-links {
-    flex-direction: column;
-    gap: 24px;
-  }
-}
 
-@media (max-width: 768px) {
-  /* Navigation */
-  #nav {
-    padding: 0 24px;
-  }
-  .nav-links {
-    position: fixed;
-    top: var(--nav-h);
-    left: 0;
-    width: 100%;
-    height: calc(100vh - var(--nav-h));
-    background: var(--nav-bg-mobile);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 32px;
-    padding: 40px;
-    transform: translateY(-100%);
-    opacity: 0;
-    visibility: hidden;
-    transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
-    z-index: 999;
-  }
-  .nav-links.open {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-  }
-  .nav-links a {
-    font-size: 16px;
-  }
-  .nav-cta {
-    display: none;
-  }
-  .mobile-nav-cta {
-    display: block;
-    margin-top: 20px;
-  }
-  .mobile-nav-cta a {
-    background: var(--red);
-    color: var(--white);
-    padding: 14px 32px;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  .mobile-nav-cta a::after {
-    display: none;
-  }
-  .hamburger {
-    display: flex;
-    z-index: 1001;
-  }
-  
-  /* General Sections */
-  .page {
-    padding-top: var(--nav-h);
-  }
-  .section-title {
-    font-size: clamp(36px, 8vw, 56px);
-  }
-  
-  /* Hero */
-  .hero-content {
-    padding: 0 24px;
-  }
-  .hero-headline {
-    font-size: clamp(38px, 10vw, 64px);
-    margin-bottom: 24px;
-  }
-  .hero-sub {
-    font-size: 15px;
-  }
-  .hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .btn-primary, .btn-outline {
-    text-align: center;
-    justify-content: center;
-  }
-  
-  .hero-stats-bar {
-    flex-direction: column;
-    padding: 24px;
-  }
-  .hero-stat {
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 20px 0;
-  }
-  .hero-stat:last-child {
-    border-bottom: none;
-  }
-
-  /* About / Mission */
-  .about-mission-inner {
-    flex-direction: column;
-    text-align: left;
-  }
-  .about-visual {
-    margin-top: 40px;
-  }
-  
-  /* Services grid */
-  .service-cards {
-    grid-template-columns: 1fr;
-  }
-
-  /* Stats grid */
   .stats-inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 32px;
   }
-  
-  /* Form */
-  .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  .contact-form-row {
-    flex-direction: column;
-  }
-  
-  /* Cursor */
-  #cursor, #cursor-ring {
-    display: none !important;
+
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
   }
 }
 
-/* Remove all grid lines across the site as requested */
+/* Remove all decorative grid-line overlays site-wide */
 .hero-grid, .page-hero-grid, .hero-scan-line {
   display: none !important;
   background-image: none !important;
