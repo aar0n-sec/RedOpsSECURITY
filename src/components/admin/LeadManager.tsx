@@ -75,23 +75,32 @@ export default function LeadManager() {
           let email = '';
           let name = '';
 
+          // Fallback to pattern identification for missing fields
+          const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+          const strictUrlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i;
+
           // Assign from headers if available
           if (hasHeaders) {
             name = nameIdx !== -1 ? values[nameIdx] || '' : '';
-            email = emailIdx !== -1 ? values[emailIdx] || '' : '';
-            website = websiteIdx !== -1 ? values[websiteIdx] || '' : '';
+            
+            if (emailIdx !== -1 && values[emailIdx]) {
+              const match = values[emailIdx].match(emailRegex);
+              if (match) email = match[0];
+            }
+            
+            if (websiteIdx !== -1 && values[websiteIdx]) {
+              website = values[websiteIdx];
+            }
           }
-
-          // Fallback to pattern identification for missing fields
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i;
 
           // 1. Identify URL and Email by content scanning
           values.forEach(val => {
             if (!val) return;
-            if (!email && emailRegex.test(val)) {
-              email = val;
-            } else if (!website && urlRegex.test(val) && !val.includes('@')) {
+            if (!email) {
+              const match = val.match(emailRegex);
+              if (match) email = match[0];
+            }
+            if (!website && strictUrlRegex.test(val) && !val.includes('@')) {
               website = val;
             }
           });
@@ -104,7 +113,7 @@ export default function LeadManager() {
           // 2. Identify Name (Take first non-empty value that isn't the website or email)
           if (!name) {
             for (const val of values) {
-              if (val && val !== website && val !== email && val.length > 2 && !emailRegex.test(val) && !urlRegex.test(val)) {
+              if (val && val !== website && val !== email && val.length > 2 && !emailRegex.test(val) && !strictUrlRegex.test(val)) {
                 name = val;
                 break;
               }
