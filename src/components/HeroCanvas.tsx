@@ -121,71 +121,7 @@ const HeroCanvas = () => {
         transparent: true,
         opacity: Math.random() * 0.5 + 0.3
       });
-      const nodeGeo = new THREE.SphereGeometry(0.018 + Math.random() * 0.018, 8, 8);
-      const node = new THREE.Mesh(nodeGeo, nodeMat);
-      node.position.set(x, y, z);
-      nodeGroup.add(node);
-    }
 
-    // Connections between nearby nodes
-    const lineMat = new THREE.LineBasicMaterial({ color: redColor, transparent: true, opacity: 0.12 });
-    for (let i = 0; i < nodeCount; i++) {
-      for (let j = i + 1; j < nodeCount; j++) {
-        if (nodePositions[i].distanceTo(nodePositions[j]) < 1.2) {
-          const points = [nodePositions[i], nodePositions[j]];
-          const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
-    
-    earthMap.colorSpace = THREE.SRGBColorSpace;
-
-    // Solid globe (actual earth)
-    const solidGeo = new THREE.SphereGeometry(1.58, 64, 64);
-    const solidMat = new THREE.MeshPhongMaterial({
-      map: earthMap,
-      specularMap: earthSpecular,
-      normalMap: earthNormal,
-      specular: new THREE.Color(isDark ? 0x222222 : 0x333333),
-      shininess: 15
-    });
-    const solidGlobe = new THREE.Mesh(solidGeo, solidMat);
-    
-    // Add some lighting specific for the earth to make it visible
-    const earthLight = new THREE.DirectionalLight(0xffffff, isDark ? 1.5 : 2.5);
-    earthLight.position.set(5, 3, 5);
-    scene.add(earthLight);
-    
-    scene.add(solidGlobe);
-
-    // Equator ring
-    const ringGeo = new THREE.TorusGeometry(1.62, 0.006, 8, 120);
-    const ringMat = new THREE.MeshBasicMaterial({ color: redColor, transparent: true, opacity: 0.35 });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    scene.add(ring);
-
-    // Second ring (tilted)
-    const ring2 = ring.clone();
-    ring2.rotation.x = Math.PI / 2.8;
-    ring2.material = ringMat.clone();
-    ring2.material.opacity = 0.18;
-    scene.add(ring2);
-
-    // Nodes on globe surface
-    const nodeGroup = new THREE.Group();
-    const nodePositions = [];
-    const nodeCount = 28;
-
-    for (let i = 0; i < nodeCount; i++) {
-      const phi = Math.acos(-1 + (2 * i) / nodeCount);
-      const theta = Math.sqrt(nodeCount * Math.PI) * phi;
-      const x = 1.62 * Math.sin(phi) * Math.cos(theta);
-      const y = 1.62 * Math.sin(phi) * Math.sin(theta);
-      const z = 1.62 * Math.cos(phi);
-      nodePositions.push(new THREE.Vector3(x, y, z));
-
-      const nodeMat = new THREE.MeshBasicMaterial({
-        color: Math.random() > 0.7 ? redColor : textColor,
-        transparent: true,
-        opacity: Math.random() * 0.5 + 0.3
-      });
       const nodeGeo = new THREE.SphereGeometry(0.018 + Math.random() * 0.018, 8, 8);
       const node = new THREE.Mesh(nodeGeo, nodeMat);
       node.position.set(x, y, z);
