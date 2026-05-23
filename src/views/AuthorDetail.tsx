@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Reveal from '../components/Reveal';
 import { authorsData } from '@/data/authors';
-import { Award } from 'lucide-react';
+import { CheckBadgeIcon as Award } from '@heroicons/react/24/outline';
 import { Linkedin, Github } from '../components/Icons';
 
 const AuthorDetail = ({ slug }: { slug: string }) => {
@@ -40,12 +40,12 @@ const AuthorDetail = ({ slug }: { slug: string }) => {
                 <div className="author-socials" style={{ display: 'flex', gap: '20px' }}>
                   {author.linkedin && (
                     <a href={author.linkedin} target="_blank" rel="noopener noreferrer" className="social-link">
-                      <Linkedin size={20} />
+                      <Linkedin width={20} height={20} />
                     </a>
                   )}
                   {author.github && (
                     <a href={author.github} target="_blank" rel="noopener noreferrer" className="social-link">
-                      <Github size={20} />
+                      <Github width={20} height={20} />
                     </a>
                   )}
                 </div>
@@ -74,7 +74,7 @@ const AuthorDetail = ({ slug }: { slug: string }) => {
                   <div className="author-credentials-list" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                     {author.credentials.map((cred, i) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 15px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', fontSize: '12px', fontFamily: 'var(--font-jetbrains-mono)' }}>
-                        <Award size={14} color="var(--primary)" />
+                        <Award width={14} height={14} color="var(--primary)" />
                         {cred}
                       </div>
                     ))}

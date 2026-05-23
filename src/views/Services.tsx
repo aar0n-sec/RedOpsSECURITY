@@ -1,15 +1,6 @@
 import Link from 'next/link';
 import Reveal from '../components/Reveal';
-import { 
-  Network, 
-  Smartphone, 
-  Globe, 
-  Cloud, 
-  ShieldAlert, 
-  ClipboardCheck, 
-  ShieldCheck, 
-  Code2 
-} from 'lucide-react';
+import { ShareIcon as Network, DevicePhoneMobileIcon as Smartphone, GlobeAltIcon as Globe, CloudIcon as Cloud, ShieldExclamationIcon as ShieldAlert, ClipboardDocumentCheckIcon as ClipboardCheck, ShieldCheckIcon as ShieldCheck, CommandLineIcon as Code2 } from '@heroicons/react/24/outline';
 
 type ServiceCard = {
   slug: string;
@@ -23,7 +14,7 @@ const Services = () => {
   const offensiveServices: ServiceCard[] = [
     {
       slug: 'vapt',
-      icon: <Network size={32} strokeWidth={1.5} />,
+      icon: <Network width={32} height={32} strokeWidth={1.5} />,
       title: 'Network VAPT',
       description: 'We execute military-grade black-box, gray-box, and white-box penetration tests across your entire external perimeter and internal networks. Discover hidden misconfigurations, unpatched zero-days, and internal pivot points before the adversaries do.',
       features: [
@@ -37,7 +28,7 @@ const Services = () => {
     },
     {
       slug: 'mobile-pentest',
-      icon: <Smartphone size={32} strokeWidth={1.5} />,
+      icon: <Smartphone width={32} height={32} strokeWidth={1.5} />,
       title: 'Mobile Application Security',
       description: 'Comprehensive dynamic and static analysis (DAST/SAST) of iOS and Android applications. We reverse-engineer APKs and IPAs to find hardcoded secrets, insecure APIs, and bypass jailbreak detections.',
       features: [
@@ -51,7 +42,7 @@ const Services = () => {
     },
     {
       slug: 'web-pentest',
-      icon: <Globe size={32} strokeWidth={1.5} />,
+      icon: <Globe width={32} height={32} strokeWidth={1.5} />,
       title: 'Web Application Penetration',
       description: 'Deep manual testing of complex web applications. We go beyond automated scanners to chain vulnerabilities like SSRF, XSS, and IDOR, demonstrating critical business impact and data exfiltration scenarios.',
       features: [
@@ -65,7 +56,7 @@ const Services = () => {
     },
     {
       slug: 'cloud-security',
-      icon: <Cloud size={32} strokeWidth={1.5} />,
+      icon: <Cloud width={32} height={32} strokeWidth={1.5} />,
       title: 'Cloud Security Assessments',
       description: 'In-depth architectural reviews and penetration testing across AWS, Azure, and GCP environments. We identify IAM misconfigurations, exposed storage, and container escape vectors to secure your cloud-native infrastructure.',
       features: [
@@ -79,7 +70,7 @@ const Services = () => {
     },
     {
       slug: 'red-teaming',
-      icon: <ShieldAlert size={32} strokeWidth={1.5} />,
+      icon: <ShieldAlert width={32} height={32} strokeWidth={1.5} />,
       title: 'Red Teaming Operations',
       description: "Full-spectrum, objective-based adversarial simulations. We test your Blue Team's detection and response capabilities by deploying advanced social engineering, physical intrusion tactics, and stealthy malware.",
       features: [
@@ -93,7 +84,7 @@ const Services = () => {
     },
     {
       slug: 'grc',
-      icon: <ClipboardCheck size={32} strokeWidth={1.5} />,
+      icon: <ClipboardCheck width={32} height={32} strokeWidth={1.5} />,
       title: 'GRC & Compliance',
       description: 'Governance, Risk, and Compliance alignment tailored for fast-moving tech companies. We translate complex technical risks into boardroom-ready metrics, bridging the gap between security engineering and executive strategy.',
       features: [
@@ -107,7 +98,7 @@ const Services = () => {
     },
     {
       slug: 'iso',
-      icon: <ShieldCheck size={32} strokeWidth={1.5} />,
+      icon: <ShieldCheck width={32} height={32} strokeWidth={1.5} />,
       title: 'ISO 27001 Implementation',
       description: 'From zero to full certification. We guide you through building a robust ISMS, defining exact scopes, conducting rigorous internal audits, and preparing your organization to flawlessly defend against the final Stage 2 certification.',
       features: [
@@ -123,7 +114,7 @@ const Services = () => {
 
   const devService: ServiceCard = {
     slug: 'webdev',
-    icon: <Code2 size={40} strokeWidth={1.5} />,
+    icon: <Code2 width={40} height={40} strokeWidth={1.5} />,
     title: 'Secure Development Lifecycle (SDLC)',
     description: 'We build Next.js, React, and Node.js applications tailored to your exact business needs. Every line of code is reviewed by our offensive security team, ensuring your application is immune to common web vectors before it even hits production.',
     features: [

@@ -1,37 +1,37 @@
 import Link from 'next/link';
 import Reveal from '../components/Reveal';
-import { Search, Target, ShieldCheck, FileText, Zap, Bug } from 'lucide-react';
+import { MagnifyingGlassIcon as Search, ViewfinderCircleIcon as Target, ShieldCheckIcon as ShieldCheck, DocumentTextIcon as FileText, BoltIcon as Zap, BugAntIcon as Bug } from '@heroicons/react/24/outline';
 
 const Methodology = () => {
   const steps = [
     {
       title: "Reconnaissance & OSINT",
-      icon: <Search size={32} />,
+      icon: <Search width={32} height={32} />,
       description: "We map your entire digital footprint. Using advanced OSINT techniques, DNS enumeration, and infrastructure mapping, we identify all exposed assets that an adversary would target."
     },
     {
       title: "Threat Modeling",
-      icon: <Target size={32} />,
+      icon: <Target width={32} height={32} />,
       description: "We analyze your application logic and business flows to identify high-value targets. This ensures our testing is focused on the areas of greatest risk to your organization."
     },
     {
       title: "Vulnerability Discovery",
-      icon: <Bug size={32} />,
+      icon: <Bug width={32} height={32} />,
       description: "Our senior operators perform intense manual probing combined with custom automation. we chain seemingly minor flaws to demonstrate critical business impact."
     },
     {
       title: "Safe Exploitation",
-      icon: <Zap size={32} />,
+      icon: <Zap width={32} height={32} />,
       description: "We safely execute exploits to confirm vulnerabilities and demonstrate real-world risk. All testing is coordinated to ensure zero disruption to your production environment."
     },
     {
       title: "Actionable Reporting",
-      icon: <FileText size={32} />,
+      icon: <FileText width={32} height={32} />,
       description: "You receive a comprehensive report with executive summaries, technical deep-dives, reproduction steps, PoC videos, and prioritized remediation guidance."
     },
     {
       title: "Remediation Support",
-      icon: <ShieldCheck size={32} />,
+      icon: <ShieldCheck width={32} height={32} />,
       description: "We don't just find bugs; we help you fix them. Our team remains available for technical debriefs and provides a free retest of all critical findings."
     }
   ];

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Moon, Sun } from 'lucide-react';
+import { MoonIcon as Moon, SunIcon as Sun } from '@heroicons/react/24/outline';
 import { Linkedin } from './Icons';
 import { useTheme } from '../context/ThemeContext';
 import logoFull from '../assets/logo-full.png';
@@ -75,7 +75,7 @@ const Navigation = () => {
           aria-label="LinkedIn"
           title="Follow us on LinkedIn"
         >
-          <Linkedin size={20} />
+          <Linkedin width={20} height={20} />
         </a>
         <button 
           onClick={toggleTheme} 
@@ -83,7 +83,7 @@ const Navigation = () => {
           aria-label="Toggle theme"
           title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
         >
-          {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+          {theme === 'light' ? <Moon width={20} height={20} /> : <Sun width={20} height={20} />}
         </button>
 
         <Link href="/contact" className="nav-cta btn-primary" onClick={closeMenu}>

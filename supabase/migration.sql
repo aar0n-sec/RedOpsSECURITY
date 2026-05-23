@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS authors (
   created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_authors_slug ON authors (slug);
+CREATE INDEX IF NOT EXISTS idx_authors_slug ON authors (slug);
 
 -- Categories
 CREATE TABLE IF NOT EXISTS categories (
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS categories (
   created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_categories_slug ON categories (slug);
+CREATE INDEX IF NOT EXISTS idx_categories_slug ON categories (slug);
 
 -- Tags
 CREATE TABLE IF NOT EXISTS tags (
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS tags (
   created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_tags_slug ON tags (slug);
+CREATE INDEX IF NOT EXISTS idx_tags_slug ON tags (slug);
 
 -- Posts
 CREATE TABLE IF NOT EXISTS posts (
@@ -61,11 +61,11 @@ CREATE TABLE IF NOT EXISTS posts (
   updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_posts_slug ON posts (slug);
-CREATE INDEX idx_posts_status ON posts (status);
-CREATE INDEX idx_posts_published ON posts (status, published_at DESC);
-CREATE INDEX idx_posts_featured ON posts (featured, published_at DESC);
-CREATE INDEX idx_posts_author ON posts (author_id);
+CREATE INDEX IF NOT EXISTS idx_posts_slug ON posts (slug);
+CREATE INDEX IF NOT EXISTS idx_posts_status ON posts (status);
+CREATE INDEX IF NOT EXISTS idx_posts_published ON posts (status, published_at DESC);
+CREATE INDEX IF NOT EXISTS idx_posts_featured ON posts (featured, published_at DESC);
+CREATE INDEX IF NOT EXISTS idx_posts_author ON posts (author_id);
 
 -- Post ↔ Categories (many-to-many)
 CREATE TABLE IF NOT EXISTS post_categories (
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS post_faqs (
   sort_order INT NOT NULL DEFAULT 0
 );
 
-CREATE INDEX idx_post_faqs_post ON post_faqs (post_id, sort_order);
+CREATE INDEX IF NOT EXISTS idx_post_faqs_post ON post_faqs (post_id, sort_order);
 
 -- Audit logs
 CREATE TABLE IF NOT EXISTS audit_logs (
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS audit_logs (
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_audit_logs_created ON audit_logs (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_created ON audit_logs (created_at DESC);
 
 -- ============================================================
 -- Row Level Security

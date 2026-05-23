@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Reveal from '../components/Reveal';
-import { Shield, Target, Zap, Lock } from 'lucide-react';
+import { ShieldCheckIcon as Shield, ViewfinderCircleIcon as Target, BoltIcon as Zap, LockClosedIcon as Lock } from '@heroicons/react/24/outline';
 
 type IndustryProps = {
   name: string;
@@ -89,22 +89,22 @@ const IndustryView = ({ name, title, subtitle, overview, challenges, solutions, 
             <h2 className="section-title" style={{ fontSize: '24px', marginBottom: '40px' }}>Why {name} Leaders Choose RedOps</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '30px' }}>
               <div>
-                <Target color="var(--primary)" size={32} style={{ marginBottom: '15px' }} />
+                <Target color="var(--primary)" width={32} height={32} style={{ marginBottom: '15px' }} />
                 <h4 style={{ fontSize: '14px', marginBottom: '10px' }}>Operator-Led</h4>
                 <p style={{ fontSize: '12px', opacity: 0.7 }}>No automated scans. Real offensive security practitioners with 7+ years experience.</p>
               </div>
               <div>
-                <Shield color="var(--primary)" size={32} style={{ marginBottom: '15px' }} />
+                <Shield color="var(--primary)" width={32} height={32} style={{ marginBottom: '15px' }} />
                 <h4 style={{ fontSize: '14px', marginBottom: '10px' }}>Compliance Ready</h4>
                 <p style={{ fontSize: '12px', opacity: 0.7 }}>We map all findings to SOC 2, ISO 27001, and GDPR requirements.</p>
               </div>
               <div>
-                <Zap color="var(--primary)" size={32} style={{ marginBottom: '15px' }} />
+                <Zap color="var(--primary)" width={32} height={32} style={{ marginBottom: '15px' }} />
                 <h4 style={{ fontSize: '14px', marginBottom: '10px' }}>Speed to Remediation</h4>
                 <p style={{ fontSize: '12px', opacity: 0.7 }}>Developer-friendly reports with PoC videos and clear remediation guidance.</p>
               </div>
               <div>
-                <Lock color="var(--primary)" size={32} style={{ marginBottom: '15px' }} />
+                <Lock color="var(--primary)" width={32} height={32} style={{ marginBottom: '15px' }} />
                 <h4 style={{ fontSize: '14px', marginBottom: '10px' }}>Deep Manual Analysis</h4>
                 <p style={{ fontSize: '12px', opacity: 0.7 }}>We find logic flaws and chain vulnerabilities that automated tools miss.</p>
               </div>
