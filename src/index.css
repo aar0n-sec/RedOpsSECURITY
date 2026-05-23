@@ -4838,7 +4838,7 @@ div[style*="z-index: 9999"] > div[style*="bottom: 12px"] {
 .admin-layout {
   display: grid;
   grid-template-columns: 260px 1fr;
-  min-height: calc(100vh - var(--nav-h));
+  min-height: 100vh;
 }
 
 .admin-sidebar {
@@ -4846,9 +4846,29 @@ div[style*="z-index: 9999"] > div[style*="bottom: 12px"] {
   border-right: 1px solid var(--border);
   padding: 32px 0;
   position: sticky;
-  top: var(--nav-h);
-  height: calc(100vh - var(--nav-h));
+  top: 0;
+  height: 100vh;
   overflow-y: auto;
+}
+
+[data-theme='dark'] #page-admin {
+  --bg: #F5F1EB;
+  --bg-warm: #EDE9E1;
+  --bg-card: #FDFAF6;
+  --dark: #1A1A1A;
+  --dark-mid: #2C2C2C;
+  --dark-soft: #444444;
+  --border: rgba(26, 26, 26, 0.1);
+  --border-red: rgba(196, 69, 54, 0.2);
+  --nav-bg: rgba(245, 241, 235, 0.92);
+  --nav-bg-mobile: rgba(245, 241, 235, 0.98);
+  --dark-rgb: 26, 26, 26;
+}
+
+#page-admin {
+  background: var(--bg);
+  color: var(--dark);
+  min-height: 100vh;
 }
 
 .admin-sidebar-brand {
