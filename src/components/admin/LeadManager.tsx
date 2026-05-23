@@ -285,6 +285,7 @@ export default function LeadManager() {
                   style={{ cursor: 'pointer', transform: 'scale(1.2)' }}
                 />
               </th>
+              <th style={{ width: '40px', textAlign: 'center', padding: '12px 8px', fontWeight: 600 }}>#</th>
               <th style={{ padding: '12px 8px', textAlign: 'left', fontWeight: 600 }}>Name</th>
               <th style={{ padding: '12px 8px', textAlign: 'left', fontWeight: 600 }}>Website</th>
               <th style={{ padding: '12px 8px', textAlign: 'left', fontWeight: 600 }}>Email</th>
@@ -295,9 +296,9 @@ export default function LeadManager() {
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={7} className="admin-table-empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--dark-soft)' }}>Loading leads...</td></tr>
+              <tr><td colSpan={8} className="admin-table-empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--dark-soft)' }}>Loading leads...</td></tr>
             ) : leads.length > 0 ? (
-              leads.map((lead) => (
+              leads.map((lead, index) => (
                 <tr key={lead.id} style={{ borderBottom: '1px solid var(--border)', background: selectedLeads.has(lead.id) ? 'var(--bg-secondary, #f8fafc)' : 'transparent', transition: 'background 0.2s ease' }}>
                   <td style={{ textAlign: 'center', padding: '12px 8px' }}>
                     <input 
@@ -307,6 +308,7 @@ export default function LeadManager() {
                       style={{ cursor: 'pointer', transform: 'scale(1.2)' }}
                     />
                   </td>
+                  <td style={{ textAlign: 'center', padding: '12px 8px', color: 'var(--dark-soft)', fontSize: '0.9rem' }}>{index + 1}</td>
                   <td style={{ padding: '12px 8px' }}>{lead.name}</td>
                   <td style={{ padding: '12px 8px' }}>
                     <a href={lead.website.startsWith('http') ? lead.website : `https://${lead.website}`} 
@@ -370,7 +372,7 @@ export default function LeadManager() {
               ))
             ) : (
               <tr>
-                <td colSpan={7} className="admin-table-empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--dark-soft)' }}>
+                <td colSpan={8} className="admin-table-empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--dark-soft)' }}>
                   No leads found. Upload a CSV to get started.
                 </td>
               </tr>

@@ -149,8 +149,8 @@ const HeroCanvas = () => {
     if (starCtx) {
       const gradient = starCtx.createRadialGradient(8, 8, 0, 8, 8, 8);
       gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      gradient.addColorStop(0.1, 'rgba(255, 255, 255, 0.8)');
-      gradient.addColorStop(0.4, 'rgba(255, 255, 255, 0.2)');
+      gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
+      gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)');
       gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
       starCtx.fillStyle = gradient;
       starCtx.fillRect(0, 0, 16, 16);
@@ -158,9 +158,9 @@ const HeroCanvas = () => {
     const starTexture = new THREE.CanvasTexture(starCanvas);
 
     const starGroups = [
-      { count: 1200, size: 0.02, opacity: 0.8, color: textColor }, // small distant
-      { count: 400, size: 0.035, opacity: 0.6, color: isDark ? 0x93b8fa : 0x1f4ed8 }, // medium bluish
-      { count: 150, size: 0.05, opacity: 0.9, color: isDark ? 0xffe9c4 : 0xc44536 }, // slightly larger accent
+      { count: 1200, size: 0.06, opacity: 0.8, color: textColor }, // small distant
+      { count: 400, size: 0.09, opacity: 0.7, color: isDark ? 0x93b8fa : 0x1f4ed8 }, // medium bluish
+      { count: 150, size: 0.12, opacity: 0.9, color: isDark ? 0xffe9c4 : 0xc44536 }, // slightly larger accent
     ];
 
     const starSystems: THREE.Points[] = [];
@@ -187,7 +187,7 @@ const HeroCanvas = () => {
         transparent: true, 
         opacity: group.opacity,
         depthWrite: false,
-        blending: THREE.AdditiveBlending 
+        blending: THREE.NormalBlending
       });
       
       const system = new THREE.Points(geo, mat);
