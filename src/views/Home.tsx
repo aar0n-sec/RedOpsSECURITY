@@ -21,10 +21,7 @@ const Home = () => {
         <div className="hero-scan-line"></div>
 
         <div className="hero-content">
-          <div className="hero-tag">
-            <span className="dot"></span>
-            Advanced Threat Simulation
-          </div>
+
 
           <h1 className="hero-headline">
             <span className="hero-word hw-1">Security&nbsp;</span>
