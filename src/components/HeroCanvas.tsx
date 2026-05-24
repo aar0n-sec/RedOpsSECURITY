@@ -46,27 +46,14 @@ const HeroCanvas = () => {
     const redLight = new THREE.PointLight(redColor, 6, 12);
     redLight.position.set(3, 2, 3);
     scene.add(redLight);
-
     // Point light (blue)
     const blueLight = new THREE.PointLight(blueColor, 4, 10);
     blueLight.position.set(-3, -2, 2);
     scene.add(blueLight);
 
-    // Globe wireframe
-    const globeGeo = new THREE.SphereGeometry(1.6, 24, 18);
-    const globeMat = new THREE.MeshBasicMaterial({
-      color: redColor,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.07
-    });
-    const globe = new THREE.Mesh(globeGeo, globeMat);
-    scene.add(globe);
-
     // Texture Loader
     const textureLoader = new THREE.TextureLoader();
     const earthMap = textureLoader.load('/earth_texture.jpg');
-    earthMap.flipY = false;
     const earthSpecular = textureLoader.load('/earth_specular.jpg');
     const earthNormal = textureLoader.load('/earth_normal.jpg');
     
@@ -213,7 +200,6 @@ const HeroCanvas = () => {
       const timeSec = t * 0.001;
 
       // Slow globe rotation
-      globe.rotation.y = timeSec * 0.12;
       solidGlobe.rotation.y = timeSec * 0.12;
       nodeGroup.rotation.y = timeSec * 0.12;
       ring.rotation.z = timeSec * 0.06;
@@ -252,8 +238,6 @@ const HeroCanvas = () => {
       cancelAnimationFrame(animationFrameId);
       
       // Cleanup geometries and materials
-      globeGeo.dispose();
-      globeMat.dispose();
       solidGeo.dispose();
       solidMat.dispose();
       if (earthMap) earthMap.dispose();

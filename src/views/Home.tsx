@@ -14,6 +14,7 @@ const Home = () => {
   return (
     <div className="page active" id="page-home">
       {/* HERO */}
+
       <section id="hero">
         <HeroCanvas />
         <div className="hero-grid"></div>
@@ -22,7 +23,7 @@ const Home = () => {
         <div className="hero-content">
           <div className="hero-tag">
             <span className="dot"></span>
-            Offensive Security Operations
+            Advanced Threat Simulation
           </div>
 
           <h1 className="hero-headline">

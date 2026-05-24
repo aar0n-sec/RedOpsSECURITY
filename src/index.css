@@ -552,22 +552,34 @@ body:hover #cursor {
 }
 
 .hero-tag .dot {
-  width: 5px;
-  height: 5px;
+  position: relative;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--red);
-  animation: blink 1.5s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--red);
 }
 
-@keyframes blink {
+.hero-tag .dot::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--red);
+  animation: radarPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
 
-  0%,
-  100% {
-    opacity: 1
+@keyframes radarPing {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
   }
-
-  50% {
-    opacity: 0.2
+  75%, 100% {
+    transform: scale(2.2);
+    opacity: 0;
   }
 }
 
