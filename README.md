@@ -1,6 +1,6 @@
-# 🛡️ [Project Name]
+# 🛡️ RedOps Security
 
-> **[Short Tagline: e.g., Next-Generation Cybersecurity & Threat Intelligence Platform]**
+> **Cybersecurity & Threat Intelligence Platform**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/yourusername/yourproject/actions)
