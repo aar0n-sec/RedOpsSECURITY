@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 # RedOps Security
 
 > Offensive security, penetration testing, and cybersecurity research platform for RedOps Security.
+=======
+# 🛡️ RedOps Security
+
+> **Cybersecurity & Threat Intelligence Platform**
+>>>>>>> d20ba49595f7dd634aaf8945b5ce59d7c06e56d9
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-149eca)](https://react.dev/)
